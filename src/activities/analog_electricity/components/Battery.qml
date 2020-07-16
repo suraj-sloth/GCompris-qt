@@ -26,7 +26,7 @@ ElectricalComponent {
     id: battery
     terminalSize: 0.2
     noOfConnectionPoints: 2
-    information: qsTr("Battery is the voltage source.")
+    information: qsTr("Battery is the voltage source. It is the supply voltage of the circuit.")
 
     property alias connectionPoints: connectionPoints
     property var connectionPointPosY: [0, 1]

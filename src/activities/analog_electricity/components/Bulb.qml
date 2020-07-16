@@ -27,7 +27,7 @@ ElectricalComponent {
     terminalSize: 0.2
     noOfConnectionPoints: 2
 
-    information: qsTr("lightBulb.")
+    information: qsTr("Basically bulb is a resistance in the circuit. Bulb lights with an intensity propotional to the supply voltage.")
 
     property alias connectionPoints: connectionPoints
     property var connectionPointPosX: [0.2, 0.8]
@@ -38,7 +38,7 @@ ElectricalComponent {
     ],
     {
       "name": "Bulb",
-      "r": "3",
+      "r": "1000",
       "_json_": 0
     },
     [

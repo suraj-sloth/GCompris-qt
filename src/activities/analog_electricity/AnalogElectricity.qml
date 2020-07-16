@@ -107,6 +107,8 @@ ActivityBase {
             property alias availablePieces: availablePieces
             property alias tutorialDataset: tutorialDataset
             property alias toolTip: toolTip
+            property alias infoTxt: infoTxt
+            property alias infoImage: infoImage
             property alias dataset: dataset
             property real toolsMargin: 90 * ApplicationInfo.ratio
             property real zoomLvl: 0.25
@@ -142,6 +144,55 @@ ActivityBase {
                 bottomMargin: 20
             }
             z: 6
+
+            GCText {
+                id: infoTxt
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    top: parent.top
+                    topMargin: 2
+                }
+                fontSizeMode: Text.Fit
+                minimumPixelSize: 10
+                font.pixelSize: 150
+                color: "white"
+                horizontalAlignment: Text.AlignHLeft
+                width: Math.min(implicitWidth, 0.90 * parent.width)
+                height: Math.min(implicitHeight, 0.7 * parent.height)
+                wrapMode: TextEdit.WordWrap
+                visible: false
+                z: 4
+            }
+
+            Rectangle {
+                id: infoTxtContainer
+                anchors.fill: parent
+                opacity: 1
+                radius: 10
+                color: "#373737"
+                border.width: 2
+                border.color: "#F2F2F2"
+                visible: infoTxt.visible
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: infoTxt.visible = false
+                }
+                z: 3
+            }
+
+            Image {
+                id: infoImage
+                property bool imgVisible: false
+                height: source == "" ? 0 : parent.height * 0.3 - 10
+                width: source == "" ? 0 : parent.width - 10
+                fillMode: Image.PreserveAspectFit
+                visible: infoTxt.visible && imgVisible
+                anchors {
+                    top: infoTxt.bottom
+                    horizontalCenter: infoTxtContainer.horizontalCenter
+                }
+                z: 5
+            }
         }
 
         Rectangle {

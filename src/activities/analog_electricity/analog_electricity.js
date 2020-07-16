@@ -193,7 +193,6 @@ function loadFreeMode() {
             "imgHeight": componentList[i].height,
             "toolTipText": componentList[i].toolTipText,
         })
-        console.log(i + "th component type is " + componentList[i].type);
     }
 }
 
@@ -243,6 +242,7 @@ function updateComponentDimension(zoomRatio) {
         components[i].posY *= zoomRatio
         components[i].imgWidth *= zoomRatio
         components[i].imgHeight *= zoomRatio
+        updateWires(i);
     }
 }
 
@@ -329,14 +329,12 @@ function createWire(connectionPoint, destructible) {
 // }
 
 function updateWires(index) {
-    console.log("index of connection point parent is " + index)
     var component = components[index]
     if(component == undefined || component.noOfConnectionPoints == undefined)
         return
 
     var rotatedAngle = component.initialAngle * Math.PI / 180
     for(var i = 0 ; i < component.noOfConnectionPoints ; ++i) {
-        console.log("first if loop " + i )
         var terminal = component.connectionPoints.itemAt(i)
         for(var j = 0 ; j < terminal.wires.length ; ++j) {
             var wire = terminal.wires[j]
@@ -437,7 +435,38 @@ function removeWire(wire) {
     deselect()
 }
 
-function componentSelected(index) {}
+function componentSelected(index) {
+    selectedIndex = index
+    items.availablePieces.rotateLeft.state = "canBeSelected"
+    items.availablePieces.rotateRight.state = "canBeSelected"
+    items.availablePieces.info.state = "canBeSelected"
+}
+
+function rotateLeft() {
+    components[selectedIndex].rotationAngle = -2
+    components[selectedIndex].rotateComponent.start()
+}
+
+function rotateRight() {
+    components[selectedIndex].rotationAngle = 2
+    components[selectedIndex].rotateComponent.start()
+}
+
+function displayInfo() {
+    var component = components[selectedIndex]
+    deselect()
+    items.infoTxt.visible = true
+    items.infoTxt.text = component.information
+
+    if(component.infoImageSrc != undefined) {
+        items.infoImage.imgVisible = true
+        items.infoImage.source = url + component.infoImageSrc
+    }
+    else {
+        items.infoImage.imgVisible = false
+        items.infoImage.source = ""
+    }
+}
 
 function updateToolTip(toolTipText) {
     items.toolTip.show(toolTipText);
@@ -515,7 +544,7 @@ var netlistTest2 =
     ],
     {
       "name": "",
-      "value": "dc(5)",
+      "value": "dc(10)",
       "_json_": 0
     },
     [
@@ -529,7 +558,7 @@ var netlistTest2 =
     ],
     {
       "name": "",
-      "r": "3",
+      "r": "1000",
       "_json_": 1
     },
     [
