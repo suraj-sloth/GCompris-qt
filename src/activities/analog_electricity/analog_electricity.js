@@ -34,7 +34,6 @@ var toolDeleteSticky
 var animationInProgress
 var selectedIndex
 var selectedTerminal
-//var deletedIndex = []
 var components = []
 var connectionCount = 0
 
@@ -52,23 +51,13 @@ var netlist = []
 //     ]
 // ];
 
-var connected = []
 var determiningComponents = []
-var connectionPointList = []
 
 var currentZoom
 var maxZoom = 0.375
 var minZoom = 0.125
 var defaultZoom = 0.25
 var zoomStep = 0.0625
-
-// var partsMap = {
-//     'g': [Ground, 'Ground connection'],
-//     'L': [Label, 'Node label'],
-//     'v': [VSource, 'Voltage source'],
-//     'r': [Resistor, 'Resistor'],
-//     'd': [Diode, 'Diode'],
-// };
 
 var direction = {
     LEFT: -1,
@@ -100,13 +89,7 @@ function start(items_) {
 
 function stop() {
     for(var i = 0 ; i < components.length ; ++i) {
-//         var j
-//         for(j = 0 ; j < deletedIndex.length ; ++j) {
-//             if(deletedIndex[j] == i)
-//                 break
-//         }
-//         if(j == deletedIndex.length)
-            removeComponent(i)
+        removeComponent(i)
     }
 }
 
@@ -116,9 +99,7 @@ function initLevel() {
     items.availablePieces.view.currentDisplayedGroup = 0
     items.availablePieces.view.previousNavigation = 1
     items.availablePieces.view.nextNavigation = 1
-    //deletedIndex = []
     components = []
-    connected = []
     determiningComponents = []
     animationInProgress = false
     toolDelete = false
@@ -247,7 +228,7 @@ function updateComponentDimension(zoomRatio) {
         components[i].posY *= zoomRatio
         components[i].imgWidth *= zoomRatio
         components[i].imgHeight *= zoomRatio
-//         updateWires(i);
+        updateWires(i);
     }
 }
 
@@ -286,7 +267,7 @@ function createComponent(x, y, componentIndex) {
                             "destructible": true
                         });
     components[index].componentName = components[index].componentName + index.toString()
-    console.log("component name is " + components[index].componentName)
+    console.log("createComponent: component name is " + components[index].componentName)
     components[index].initConnections();
     toolDeleteSticky = false
     deselect()
@@ -299,9 +280,7 @@ function terminalPointSelected(terminal) {
         selectedTerminal = terminal
     else if(selectedTerminal.parent != terminal.parent) {
         var connectionPoint = terminal
-        //if(connected[connectionPoint] == undefined || connected[connectionPoint] == -1) {
         createWire(connectionPoint, true)
-        //}
         deselect()
     }
     else {
@@ -333,21 +312,11 @@ function createWire(connectionPoint, destructible) {
     updateWires(selectedTerminal.parent.componentIndex)
     console.log("selectedTerminal index is " + selectedTerminal.netlistIndex)
     console.log("connectionPoint index is " + connectionPoint.netlistIndex)
-//     updateComponent(connectionPoint.parent.index)
-    //connected[connectionPoint] = selectedTerminal
     netlist = []
     netlistComponents = []
     createNetlist();
     testNetlist();
 }
-
-/* Updates the output of the component. 'wireVisited' is used to update the value of
- * each wire once which will avoid updating the outputs of components in an infinite loop.
-*/
-// function updateComponent(index) {
-//     var wireVisited = []
-//     components[index].updateOutput(wireVisited)
-// }
 
 function updateWires(index) {
     var component = components[index]
@@ -409,15 +378,6 @@ function updateWires(index) {
     }
 }
 
-//     var cpList = connectionPointList
-//     if (cpList) cpList.push(index)
-//     else {
-//         cpList = [index]
-//         connectionPointList = cpList
-//     }
-//     console.log("cpList is " + cpList)
-//     return cpList
-
 function deselect() {
     if(toolDeleteSticky == false) {
         toolDelete = false
@@ -448,7 +408,6 @@ function removeComponent(index) {
     }
     components[index].destroy()
     components.splice(index, 1)
-    //deletedIndex.push(index)
     deselect()
 }
 
@@ -460,10 +419,8 @@ function removeWire(wire) {
     connectionPoint1.wires.splice(removeIndex, 1)
     removeIndex = connectionPoint2.wires.indexOf(wire)
     connectionPoint2.wires.splice(removeIndex, 1)
-    connected[wire.node2] = -1
 
     wire.destroy()
-//     updateComponent(connectionPoint1.parent.index)
     deselect()
 }
 

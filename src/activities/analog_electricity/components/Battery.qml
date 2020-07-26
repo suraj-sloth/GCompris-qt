@@ -33,7 +33,7 @@ ElectricalComponent {
     property var connectionPointPosY: [0, 1]
     property var connectionPointType: ["positive", "negative"]
     property string componentName: "Voltage"
-    property var externalNetlistIndex: [-1, -1]
+    property var externalNetlistIndex: [0, 0]
     property var netlistModel:
     [
         "v",
@@ -66,7 +66,7 @@ ElectricalComponent {
             }
         }
     }
-    
+
     function initConnections() {
         var connectionIndex = Activity.connectionCount
         battery.externalNetlistIndex[0] = ++connectionIndex
@@ -75,31 +75,14 @@ ElectricalComponent {
         connectionPoints.itemAt(1).updateNetlistIndex(connectionIndex)
         Activity.connectionCount = connectionIndex
     }
-    
+
     function addToNetlist() {
         var netlistItem = battery.netlistModel;
         netlistItem[2].name = componentName
         netlistItem[2]._json = Activity.netlist.length;
-        netlistItem[3] = battery.externalNetlistIndex
+        netlistItem[3][0] = battery.externalNetlistIndex[0]
+        netlistItem[3][1] = battery.externalNetlistIndex[1]
         Activity.netlist.push(netlistItem);
         console.log("item added to " + Activity.netlist);
     }
-
-//     function updateOutput(wireVisited) {
-//          var terminal = connectionPoints.itemAt(0)
-//         terminal.value = (nodeXs.itemAt(0).wires.length != 0) ? !nodeXs.itemAt(0).value : 0
-//         for(var i = 0 ; i < terminal.wires.length ; ++i)
-//             terminal.wires[i].to.value = terminal.value
-// 
-//         var componentVisited = []
-//         for(var i = 0 ; i < terminal.wires.length ; ++i) {
-//             var wire = terminal.wires[i]
-//             var component = wire.node2.parent
-//             if(componentVisited[component] != true && wireVisited[wire] != true) {
-//                 componentVisited[component] = true
-//                 wireVisited[wire] = true
-//                 component.updateOutput(wireVisited)
-//             }
-//         }
-//     }
 }

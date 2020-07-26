@@ -32,7 +32,6 @@ Image {
     property double posY
     property double size: parent.terminalSize
     property bool selected: false
-    //property string type
     property int value: 0
     property var wires: []
     property int netlistIndex: 0
@@ -55,7 +54,6 @@ Image {
 
     function updateNetlistIndex(netlistIndex_) {
         terminalPoint.netlistIndex = netlistIndex_;
-        console.log("polarity is " + terminalType + " , index is " + index + " , netlistIndex is " + netlistIndex_ + " and externalNetlistIndex is " + parent.externalNetlistIndex)
         parent.externalNetlistIndex[index] = netlistIndex_;
         console.log("polarity is " + terminalType + " , index is " + index + " , netlistIndex is " + netlistIndex_ + " and externalNetlistIndex is " + parent.externalNetlistIndex)
     }

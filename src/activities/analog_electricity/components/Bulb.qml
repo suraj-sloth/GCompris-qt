@@ -34,8 +34,8 @@ ElectricalComponent {
     property alias aMeter2: aMeter2
     property var connectionPointPosX: [0.2, 0.8]
     property string componentName: "Bulb"
-    property var internalNetlistIndex: [-1, -1]
-    property var externalNetlistIndex: [-1, -1]
+    property var internalNetlistIndex: [0, 0]
+    property var externalNetlistIndex: [0, 0]
     property var netlistModel:
     [
         "r",
@@ -129,49 +129,31 @@ ElectricalComponent {
     }
 
     function addToNetlist() {
-//         var netlistItem = aMeter1.netlistModel;
-//         Activity.netlistComponents.push(aMeter1);
-//         netlistItem[2].name = "aMeter1-" + componentName
-//         netlistItem[2]._json = Activity.netlist.length;
-//         netlistItem[3][0] = bulb.externalNetlistIndex[0]
-//         netlistItem[3][1] = bulb.internalNetlistIndex[0]
-//         Activity.netlist.push(netlistItem);
+        var netlistItem = aMeter1.netlistModel;
+        Activity.netlistComponents.push(aMeter1);
+        netlistItem[2].name = "aMeter1-" + componentName
+        netlistItem[2]._json = Activity.netlist.length;
+        netlistItem[3][0] = bulb.externalNetlistIndex[0]
+        netlistItem[3][1] = bulb.internalNetlistIndex[0]
+        Activity.netlist.push(netlistItem);
 
         var netlistItem = bulb.netlistModel;
         Activity.netlistComponents.push(bulb);
         netlistItem[2].name = componentName
         netlistItem[2]._json = Activity.netlist.length;
-        netlistItem[3][0] = bulb.externalNetlistIndex[0]
+        netlistItem[3][0] = bulb.internalNetlistIndex[0]
+        netlistItem[3][1] = bulb.internalNetlistIndex[1]
+        Activity.netlist.push(netlistItem);
+
+        netlistItem = aMeter2.netlistModel;
+        Activity.netlistComponents.push(aMeter2)
+        netlistItem[2].name = "aMeter2-" + componentName
+        netlistItem[2]._json = Activity.netlist.length;
+        netlistItem[3][0] = bulb.internalNetlistIndex[1]
         netlistItem[3][1] = bulb.externalNetlistIndex[1]
         Activity.netlist.push(netlistItem);
 
-//         netlistItem = aMeter2.netlistModel;
-//         Activity.netlistComponents.push(aMeter2)
-//         netlistItem[2].name = "aMeter2-" + componentName
-//         netlistItem[2]._json = Activity.netlist.length;
-//         netlistItem[3][0] = bulb.internalNetlistIndex[1]
-//         netlistItem[3][1] = bulb.externalNetlistIndex[1]
-//         Activity.netlist.push(netlistItem);
-
         console.log("item added to " + Activity.netlist);
     }
-
-//     function updateOutput(wireVisited) {
-//          var terminal = connectionPoints.itemAt(0)
-//         terminal.value = (nodeXs.itemAt(0).wires.length != 0) ? !nodeXs.itemAt(0).value : 0
-//         for(var i = 0 ; i < terminal.wires.length ; ++i)
-//             terminal.wires[i].to.value = terminal.value
-// 
-//         var componentVisited = []
-//         for(var i = 0 ; i < terminal.wires.length ; ++i) {
-//             var wire = terminal.wires[i]
-//             var component = wire.node2.parent
-//             if(componentVisited[component] != true && wireVisited[wire] != true) {
-//                 componentVisited[component] = true
-//                 wireVisited[wire] = true
-//                 component.updateOutput(wireVisited)
-//             }
-//         }
-//     }
 }
 
