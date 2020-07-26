@@ -34,25 +34,27 @@ var toolDeleteSticky
 var animationInProgress
 var selectedIndex
 var selectedTerminal
-var deletedIndex = []
+//var deletedIndex = []
 var components = []
-//temporary, for tests
+var connectionCount = 0
+
 var netlistComponents = []
 var netlist = []
-var ground =[
-    "g",
-    [
-    ],
-    {
-        "_json_": 0
-    },
-    [
-        "0"
-    ]
-];
+// var ground =[
+//     "g",
+//     [
+//     ],
+//     {
+//         "_json_": 0
+//     },
+//     [
+//         "0"
+//     ]
+// ];
 
 var connected = []
 var determiningComponents = []
+var connectionPointList = []
 
 var currentZoom
 var maxZoom = 0.375
@@ -91,19 +93,19 @@ function start(items_) {
     initLevel()
     //var ckt = new Engine.cktsim.Circuit()
     //console.log(ckt.dc())
+    connectionCount = 0
     netlistComponents = []
     netlist = []
-    testAddToNetlist();
 }
 
 function stop() {
     for(var i = 0 ; i < components.length ; ++i) {
-        var j
-        for(j = 0 ; j < deletedIndex.length ; ++j) {
-            if(deletedIndex[j] == i)
-                break
-        }
-        if(j == deletedIndex.length)
+//         var j
+//         for(j = 0 ; j < deletedIndex.length ; ++j) {
+//             if(deletedIndex[j] == i)
+//                 break
+//         }
+//         if(j == deletedIndex.length)
             removeComponent(i)
     }
 }
@@ -114,7 +116,7 @@ function initLevel() {
     items.availablePieces.view.currentDisplayedGroup = 0
     items.availablePieces.view.previousNavigation = 1
     items.availablePieces.view.nextNavigation = 1
-    deletedIndex = []
+    //deletedIndex = []
     components = []
     connected = []
     determiningComponents = []
@@ -130,6 +132,9 @@ function initLevel() {
     items.playArea.y = items.mousePan.drag.maximumY
 
     loadFreeMode();
+    //testAddToNetlist();
+
+    
 
 //     var levelProperties = items.tutorialDataset.tutorialLevels[currentLevel - 1]
 // 
@@ -242,7 +247,7 @@ function updateComponentDimension(zoomRatio) {
         components[i].posY *= zoomRatio
         components[i].imgWidth *= zoomRatio
         components[i].imgHeight *= zoomRatio
-        updateWires(i);
+//         updateWires(i);
     }
 }
 
@@ -272,7 +277,7 @@ function createComponent(x, y, componentIndex) {
 
     components[index] = electricComponent.createObject(
                         items.playArea, {
-                            "index": index,
+                            "componentIndex": index,
                             "posX": x,
                             "posY": y,
                             "imgSrc": component.imageName,
@@ -280,6 +285,9 @@ function createComponent(x, y, componentIndex) {
                             "imgHeight": component.imageHeight * currentZoom,
                             "destructible": true
                         });
+    components[index].componentName = components[index].componentName + index.toString()
+    console.log("component name is " + components[index].componentName)
+    components[index].initConnections();
     toolDeleteSticky = false
     deselect()
 }
@@ -311,13 +319,26 @@ function createWire(connectionPoint, destructible) {
                     "node2": connectionPoint,
                     "destructible": destructible,
                 });
-//     selectedTerminal.value = connectionPoint.value
+    if(connectionPoint.wires.length === 0 && selectedTerminal.wires.length === 0) {
+        connectionPoint.updateNetlistIndex(selectedTerminal.netlistIndex);
+        selectedTerminal.updateNetlistIndex(selectedTerminal.netlistIndex);
+    } else if(connectionPoint.wires.length > 0) {
+        connectionPoint.updateNetlistIndex(connectionPoint.netlistIndex);
+    } else if(selectedTerminal.wires.length > 0) {
+        selectedTerminal.updateNetlistIndex(selectedTerminal.netlistIndex);
+    }
     connectionPoint.wires.push(wire)
     selectedTerminal.wires.push(wire)
-    updateWires(connectionPoint.parent.index)
-    updateWires(selectedTerminal.parent.index)
+    updateWires(connectionPoint.parent.componentIndex)
+    updateWires(selectedTerminal.parent.componentIndex)
+    console.log("selectedTerminal index is " + selectedTerminal.netlistIndex)
+    console.log("connectionPoint index is " + connectionPoint.netlistIndex)
 //     updateComponent(connectionPoint.parent.index)
-    connected[connectionPoint] = selectedTerminal
+    //connected[connectionPoint] = selectedTerminal
+    netlist = []
+    netlistComponents = []
+    createNetlist();
+    testNetlist();
 }
 
 /* Updates the output of the component. 'wireVisited' is used to update the value of
@@ -388,6 +409,15 @@ function updateWires(index) {
     }
 }
 
+//     var cpList = connectionPointList
+//     if (cpList) cpList.push(index)
+//     else {
+//         cpList = [index]
+//         connectionPointList = cpList
+//     }
+//     console.log("cpList is " + cpList)
+//     return cpList
+
 function deselect() {
     if(toolDeleteSticky == false) {
         toolDelete = false
@@ -401,6 +431,7 @@ function deselect() {
     selectedTerminal = -1
     for(var i = 0 ; i < components.length ; ++i) {
         var component = components[i]
+        console.log("component is " + component)
         for(var j = 0 ; j < component.noOfConnectionPoints ; ++j)
             component.connectionPoints.itemAt(j).selected = false
     }
@@ -416,7 +447,8 @@ function removeComponent(index) {
             };
     }
     components[index].destroy()
-    deletedIndex.push(index)
+    components.splice(index, 1)
+    //deletedIndex.push(index)
     deselect()
 }
 
@@ -472,26 +504,45 @@ function updateToolTip(toolTipText) {
     items.toolTip.show(toolTipText);
 }
 
+var testConnectionList = [[1,3],[1,2],[2,3]]
+
 //test function to test addToNetlist
 
 function testAddToNetlist() {
     createComponent(32, 32, 0);
     createComponent(128, 32, 1);
-    addToNetlist(components[0], 0, [1, 0]);
-    addToNetlist(components[1], 1, [1, 0]);
-    ground[2]._json = 2;
-    netlist.push(ground);
-    testNetlist();
+    createComponent(256, 32, 1);
+//    createNetlist();
+//     addToNetlist(components[0], [3, 0], "dc-1");
+//     addToNetlist(components[1], [3, 5], "bulb-1");
+//     ground[2]._json = netlist.length;
+//     netlist.push(ground);
+//     addToNetlist(components[2], [5, 0], "bulb-2");
+//    testNetlist();
 }
 
-
-function addToNetlist(component, itemNo, connectionList) {
-        var netlistItem = component.netlistModel;
-        netlistItem[2]._json = itemNo;
-        netlistItem[3] = connectionList;
-        netlist.push(netlistItem);
-        console.log(netlist);
+function createNetlist() {
+    for(var i = 0; i < components.length; i++) {
+        var component = components[i]
+        //to use fake connectionlist netlistIndex
+        //component.netlistIndex = testConnectionList[i];
+//       //to fetch actual connection points index...
+//         for(var j = 0; j < component.connectionPoints.length; j++) {
+//             component.netlistIndex[j] = component.connectionPoints.itemAt(j).netlistIndex
+//         }
+        //console.log("test component netlistIndex is " + component.netlistIndex)
+        //addToNetlist(component);
+        component.addToNetlist();
+    }
 }
+
+// function addToNetlist(component) {
+//         var netlistItem = component.netlistModel;
+//         netlistItem[2].name = netlist.length
+//         netlistItem[2]._json = netlist.length;
+//         netlist.push(netlistItem);
+//         console.log("item added to " + netlist);
+// }
 
 var netlistTest1 =
 [
@@ -583,7 +634,6 @@ function testNetlist() {
     //create a circuit from the netlist
     var ckt = new Engine.cktsim.Circuit();
     ckt.load_netlist(netlist)
-    console.log(netlist)
+    //console.log(netlist)
     console.log("dc analysis is " + ckt.dc());
 }
-

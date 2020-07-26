@@ -35,6 +35,8 @@ Image {
     //property string type
     property int value: 0
     property var wires: []
+    property int netlistIndex: 0
+    property string terminalType: "noPolarity"
 
     width: size * parent.paintedHeight
     height: width
@@ -50,6 +52,13 @@ Image {
     property double yCenter: terminalPoint.parent.y + terminalPoint.y + height/2
     property double xCenterFromComponent: terminalPoint.x + width/2 - terminalPoint.parent.width / 2
     property double yCenterFromComponent: terminalPoint.y + height/2 - terminalPoint.parent.height / 2
+
+    function updateNetlistIndex(netlistIndex_) {
+        terminalPoint.netlistIndex = netlistIndex_;
+        console.log("polarity is " + terminalType + " , index is " + index + " , netlistIndex is " + netlistIndex_ + " and externalNetlistIndex is " + parent.externalNetlistIndex)
+        parent.externalNetlistIndex[index] = netlistIndex_;
+        console.log("polarity is " + terminalType + " , index is " + index + " , netlistIndex is " + netlistIndex_ + " and externalNetlistIndex is " + parent.externalNetlistIndex)
+    }
 
     Rectangle {
         id: boundary

@@ -21,6 +21,7 @@
  */
 import QtQuick 2.6
 import GCompris 1.0
+import "../analog_electricity.js" as Activity
 
 ElectricalComponent {
     id: battery
@@ -30,13 +31,16 @@ ElectricalComponent {
 
     property alias connectionPoints: connectionPoints
     property var connectionPointPosY: [0, 1]
+    property var connectionPointType: ["positive", "negative"]
+    property string componentName: "Voltage"
+    property var externalNetlistIndex: [-1, -1]
     property var netlistModel:
     [
         "v",
         [
         ],
         {
-            "name": "Voltage",
+            "name": componentName,
             "value": "dc(10)",
             "_json_": 0
         },
@@ -50,13 +54,35 @@ ElectricalComponent {
         id: connectionPoints
         model: 2
         delegate: connectionPoint
+        Component.onCompleted: {
+            console.log("parent of connection point is " + connectionPoints.itemAt(0).parent.id)
+        }
         Component {
             id: connectionPoint
             TerminalPoint {
                 posX: 0.5
                 posY: connectionPointPosY[index]
+                terminalType: connectionPointType[index]
             }
         }
+    }
+    
+    function initConnections() {
+        var connectionIndex = Activity.connectionCount
+        battery.externalNetlistIndex[0] = ++connectionIndex
+        connectionPoints.itemAt(0).updateNetlistIndex(connectionIndex)
+        battery.externalNetlistIndex[1] = ++connectionIndex
+        connectionPoints.itemAt(1).updateNetlistIndex(connectionIndex)
+        Activity.connectionCount = connectionIndex
+    }
+    
+    function addToNetlist() {
+        var netlistItem = battery.netlistModel;
+        netlistItem[2].name = componentName
+        netlistItem[2]._json = Activity.netlist.length;
+        netlistItem[3] = battery.externalNetlistIndex
+        Activity.netlist.push(netlistItem);
+        console.log("item added to " + Activity.netlist);
     }
 
 //     function updateOutput(wireVisited) {

@@ -21,44 +21,139 @@
  */
 import QtQuick 2.6
 import GCompris 1.0
+import "../analog_electricity.js" as Activity
 
 ElectricalComponent {
     id: bulb
     terminalSize: 0.2
     noOfConnectionPoints: 2
-
     information: qsTr("Basically bulb is a resistance in the circuit. Bulb lights with an intensity propotional to the supply voltage.")
 
     property alias connectionPoints: connectionPoints
+    property alias aMeter1: aMeter1
+    property alias aMeter2: aMeter2
     property var connectionPointPosX: [0.2, 0.8]
+    property string componentName: "Bulb"
+    property var internalNetlistIndex: [-1, -1]
+    property var externalNetlistIndex: [-1, -1]
     property var netlistModel:
-[
-    "r",
     [
-    ],
-    {
-      "name": "Bulb",
-      "r": "1000",
-      "_json_": 0
-    },
-    [
-      0,
-      0
+        "r",
+        [
+        ],
+        {
+            "name": componentName,
+            "r": "1000",
+            "_json_": 0
+        },
+        [
+            0,
+            0
+        ]
     ]
-]
+
+    Item {
+        id: aMeter1
+        property int jsonNumber: 0
+        property double currentValue: 0
+        property var netlistModel:
+        [
+            "a",
+            [
+            ],
+            {
+                "name": "aMeter1-",
+                "color": "magenta",
+                "offset": "0",
+                "_json_": aMeter1.jsonNumber
+            },
+            [
+                0,
+                0
+            ]
+        ]
+    }
+
+    Item {
+        id: aMeter2
+        property int jsonNumber: 0
+        property double currentValue: 0
+        property var netlistModel:
+        [
+            "a",
+            [
+            ],
+            {
+                "name": "aMeter2-",
+                "color": "magenta",
+                "offset": "0",
+                "_json_": aMeter2.jsonNumber
+            },
+            [
+                0,
+                0
+            ]
+        ]
+    }
 
     Repeater {
         id: connectionPoints
         model: 2
         delegate: connectionPoint
+        Component.onCompleted: {
+            console.log("repeater is completed")
+            console.log("parent of connection point is " + connectionPoints.itemAt(0).parent.id)
+        }
         Component {
-//             component: nodeXs.count > 0 ? nodeXs.itemAt(0).width : 0;
             id: connectionPoint
             TerminalPoint {
                 posX: connectionPointPosX[index]
                 posY: 1
             }
         }
+    }
+
+    function initConnections() {
+        var connectionIndex = Activity.connectionCount
+        bulb.externalNetlistIndex[0] = ++connectionIndex
+        connectionPoints.itemAt(0).updateNetlistIndex(connectionIndex)
+        console.log("aMeter1 index is " + bulb.externalNetlistIndex[0])
+        bulb.internalNetlistIndex[0] = ++connectionIndex
+        console.log("bulb0 index is " + bulb.internalNetlistIndex[0])
+        bulb.internalNetlistIndex[1] = ++connectionIndex
+        console.log("bulb1 index is " + bulb.internalNetlistIndex[1])
+        bulb.externalNetlistIndex[1] = ++connectionIndex
+        connectionPoints.itemAt(1).updateNetlistIndex(connectionIndex)
+        console.log("aMeter2 index is " + bulb.externalNetlistIndex[1])
+        Activity.connectionCount = connectionIndex
+    }
+
+    function addToNetlist() {
+//         var netlistItem = aMeter1.netlistModel;
+//         Activity.netlistComponents.push(aMeter1);
+//         netlistItem[2].name = "aMeter1-" + componentName
+//         netlistItem[2]._json = Activity.netlist.length;
+//         netlistItem[3][0] = bulb.externalNetlistIndex[0]
+//         netlistItem[3][1] = bulb.internalNetlistIndex[0]
+//         Activity.netlist.push(netlistItem);
+
+        var netlistItem = bulb.netlistModel;
+        Activity.netlistComponents.push(bulb);
+        netlistItem[2].name = componentName
+        netlistItem[2]._json = Activity.netlist.length;
+        netlistItem[3][0] = bulb.externalNetlistIndex[0]
+        netlistItem[3][1] = bulb.externalNetlistIndex[1]
+        Activity.netlist.push(netlistItem);
+
+//         netlistItem = aMeter2.netlistModel;
+//         Activity.netlistComponents.push(aMeter2)
+//         netlistItem[2].name = "aMeter2-" + componentName
+//         netlistItem[2]._json = Activity.netlist.length;
+//         netlistItem[3][0] = bulb.internalNetlistIndex[1]
+//         netlistItem[3][1] = bulb.externalNetlistIndex[1]
+//         Activity.netlist.push(netlistItem);
+
+        console.log("item added to " + Activity.netlist);
     }
 
 //     function updateOutput(wireVisited) {

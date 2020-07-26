@@ -59,6 +59,10 @@ var cktsim = (function() {
 	    this.node_index = -1;
 	    this.periods = 1
 	}
+	
+	function alert(message_) {
+        console.log(message_);
+    }
 
 	// index of ground node
 	Circuit.prototype.gnd_node = function() {
@@ -189,10 +193,10 @@ var cktsim = (function() {
 		    this.v(connections[0],connections[1],'0',name);
 	    }
 
-	    if (!found_ground) { // No ground on schematic
-		alert('Please make at least one connection to ground  (inverted T symbol)');
-		return false;
-	    }
+// 	    if (!found_ground) { // No ground on schematic
+// 		alert('Please make at least one connection to ground  (inverted T symbol)');
+// 		return false;
+// 	    }
 	    return true;
 	}
 

@@ -34,7 +34,7 @@ Image {
     property string imgSrc
     property string information
     property string toolTipTxt
-    property int index
+    property int componentIndex
     property int noOfConnectionPoints
 //     property int noOfOutputs
     property int rotationAngle: 0
@@ -58,7 +58,7 @@ Image {
 
     onPaintedWidthChanged: {
         updateDragConstraints()
-        Activity.updateWires(index)
+        Activity.updateWires(componentIndex)
     }
 
     PropertyAnimation {
@@ -70,7 +70,7 @@ Image {
         onStarted:{ Activity.animationInProgress = true }
         onStopped: {
             initialAngle = initialAngle + rotationAngle
-            Activity.updateWires(index)
+            Activity.updateWires(componentIndex)
             if(initialAngle == startingAngle + rotationAngle * 45) {
                 if(initialAngle == 360 || initialAngle == -360)
                     initialAngle = 0
@@ -114,12 +114,12 @@ Image {
         drag.target: electricalComponent
         onPressed: {
             Activity.updateToolTip(toolTipTxt)
-            Activity.componentSelected(index)
+            Activity.componentSelected(componentIndex)
         }
         onClicked: {
             if(Activity.toolDelete || Activity.toolDeleteSticky) {
                 if (destructible) {
-                    Activity.removeComponent(index)
+                    Activity.removeComponent(componentIndex)
                 } else {
                     Activity.deselect()
                 }
@@ -127,11 +127,11 @@ Image {
             else {
                 if(imgSrc == "switch_off.png") {
                     imgSrc = "switch_on.png"
-                    Activity.updateComponent(index)
+                    Activity.updateComponent(componentIndex)
                 }
                 else if(imgSrc == "switch_on.png") {
                     imgSrc = "switch_off.png"
-                    Activity.updateComponent(index)
+                    Activity.updateComponent(componentIndex)
                 }
             }
         }
@@ -143,7 +143,7 @@ Image {
 
         onPositionChanged: {
             updateDragConstraints()
-            Activity.updateWires(index)
+            Activity.updateWires(componentIndex)
         }
     }
 }
