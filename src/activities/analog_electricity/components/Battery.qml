@@ -29,6 +29,9 @@ ElectricalComponent {
     noOfConnectionPoints: 2
     information: qsTr("Battery is the voltage source. It is the supply voltage of the circuit.")
 
+    property var nodeVoltages: [0, 0]
+    property double current: 0
+    onCurrentChanged: console.log("battery current is " + current)
     property alias connectionPoints: connectionPoints
     property var connectionPointPosY: [0, 1]
     property var connectionPointType: ["positive", "negative"]
@@ -54,9 +57,6 @@ ElectricalComponent {
         id: connectionPoints
         model: 2
         delegate: connectionPoint
-        Component.onCompleted: {
-            console.log("parent of connection point is " + connectionPoints.itemAt(0).parent.id)
-        }
         Component {
             id: connectionPoint
             TerminalPoint {
@@ -78,11 +78,12 @@ ElectricalComponent {
 
     function addToNetlist() {
         var netlistItem = battery.netlistModel;
+        Activity.netlistComponents.push(battery);
+        Activity.vSourcesList.push(battery);
         netlistItem[2].name = componentName
         netlistItem[2]._json = Activity.netlist.length;
         netlistItem[3][0] = battery.externalNetlistIndex[0]
         netlistItem[3][1] = battery.externalNetlistIndex[1]
         Activity.netlist.push(netlistItem);
-        console.log("item added to " + Activity.netlist);
     }
 }

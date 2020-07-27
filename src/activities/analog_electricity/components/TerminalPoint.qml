@@ -55,7 +55,6 @@ Image {
     function updateNetlistIndex(netlistIndex_) {
         terminalPoint.netlistIndex = netlistIndex_;
         parent.externalNetlistIndex[index] = netlistIndex_;
-        console.log("polarity is " + terminalType + " , index is " + index + " , netlistIndex is " + netlistIndex_ + " and externalNetlistIndex is " + parent.externalNetlistIndex)
     }
 
     Rectangle {

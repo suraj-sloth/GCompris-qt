@@ -39,6 +39,7 @@ var components = [];
 var connectionCount = 0;
 
 var netlistComponents = [];
+var vSourcesList = [];
 var netlist = [];
 // var ground =[
 //     "g",
@@ -51,8 +52,6 @@ var netlist = [];
 //         "0"
 //     ]
 // ];
-
-var determiningComponents = [];
 
 var currentZoom;
 var maxZoom = 0.375;
@@ -99,7 +98,6 @@ function initLevel() {
     items.availablePieces.view.previousNavigation = 1;
     items.availablePieces.view.nextNavigation = 1;
     components = [];
-    determiningComponents = [];
     animationInProgress = false;
     toolDelete = false;
     toolDeleteSticky = false;
@@ -263,7 +261,6 @@ function createComponent(x, y, componentIndex) {
                             "destructible": true
                         });
     components[index].componentName = components[index].componentName + index.toString();
-    console.log("createComponent: component name is " + components[index].componentName);
     components[index].initConnections();
     toolDeleteSticky = false;
     deselect();
@@ -306,12 +303,7 @@ function createWire(connectionPoint, destructible) {
     selectedTerminal.wires.push(wire);
     updateWires(connectionPoint.parent.componentIndex);
     updateWires(selectedTerminal.parent.componentIndex);
-    console.log("selectedTerminal index is " + selectedTerminal.netlistIndex);
-    console.log("connectionPoint index is " + connectionPoint.netlistIndex);
-    netlist = [];
-    netlistComponents = [];
     createNetlist();
-    testNetlist();
 }
 
 function updateWires(index) {
@@ -389,7 +381,6 @@ function deselect() {
     selectedTerminal = -1;
     for(var i = 0 ; i < components.length ; ++i) {
         var component = components[i];
-        console.log("component is " + component);
         for(var j = 0 ; j < component.noOfConnectionPoints ; ++j)
             component.connectionPoints.itemAt(j).selected = false;
     }
@@ -460,15 +451,45 @@ function updateToolTip(toolTipText) {
 }
 
 function createNetlist() {
+    netlist = [];
+    netlistComponents = [];
     for(var i = 0; i < components.length; i++) {
         var component = components[i];
         component.addToNetlist();
     }
+    dcAnalysis();
 }
 
-function testNetlist() {
+function dcAnalysis() {
     //create a circuit from the netlist
     var ckt = new Engine.cktsim.Circuit();
     ckt.load_netlist(netlist);
+
+    var voltageResults = ckt.dc();
     console.log("dc analysis is " + ckt.dc());
+    for(var i in netlistComponents) {
+        if(netlistComponents[i].nodeVoltages == undefined) {
+            continue;
+        } else {
+            for(var j = 0 ; j < netlistComponents[i].nodeVoltages.length ; j++) {
+                if(netlistComponents[i].internalNetlistIndex != null) {
+                    netlistComponents[i].nodeVoltages[j] = voltageResults[netlistComponents[i].internalNetlistIndex[j]];
+                } else {
+                    netlistComponents[i].nodeVoltages[j] = voltageResults[netlistComponents[i].externalNetlistIndex[j]];
+                }
+            }
+            console.log("component voltages are " + netlistComponents[i].nodeVoltages);
+        }
+        //var component = netlistComponents[i];
+        //console.log(i + " th component is "+ netlistComponents[i])
+//         if(component.parent.nodeVoltages != undefined) {
+//             component.parent.nodeVoltages[i] = voltageResults[i];
+//             console.log("voltages are " + component.parent.nodeVoltages[i])
+//         }
+    }
+
+    var currentResults = ckt.GCCurrentResults;
+    for(var i in currentResults) {
+        vSourcesList[i].current = currentResults[i];
+    }
 }

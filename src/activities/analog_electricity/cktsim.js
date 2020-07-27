@@ -57,7 +57,9 @@ var cktsim = (function() {
 	    this.finalized = false;
 	    this.diddc = false;
 	    this.node_index = -1;
-	    this.periods = 1
+	    this.periods = 1;
+	    // Added for GCompris to store current results
+	    this.GCCurrentResults = [];
 	}
 	
 	function alert(message_) {
@@ -133,7 +135,6 @@ var cktsim = (function() {
 	// load circuit from JSON netlist (see schematic.js)
 	Circuit.prototype.load_netlist = function(netlist) {
 	    // set up mapping for all ground connections
-        console.log("netlist content is " + netlist);
 	    for (var i = netlist.length - 1; i >= 0; --i) {
 		var component = netlist[i];
 		var type = component[0];
@@ -155,7 +156,6 @@ var cktsim = (function() {
 		}
 
 		var properties = component[2];
-        console.log("properties loaded to cktsim is " + properties);
 		var name = properties['name'];
 		if (name==undefined || name=='')
 		    name = '_' + properties['_json_'].toString();
@@ -328,17 +328,20 @@ var cktsim = (function() {
 		    var index = this.node_map[name];
 		    result[name] = (index == -1) ? 0 : this.solution[index];
 		}
+		// reinit results list for GCompris
+        this.GCCurrentResults = [];		
 		// capture branch currents from voltage sources
 		for (var i = this.voltage_sources.length - 1; i >= 0; --i) {
 		    var v = this.voltage_sources[i];
 		    result['I('+v.name+')'] = this.solution[v.branch];
+            this.GCCurrentResults.push(result['I('+v.name+')']);
             console.log("current for " + v.name + " is " + result["I("+v.name+")"]);
 		}
 		console.log("result is " + result);
 		return result;
 	    }
 	}
-
+	
 	// Transient analysis (needs work!)
         Circuit.prototype.tran = function(ntpts, tstart, tstop, probenames, no_dc) {
 

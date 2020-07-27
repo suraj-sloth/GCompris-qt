@@ -29,6 +29,11 @@ ElectricalComponent {
     noOfConnectionPoints: 2
     information: qsTr("Basically bulb is a resistance in the circuit. Bulb lights with an intensity propotional to the supply voltage.")
 
+    property var nodeVoltages: [0, 0]
+    onNodeVoltagesChanged: console.log("bulb voltages are " + nodeVoltages)
+    //property double componentVoltage: voltage
+    property double bulbCurrent: 0
+    onBulbCurrentChanged: console.log("bulb current is " + bulbCurrent)
     property alias connectionPoints: connectionPoints
     property alias aMeter1: aMeter1
     property alias aMeter2: aMeter2
@@ -55,7 +60,8 @@ ElectricalComponent {
     Item {
         id: aMeter1
         property int jsonNumber: 0
-        property double currentValue: 0
+        property double current: 0
+        onCurrentChanged: bulbCurrent = aMeter1.current
         property var netlistModel:
         [
             "a",
@@ -77,7 +83,8 @@ ElectricalComponent {
     Item {
         id: aMeter2
         property int jsonNumber: 0
-        property double currentValue: 0
+        property double current: 0
+        onCurrentChanged: bulbCurrent = aMeter2.current
         property var netlistModel:
         [
             "a",
@@ -100,10 +107,6 @@ ElectricalComponent {
         id: connectionPoints
         model: 2
         delegate: connectionPoint
-        Component.onCompleted: {
-            console.log("repeater is completed")
-            console.log("parent of connection point is " + connectionPoints.itemAt(0).parent.id)
-        }
         Component {
             id: connectionPoint
             TerminalPoint {
@@ -117,20 +120,17 @@ ElectricalComponent {
         var connectionIndex = Activity.connectionCount
         bulb.externalNetlistIndex[0] = ++connectionIndex
         connectionPoints.itemAt(0).updateNetlistIndex(connectionIndex)
-        console.log("aMeter1 index is " + bulb.externalNetlistIndex[0])
         bulb.internalNetlistIndex[0] = ++connectionIndex
-        console.log("bulb0 index is " + bulb.internalNetlistIndex[0])
         bulb.internalNetlistIndex[1] = ++connectionIndex
-        console.log("bulb1 index is " + bulb.internalNetlistIndex[1])
         bulb.externalNetlistIndex[1] = ++connectionIndex
         connectionPoints.itemAt(1).updateNetlistIndex(connectionIndex)
-        console.log("aMeter2 index is " + bulb.externalNetlistIndex[1])
         Activity.connectionCount = connectionIndex
     }
 
     function addToNetlist() {
         var netlistItem = aMeter1.netlistModel;
         Activity.netlistComponents.push(aMeter1);
+        Activity.vSourcesList.push(aMeter1);
         netlistItem[2].name = "aMeter1-" + componentName
         netlistItem[2]._json = Activity.netlist.length;
         netlistItem[3][0] = bulb.externalNetlistIndex[0]
@@ -147,13 +147,12 @@ ElectricalComponent {
 
         netlistItem = aMeter2.netlistModel;
         Activity.netlistComponents.push(aMeter2)
+        Activity.vSourcesList.push(aMeter2);
         netlistItem[2].name = "aMeter2-" + componentName
         netlistItem[2]._json = Activity.netlist.length;
         netlistItem[3][0] = bulb.internalNetlistIndex[1]
         netlistItem[3][1] = bulb.externalNetlistIndex[1]
         Activity.netlist.push(netlistItem);
-
-        console.log("item added to " + Activity.netlist);
     }
 }
 
