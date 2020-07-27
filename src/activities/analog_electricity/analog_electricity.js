@@ -5,6 +5,7 @@
  * Authors:
  *   Bruno Coudoin (GTK+ version)
  *   Aiswarya Kaitheri Kandoth <aiswaryakk29@gmail.com> (Qt Quick port)
+ *   Timothée Giet <animtim@gmail.com> (Help for the Qt Quick port)
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -23,22 +24,22 @@
 .import QtQuick 2.6 as Quick
 .import "cktsim.js" as Engine
 
-var url = "qrc:/gcompris/src/activities/analog_electricity/resource/"
-var url1 = "qrc:/gcompris/src/activities/digital_electricity/resource/"
+var url = "qrc:/gcompris/src/activities/analog_electricity/resource/";
+var url1 = "qrc:/gcompris/src/activities/digital_electricity/resource/";
 
-var currentLevel = 0
-var numberOfLevel = 4
-var items
-var toolDelete
-var toolDeleteSticky
-var animationInProgress
-var selectedIndex
-var selectedTerminal
-var components = []
-var connectionCount = 0
+var currentLevel = 0;
+var numberOfLevel = 4;
+var items;
+var toolDelete;
+var toolDeleteSticky;
+var animationInProgress;
+var selectedIndex;
+var selectedTerminal;
+var components = [];
+var connectionCount = 0;
 
-var netlistComponents = []
-var netlist = []
+var netlistComponents = [];
+var netlist = [];
 // var ground =[
 //     "g",
 //     [
@@ -51,20 +52,20 @@ var netlist = []
 //     ]
 // ];
 
-var determiningComponents = []
+var determiningComponents = [];
 
-var currentZoom
-var maxZoom = 0.375
-var minZoom = 0.125
-var defaultZoom = 0.25
-var zoomStep = 0.0625
+var currentZoom;
+var maxZoom = 0.375;
+var minZoom = 0.125;
+var defaultZoom = 0.25;
+var zoomStep = 0.0625;
 
 var direction = {
     LEFT: -1,
     RIGHT: 1,
     UP: -2,
     DOWN: 2
-}
+};
 
 var viewPort = {
     leftExtreme: 0,
@@ -73,49 +74,44 @@ var viewPort = {
     bottomExtreme: 1,
     leftEdge: 0,
     topEdge: 0
-}
+};
 
 function start(items_) {
-    items = items_
-    currentLevel = 1
-    numberOfLevel = items.tutorialDataset.tutorialLevels.length
-    initLevel()
-    //var ckt = new Engine.cktsim.Circuit()
-    //console.log(ckt.dc())
-    connectionCount = 0
-    netlistComponents = []
-    netlist = []
+    items = items_;
+    currentLevel = 1;
+    numberOfLevel = items.tutorialDataset.tutorialLevels.length;
+    initLevel();
+    connectionCount = 0;
+    netlistComponents = [];
+    netlist = [];
 }
 
 function stop() {
     for(var i = 0 ; i < components.length ; ++i) {
-        removeComponent(i)
+        removeComponent(i);
     }
 }
 
 function initLevel() {
-    items.bar.level = currentLevel
+    items.bar.level = currentLevel;
 
-    items.availablePieces.view.currentDisplayedGroup = 0
-    items.availablePieces.view.previousNavigation = 1
-    items.availablePieces.view.nextNavigation = 1
-    components = []
-    determiningComponents = []
-    animationInProgress = false
-    toolDelete = false
-    toolDeleteSticky = false
-    deselect()
+    items.availablePieces.view.currentDisplayedGroup = 0;
+    items.availablePieces.view.previousNavigation = 1;
+    items.availablePieces.view.nextNavigation = 1;
+    components = [];
+    determiningComponents = [];
+    animationInProgress = false;
+    toolDelete = false;
+    toolDeleteSticky = false;
+    deselect();
 
-    currentZoom = defaultZoom
-    viewPort.leftEdge = 0
-    viewPort.topEdge = 0
-    items.playArea.x = items.mousePan.drag.maximumX
-    items.playArea.y = items.mousePan.drag.maximumY
+    currentZoom = defaultZoom;
+    viewPort.leftEdge = 0;
+    viewPort.topEdge = 0;
+    items.playArea.x = items.mousePan.drag.maximumX;
+    items.playArea.y = items.mousePan.drag.maximumY;
 
     loadFreeMode();
-    //testAddToNetlist();
-
-    
 
 //     var levelProperties = items.tutorialDataset.tutorialLevels[currentLevel - 1]
 // 
@@ -170,7 +166,7 @@ function initLevel() {
 }
 
 function loadFreeMode() {
-    var componentList = items.tutorialDataset.componentList
+    var componentList = items.tutorialDataset.componentList;
     for (var i = 0; i < componentList.length; i++) {
         items.availablePieces.model.append( {
             "imgName": componentList[i].imageName,
@@ -178,56 +174,56 @@ function loadFreeMode() {
             "imgWidth": componentList[i].width,
             "imgHeight": componentList[i].height,
             "toolTipText": componentList[i].toolTipText,
-        })
+        });
     }
 }
 
 function zoomIn() {
-    var previousZoom = currentZoom
-    currentZoom += zoomStep
+    var previousZoom = currentZoom;
+    currentZoom += zoomStep;
     if (currentZoom > maxZoom)
-        currentZoom = maxZoom
-    var zoomRatio = currentZoom / previousZoom
-    updateComponentDimension(zoomRatio)
+        currentZoom = maxZoom;
+    var zoomRatio = currentZoom / previousZoom;
+    updateComponentDimension(zoomRatio);
 
     if (currentZoom == maxZoom) {
-        items.availablePieces.zoomInBtn.state = "cannotZoomIn"
+        items.availablePieces.zoomInBtn.state = "cannotZoomIn";
     } else {
-        items.availablePieces.zoomInBtn.state = "canZoomIn"
+        items.availablePieces.zoomInBtn.state = "canZoomIn";
     }
-    items.availablePieces.zoomOutBtn.state = "canZoomOut"
+    items.availablePieces.zoomOutBtn.state = "canZoomOut";
 
     if (items.zoomLvl < 0.5) {
-        items.zoomLvl += 0.125
+        items.zoomLvl += 0.125;
     }
 }
 
 function zoomOut() {
-    var previousZoom = currentZoom
-    currentZoom -= zoomStep
+    var previousZoom = currentZoom;
+    currentZoom -= zoomStep;
     if (currentZoom < minZoom)
-        currentZoom = minZoom
-    var zoomRatio = currentZoom / previousZoom
-    updateComponentDimension(zoomRatio)
+        currentZoom = minZoom;
+    var zoomRatio = currentZoom / previousZoom;
+    updateComponentDimension(zoomRatio);
 
     if (currentZoom == minZoom) {
-        items.availablePieces.zoomOutBtn.state = "cannotZoomOut"
+        items.availablePieces.zoomOutBtn.state = "cannotZoomOut";
     } else {
-        items.availablePieces.zoomOutBtn.state = "canZoomOut"
+        items.availablePieces.zoomOutBtn.state = "canZoomOut";
     }
-    items.availablePieces.zoomInBtn.state = "canZoomIn"
+    items.availablePieces.zoomInBtn.state = "canZoomIn";
 
     if (items.zoomLvl > 0) {
-        items.zoomLvl -= 0.125
+        items.zoomLvl -= 0.125;
     }
 }
 
 function updateComponentDimension(zoomRatio) {
     for (var i = 0; i < components.length; i++) {
-        components[i].posX *= zoomRatio
-        components[i].posY *= zoomRatio
-        components[i].imgWidth *= zoomRatio
-        components[i].imgHeight *= zoomRatio
+        components[i].posX *= zoomRatio;
+        components[i].posY *= zoomRatio;
+        components[i].imgWidth *= zoomRatio;
+        components[i].imgHeight *= zoomRatio;
         updateWires(i);
     }
 }
@@ -247,14 +243,14 @@ function previousLevel() {
 }
 
 function createComponent(x, y, componentIndex) {
-    x = x / items.playArea.width
-    y = y / items.playArea.height
+    x = x / items.playArea.width;
+    y = y / items.playArea.height;
 
-    var index = components.length
+    var index = components.length;
 
-    var component = items.availablePieces.repeater.itemAt(componentIndex)
+    var component = items.availablePieces.repeater.itemAt(componentIndex);
     var electricComponent = Qt.createComponent("qrc:/gcompris/src/activities/analog_electricity/components/" +
-                                               component.source)
+                                               component.source);
 
     components[index] = electricComponent.createObject(
                         items.playArea, {
@@ -266,32 +262,32 @@ function createComponent(x, y, componentIndex) {
                             "imgHeight": component.imageHeight * currentZoom,
                             "destructible": true
                         });
-    components[index].componentName = components[index].componentName + index.toString()
-    console.log("createComponent: component name is " + components[index].componentName)
+    components[index].componentName = components[index].componentName + index.toString();
+    console.log("createComponent: component name is " + components[index].componentName);
     components[index].initConnections();
-    toolDeleteSticky = false
-    deselect()
+    toolDeleteSticky = false;
+    deselect();
 }
 
 /* Creates wire between two points.
 */
 function terminalPointSelected(terminal) {
     if(selectedTerminal == -1 || selectedTerminal == terminal)
-        selectedTerminal = terminal
+        selectedTerminal = terminal;
     else if(selectedTerminal.parent != terminal.parent) {
-        var connectionPoint = terminal
-        createWire(connectionPoint, true)
-        deselect()
+        var connectionPoint = terminal;
+        createWire(connectionPoint, true);
+        deselect();
     }
     else {
-        deselect()
-        selectedTerminal = terminal
-        terminal.selected = true
+        deselect();
+        selectedTerminal = terminal;
+        terminal.selected = true;
     }
 }
 
 function createWire(connectionPoint, destructible) {
-    var wireComponent = Qt.createComponent("qrc:/gcompris/src/activities/analog_electricity/Wire.qml")
+    var wireComponent = Qt.createComponent("qrc:/gcompris/src/activities/analog_electricity/Wire.qml");
     var wire = wireComponent.createObject(
                items.playArea, {
                     "node1": selectedTerminal,
@@ -306,73 +302,75 @@ function createWire(connectionPoint, destructible) {
     } else if(selectedTerminal.wires.length > 0) {
         selectedTerminal.updateNetlistIndex(selectedTerminal.netlistIndex);
     }
-    connectionPoint.wires.push(wire)
-    selectedTerminal.wires.push(wire)
-    updateWires(connectionPoint.parent.componentIndex)
-    updateWires(selectedTerminal.parent.componentIndex)
-    console.log("selectedTerminal index is " + selectedTerminal.netlistIndex)
-    console.log("connectionPoint index is " + connectionPoint.netlistIndex)
-    netlist = []
-    netlistComponents = []
+    connectionPoint.wires.push(wire);
+    selectedTerminal.wires.push(wire);
+    updateWires(connectionPoint.parent.componentIndex);
+    updateWires(selectedTerminal.parent.componentIndex);
+    console.log("selectedTerminal index is " + selectedTerminal.netlistIndex);
+    console.log("connectionPoint index is " + connectionPoint.netlistIndex);
+    netlist = [];
+    netlistComponents = [];
     createNetlist();
     testNetlist();
 }
 
 function updateWires(index) {
-    var component = components[index]
+    var component = components[index];
     if(component == undefined || component.noOfConnectionPoints == undefined)
-        return
+        return;
 
-    var rotatedAngle = component.initialAngle * Math.PI / 180
+    var rotatedAngle = component.initialAngle * Math.PI / 180;
     for(var i = 0 ; i < component.noOfConnectionPoints ; ++i) {
-        var terminal = component.connectionPoints.itemAt(i)
+        var terminal = component.connectionPoints.itemAt(i);
         for(var j = 0 ; j < terminal.wires.length ; ++j) {
-            var wire = terminal.wires[j]
+            var wire = terminal.wires[j];
             if(wire.node1 != terminal) {
-                var otherAngle = wire.node1.parent.initialAngle * Math.PI / 180
-                var x = wire.node1.xCenterFromComponent
-                var y = wire.node1.yCenterFromComponent
-                var x1 = wire.node1.xCenter - x + x * Math.cos(otherAngle) - y * Math.sin(otherAngle)
-                var y1 = wire.node1.yCenter - y + x * Math.sin(otherAngle) + y * Math.cos(otherAngle)
+                var otherAngle = wire.node1.parent.initialAngle * Math.PI / 180;
+                var x = wire.node1.xCenterFromComponent;
+                var y = wire.node1.yCenterFromComponent;
+                var x1 = wire.node1.xCenter - x + x * Math.cos(otherAngle) - y * Math.sin(otherAngle);
+                var y1 = wire.node1.yCenter - y + x * Math.sin(otherAngle) + y * Math.cos(otherAngle);
 
-                x = terminal.xCenterFromComponent
-                y = terminal.yCenterFromComponent
-                var x2 = terminal.xCenter - x + x * Math.cos(rotatedAngle) - y * Math.sin(rotatedAngle)
-                var y2 = terminal.yCenter - y + x * Math.sin(rotatedAngle) + y * Math.cos(rotatedAngle)
+                x = terminal.xCenterFromComponent;
+                y = terminal.yCenterFromComponent;
+                var x2 = terminal.xCenter - x + x * Math.cos(rotatedAngle) - y * Math.sin(rotatedAngle);
+                var y2 = terminal.yCenter - y + x * Math.sin(rotatedAngle) + y * Math.cos(rotatedAngle);
 
-                var width = Math.pow((Math.pow(x1 - x2, 2) +  Math.pow(y1 - y2, 2)),0.5) + 2
-                var angle = (180/Math.PI)*Math.atan((y2-y1)/(x2-x1))
-                if(x2 - x1 < 0) angle = angle - 180
-                wire.x = x1
-                wire.y = y1 - wire.height / 2
-                wire.width = width
-                wire.rotation = angle
+                var width = Math.pow((Math.pow(x1 - x2, 2) +  Math.pow(y1 - y2, 2)),0.5) + 2;
+                var angle = (180/Math.PI)*Math.atan((y2-y1)/(x2-x1));
+                if(x2 - x1 < 0)
+                    angle = angle - 180;
+                wire.x = x1;
+                wire.y = y1 - wire.height / 2;
+                wire.width = width;
+                wire.rotation = angle;
             }
         }
     }
     for(var i = 0 ; i < component.noOfConnectionPoints ; ++i) {
-        var terminal = component.connectionPoints.itemAt(i)
+        var terminal = component.connectionPoints.itemAt(i);
         for(var j = 0 ; j < terminal.wires.length ; ++j) {
-            var x = terminal.xCenterFromComponent
-            var y = terminal.yCenterFromComponent
-            var x1 = terminal.xCenter - x + x * Math.cos(rotatedAngle) - y * Math.sin(rotatedAngle)
-            var y1 = terminal.yCenter - y + x * Math.sin(rotatedAngle) + y * Math.cos(rotatedAngle)
+            var x = terminal.xCenterFromComponent;
+            var y = terminal.yCenterFromComponent;
+            var x1 = terminal.xCenter - x + x * Math.cos(rotatedAngle) - y * Math.sin(rotatedAngle);
+            var y1 = terminal.yCenter - y + x * Math.sin(rotatedAngle) + y * Math.cos(rotatedAngle);
 
-            var wire = terminal.wires[j]
+            var wire = terminal.wires[j];
             if(wire.node2 != terminal) {
-                var otherAngle = wire.node2.parent.initialAngle * Math.PI / 180
-                x = wire.node2.xCenterFromComponent
-                y = wire.node2.yCenterFromComponent
-                var x2 = wire.node2.xCenter - x + x * Math.cos(otherAngle) - y * Math.sin(otherAngle)
-                var y2 = wire.node2.yCenter - y + x * Math.sin(otherAngle) + y * Math.cos(otherAngle)
+                var otherAngle = wire.node2.parent.initialAngle * Math.PI / 180;
+                x = wire.node2.xCenterFromComponent;
+                y = wire.node2.yCenterFromComponent;
+                var x2 = wire.node2.xCenter - x + x * Math.cos(otherAngle) - y * Math.sin(otherAngle);
+                var y2 = wire.node2.yCenter - y + x * Math.sin(otherAngle) + y * Math.cos(otherAngle);
 
-                var width = Math.pow((Math.pow(x1 - x2, 2) +  Math.pow(y1 - y2, 2)),0.5) + 2
-                var angle = (180/Math.PI)*Math.atan((y2-y1)/(x2-x1))
-                if(x2 - x1 < 0) angle = angle - 180
-                wire.x = x1
-                wire.y = y1
-                wire.width = width
-                wire.rotation = angle
+                var width = Math.pow((Math.pow(x1 - x2, 2) +  Math.pow(y1 - y2, 2)),0.5) + 2;
+                var angle = (180/Math.PI)*Math.atan((y2-y1)/(x2-x1));
+                if(x2 - x1 < 0)
+                    angle = angle - 180;
+                wire.x = x1;
+                wire.y = y1;
+                wire.width = width;
+                wire.rotation = angle;
             }
         }
     }
@@ -380,80 +378,80 @@ function updateWires(index) {
 
 function deselect() {
     if(toolDeleteSticky == false) {
-        toolDelete = false
-        items.availablePieces.toolDelete.state = "notSelected"
+        toolDelete = false;
+        items.availablePieces.toolDelete.state = "notSelected";
     }
-    items.availablePieces.rotateLeft.state = "canNotBeSelected"
-    items.availablePieces.rotateRight.state = "canNotBeSelected"
-    items.availablePieces.info.state = "canNotBeSelected"
+    items.availablePieces.rotateLeft.state = "canNotBeSelected";
+    items.availablePieces.rotateRight.state = "canNotBeSelected";
+    items.availablePieces.info.state = "canNotBeSelected";
 //     items.infoTxt.visible = false
-    selectedIndex = -1
-    selectedTerminal = -1
+    selectedIndex = -1;
+    selectedTerminal = -1;
     for(var i = 0 ; i < components.length ; ++i) {
-        var component = components[i]
-        console.log("component is " + component)
+        var component = components[i];
+        console.log("component is " + component);
         for(var j = 0 ; j < component.noOfConnectionPoints ; ++j)
-            component.connectionPoints.itemAt(j).selected = false
+            component.connectionPoints.itemAt(j).selected = false;
     }
 }
 
 function removeComponent(index) {
-    var component = components[index]
+    var component = components[index];
     for(var i = 0 ; i < component.noOfConnectionPoints ; ++i) {
-        var terminal = component.connectionPoints.itemAt(i)
+        var terminal = component.connectionPoints.itemAt(i);
         if(terminal.wires.length != 0)
             for(var j = 0; j < terminal.wires.length; ++j) {
-                removeWire(terminal.wires[j])
+                removeWire(terminal.wires[j]);
             };
     }
-    components[index].destroy()
-    components.splice(index, 1)
-    deselect()
+    components[index].destroy();
+    components.splice(index, 1);
+    deselect();
 }
 
 function removeWire(wire) {
-    var connectionPoint1 = wire.node1
-    var connectionPoint2 = wire.node2
+    var connectionPoint1 = wire.node1;
+    var connectionPoint2 = wire.node2;
 
-    var removeIndex = connectionPoint1.wires.indexOf(wire)
-    connectionPoint1.wires.splice(removeIndex, 1)
-    removeIndex = connectionPoint2.wires.indexOf(wire)
-    connectionPoint2.wires.splice(removeIndex, 1)
+    var removeIndex = connectionPoint1.wires.indexOf(wire);
+    connectionPoint1.wires.splice(removeIndex, 1);
+    removeIndex = connectionPoint2.wires.indexOf(wire);
+    connectionPoint2.wires.splice(removeIndex, 1);
 
-    wire.destroy()
-    deselect()
+    wire.destroy();
+    deselect();
 }
 
 function componentSelected(index) {
-    selectedIndex = index
-    items.availablePieces.rotateLeft.state = "canBeSelected"
-    items.availablePieces.rotateRight.state = "canBeSelected"
-    items.availablePieces.info.state = "canBeSelected"
+    selectedIndex = index;
+    items.availablePieces.rotateLeft.state = "canBeSelected";
+    items.availablePieces.rotateRight.state = "canBeSelected";
+    items.availablePieces.info.state = "canBeSelected";
 }
 
 function rotateLeft() {
-    components[selectedIndex].rotationAngle = -2
-    components[selectedIndex].rotateComponent.start()
+    components[selectedIndex].rotationAngle = -2;
+    components[selectedIndex].rotateComponent.start();
 }
 
 function rotateRight() {
-    components[selectedIndex].rotationAngle = 2
-    components[selectedIndex].rotateComponent.start()
+    components[selectedIndex].rotationAngle = 2;
+    components[selectedIndex].rotateComponent.start();
 }
 
 function displayInfo() {
-    var component = components[selectedIndex]
-    deselect()
-    items.infoTxt.visible = true
-    items.infoTxt.text = component.information
+    var component = components[selectedIndex];
+    deselect();
+    items.infoTxt.visible = true;
+    items.infoTxt.text = component.information;
 
     if(component.infoImageSrc != undefined) {
-        items.infoImage.imgVisible = true
-        items.infoImage.source = url + component.infoImageSrc
+        items.infoImage.imgVisible = true;
+        items.infoImage.source = url + component.infoImageSrc;
     }
     else {
-        items.infoImage.imgVisible = false
-        items.infoImage.source = ""
+        items.infoImage.imgVisible = false;
+        items.infoImage.source = "";
     }
 }
 
@@ -461,136 +459,16 @@ function updateToolTip(toolTipText) {
     items.toolTip.show(toolTipText);
 }
 
-var testConnectionList = [[1,3],[1,2],[2,3]]
-
-//test function to test addToNetlist
-
-function testAddToNetlist() {
-    createComponent(32, 32, 0);
-    createComponent(128, 32, 1);
-    createComponent(256, 32, 1);
-//    createNetlist();
-//     addToNetlist(components[0], [3, 0], "dc-1");
-//     addToNetlist(components[1], [3, 5], "bulb-1");
-//     ground[2]._json = netlist.length;
-//     netlist.push(ground);
-//     addToNetlist(components[2], [5, 0], "bulb-2");
-//    testNetlist();
-}
-
 function createNetlist() {
     for(var i = 0; i < components.length; i++) {
-        var component = components[i]
-        //to use fake connectionlist netlistIndex
-        //component.netlistIndex = testConnectionList[i];
-//       //to fetch actual connection points index...
-//         for(var j = 0; j < component.connectionPoints.length; j++) {
-//             component.netlistIndex[j] = component.connectionPoints.itemAt(j).netlistIndex
-//         }
-        //console.log("test component netlistIndex is " + component.netlistIndex)
-        //addToNetlist(component);
+        var component = components[i];
         component.addToNetlist();
     }
 }
 
-// function addToNetlist(component) {
-//         var netlistItem = component.netlistModel;
-//         netlistItem[2].name = netlist.length
-//         netlistItem[2]._json = netlist.length;
-//         netlist.push(netlistItem);
-//         console.log("item added to " + netlist);
-// }
-
-var netlistTest1 =
-[
-  [
-    "v",
-    [
-    ],
-    {
-      "name": "",
-      "value": "dc(5)",
-      "_json_": 0
-    },
-    [
-      1,
-      0
-    ]
-  ],
-  [
-    "r",
-    [
-    ],
-    {
-      "name": "",
-      "r": "3",
-      "_json_": 1
-    },
-    [
-      1,
-      0
-    ]
-  ],
-  [
-    "g",
-    [
-    ],
-    {
-      "_json_": 2
-    },
-    [
-      "0"
-    ]
-  ]
-];
-
-var netlistTest2 = 
-[
-  [
-    "v",
-    [
-    ],
-    {
-      "name": "",
-      "value": "dc(10)",
-      "_json_": 0
-    },
-    [
-      0,
-      1
-    ]
-  ],
-  [
-    "r",
-    [
-    ],
-    {
-      "name": "",
-      "r": "1000",
-      "_json_": 1
-    },
-    [
-      0,
-      1
-    ]
-  ],
-  [
-    "g",
-    [
-    ],
-    {
-      "_json_": 2
-    },
-    [
-      "0"
-    ]
-  ]
-];
-
 function testNetlist() {
     //create a circuit from the netlist
     var ckt = new Engine.cktsim.Circuit();
-    ckt.load_netlist(netlist)
-    //console.log(netlist)
+    ckt.load_netlist(netlist);
     console.log("dc analysis is " + ckt.dc());
 }

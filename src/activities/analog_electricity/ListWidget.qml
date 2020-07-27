@@ -1,6 +1,6 @@
 /* gcompris - ListWidget.qml
  *
- * Copyright (C) 2016 Pulkit Gupta <pulkitnsit@gmail.com>
+ * Copyright (C) 2020 Aiswarya Kaitheri Kandoth <aiswaryakk29@gmail.com>
  *
  * Authors:
  *   Bruno Coudoin <bruno.coudoin@gcompris.net> (GTK+ version)
