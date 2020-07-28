@@ -85,8 +85,9 @@ ElectricalComponent {
     }
 
     function updateValues() {
-        componentVoltage = Math.abs(nodeVoltages[1] - nodeVoltages[0]);
-        current = Math.abs(current);
+        componentVoltage = (Math.abs(nodeVoltages[1] - nodeVoltages[0])).toFixed(3);
+        current = (Math.abs(current)).toFixed(3);
+//         current = (Math.abs((current * 1000) / 1000)).toFixed(3);
     }
 
     function initConnections() {

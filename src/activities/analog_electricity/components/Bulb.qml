@@ -63,7 +63,7 @@ ElectricalComponent {
         id: aMeter1
         property int jsonNumber: 0
         property double current: 0
-        onCurrentChanged: bulbCurrent = aMeter1.current
+        onCurrentChanged: bulbCurrent = (Math.abs(aMeter1.current)).toFixed(3)
         property var netlistModel:
         [
             "a",
@@ -86,7 +86,7 @@ ElectricalComponent {
         id: aMeter2
         property int jsonNumber: 0
         property double current: 0
-        onCurrentChanged: bulbCurrent = aMeter2.current
+        onCurrentChanged: bulbCurrent = (Math.abs(aMeter2.current)).toFixed(3)
         property var netlistModel:
         [
             "a",
@@ -132,8 +132,7 @@ ElectricalComponent {
     }
 
     function updateValues() {
-        componentVoltage = Math.abs(nodeVoltages[1] - nodeVoltages[0]);
-        bulbCurrent = Math.abs(bulbCurrent);
+        componentVoltage = (Math.abs(nodeVoltages[1] - nodeVoltages[0])).toFixed(3);
     }
 
     function initConnections() {
