@@ -30,12 +30,26 @@ ElectricalComponent {
     information: qsTr("Basically bulb is a resistance in the circuit. Bulb lights with an intensity propotional to the supply voltage.")
     labelText1: "V = " + componentVoltage + "V"
     labelText2: "I = " + bulbCurrent + "A"
+    source: Activity.url + "bulb1.png"
 
     property var nodeVoltages: [0, 0]
     property double componentVoltage: 0
     onNodeVoltagesChanged: console.log("bulb voltages are " + nodeVoltages)
+    property double power: 0
+    property double maxPower: 0.11
     property double bulbCurrent: 0
-    onBulbCurrentChanged: console.log("bulb current is " + bulbCurrent)
+    property string resistanceValue: "1000"
+    onBulbCurrentChanged: {
+        power = componentVoltage * bulbCurrent;
+        if(power < maxPower)
+            lightBulb.opacity  = power * 10
+        else {
+            lightBulb.opacity = 0
+            bulb.source = Activity.url + "bulb_blown.png";
+            resistanceValue = "100000000"
+            Activity.createNetlist();
+        }
+    }
     property alias connectionPoints: connectionPoints
     property alias aMeter1: aMeter1
     property alias aMeter2: aMeter2
@@ -50,7 +64,7 @@ ElectricalComponent {
         ],
         {
             "name": componentName,
-            "r": "1000",
+            "r": bulb.resistanceValue,
             "_json_": 0
         },
         [
@@ -116,6 +130,14 @@ ElectricalComponent {
                 posY: 1
             }
         }
+    }
+
+    Image {
+        id: lightBulb
+        source: Activity.url + "bulb_max.png"
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectFit
+        opacity: power < maxPower ? power * 10 : 0
     }
 
     function checkConnections() {

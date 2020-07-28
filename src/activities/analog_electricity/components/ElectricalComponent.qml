@@ -32,7 +32,6 @@ Image {
     property double posY
     property double imgWidth
     property double imgHeight
-    property string imgSrc
     property string information
     property string toolTipTxt
     property string labelText1: ""
@@ -54,7 +53,6 @@ Image {
     height: imgHeight * parent.height
     fillMode: Image.PreserveAspectFit
 
-    source: Activity.url + imgSrc
     z: 2
     mipmap: true
     antialiasing: true
@@ -127,16 +125,6 @@ Image {
                     Activity.deselect()
                 }
             }
-            else {
-                if(imgSrc == "switch_off.png") {
-                    imgSrc = "switch_on.png"
-                    Activity.updateComponent(componentIndex)
-                }
-                else if(imgSrc == "switch_on.png") {
-                    imgSrc = "switch_off.png"
-                    Activity.updateComponent(componentIndex)
-                }
-            }
         }
         onReleased: {
             parent.posX = parent.x / parent.parent.width
@@ -152,11 +140,13 @@ Image {
 
     Rectangle {
         id: componentLabel
+        z: 100
         width: 100
         height: 100
         anchors.centerIn: parent
         color: "#80000000"
         visible: showLabel
+        rotation: electricalComponent.rotation * -1
         GCText {
             anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter

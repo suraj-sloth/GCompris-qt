@@ -30,6 +30,7 @@ ElectricalComponent {
     information: qsTr("Battery is the voltage source. It is the supply voltage of the circuit.")
     labelText1: "V = " + componentVoltage + "V"
     labelText2: "I = " + current + "A"
+    source: Activity.url + "battery.png"
 
     property double componentVoltage: 0
     property var nodeVoltages: [0, 0]
