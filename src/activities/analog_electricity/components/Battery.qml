@@ -28,10 +28,12 @@ ElectricalComponent {
     terminalSize: 0.2
     noOfConnectionPoints: 2
     information: qsTr("Battery is the voltage source. It is the supply voltage of the circuit.")
+    labelText1: "V = " + componentVoltage + "V"
+    labelText2: "I = " + current + "A"
 
+    property double componentVoltage: 0
     property var nodeVoltages: [0, 0]
     property double current: 0
-    onCurrentChanged: console.log("battery current is " + current)
     property alias connectionPoints: connectionPoints
     property var connectionPointPosY: [0, 1]
     property var connectionPointType: ["positive", "negative"]
@@ -65,6 +67,26 @@ ElectricalComponent {
                 terminalType: connectionPointType[index]
             }
         }
+    }
+
+    onCurrentChanged: updateValues();
+
+    function checkConnections() {
+        var terminalConnected = 0
+        for(var i = 0; i < noOfConnectionPoints; i++) {
+            if(connectionPoints.itemAt(i).wires.length > 0)
+                terminalConnected += 1
+        }
+        if(terminalConnected >= 2) {
+            battery.showLabel = true
+        } else {
+            battery.showLabel = false
+        }
+    }
+
+    function updateValues() {
+        componentVoltage = Math.abs(nodeVoltages[1] - nodeVoltages[0]);
+        current = Math.abs(current);
     }
 
     function initConnections() {

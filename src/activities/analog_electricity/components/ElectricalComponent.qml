@@ -23,6 +23,7 @@
 import QtQuick 2.6
 import GCompris 1.0
 
+import "../../../core"
 import "../analog_electricity.js" as Activity
 
 Image {
@@ -34,14 +35,16 @@ Image {
     property string imgSrc
     property string information
     property string toolTipTxt
+    property string labelText1: ""
+    property string labelText2: ""
     property int componentIndex
     property int noOfConnectionPoints
-//     property int noOfOutputs
     property int rotationAngle: 0
     property int initialAngle: 0
     property int startingAngle: 0
     property double terminalSize
     property bool destructible
+    property bool showLabel: false
 
     property alias rotateComponent: rotateComponent
 
@@ -144,6 +147,31 @@ Image {
         onPositionChanged: {
             updateDragConstraints()
             Activity.updateWires(componentIndex)
+        }
+    }
+
+    Rectangle {
+        id: componentLabel
+        width: 100
+        height: 100
+        anchors.centerIn: parent
+        color: "#80000000"
+        visible: showLabel
+        GCText {
+            anchors.top: parent.top
+            anchors.horizontalCenter: parent.horizontalCenter
+            fontSize: 10
+            color: "white"
+            text: labelText1
+            horizontalAlignment: Text.AlignHCenter
+        }
+        GCText {
+            anchors.bottom: parent.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            fontSize: 10
+            color: "white"
+            text: labelText2
+            horizontalAlignment: Text.AlignHCenter
         }
     }
 }

@@ -303,6 +303,8 @@ function createWire(connectionPoint, destructible) {
     selectedTerminal.wires.push(wire);
     updateWires(connectionPoint.parent.componentIndex);
     updateWires(selectedTerminal.parent.componentIndex);
+    connectionPoint.parent.checkConnections();
+    selectedTerminal.parent.checkConnections();
     createNetlist();
 }
 
@@ -411,6 +413,11 @@ function removeWire(wire) {
 
     wire.destroy();
     deselect();
+    connectionPoint1.resetIndex();
+    connectionPoint2.resetIndex();
+    connectionPoint1.parent.checkConnections();
+    connectionPoint2.parent.checkConnections();
+    createNetlist();
 }
 
 function componentSelected(index) {
@@ -451,8 +458,9 @@ function updateToolTip(toolTipText) {
 }
 
 function createNetlist() {
-    netlist = [];
-    netlistComponents = [];
+    netlist.length = 0;
+    netlistComponents.length = 0;
+    vSourcesList.length = 0;
     for(var i = 0; i < components.length; i++) {
         var component = components[i];
         component.addToNetlist();
@@ -461,7 +469,6 @@ function createNetlist() {
 }
 
 function dcAnalysis() {
-    //create a circuit from the netlist
     var ckt = new Engine.cktsim.Circuit();
     ckt.load_netlist(netlist);
 
@@ -478,14 +485,9 @@ function dcAnalysis() {
                     netlistComponents[i].nodeVoltages[j] = voltageResults[netlistComponents[i].externalNetlistIndex[j]];
                 }
             }
-            console.log("component voltages are " + netlistComponents[i].nodeVoltages);
+            netlistComponents[i].updateValues();
+            console.log("component " + netlistComponents[i].componentName + " voltages are " + netlistComponents[i].nodeVoltages);
         }
-        //var component = netlistComponents[i];
-        //console.log(i + " th component is "+ netlistComponents[i])
-//         if(component.parent.nodeVoltages != undefined) {
-//             component.parent.nodeVoltages[i] = voltageResults[i];
-//             console.log("voltages are " + component.parent.nodeVoltages[i])
-//         }
     }
 
     var currentResults = ckt.GCCurrentResults;

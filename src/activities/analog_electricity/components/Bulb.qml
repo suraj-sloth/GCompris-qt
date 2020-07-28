@@ -28,10 +28,12 @@ ElectricalComponent {
     terminalSize: 0.2
     noOfConnectionPoints: 2
     information: qsTr("Basically bulb is a resistance in the circuit. Bulb lights with an intensity propotional to the supply voltage.")
+    labelText1: "V = " + componentVoltage + "V"
+    labelText2: "I = " + bulbCurrent + "A"
 
     property var nodeVoltages: [0, 0]
+    property double componentVoltage: 0
     onNodeVoltagesChanged: console.log("bulb voltages are " + nodeVoltages)
-    //property double componentVoltage: voltage
     property double bulbCurrent: 0
     onBulbCurrentChanged: console.log("bulb current is " + bulbCurrent)
     property alias connectionPoints: connectionPoints
@@ -114,6 +116,24 @@ ElectricalComponent {
                 posY: 1
             }
         }
+    }
+
+    function checkConnections() {
+        var terminalConnected = 0
+        for(var i = 0; i < noOfConnectionPoints; i++) {
+            if(connectionPoints.itemAt(i).wires.length > 0)
+                terminalConnected += 1
+        }
+        if(terminalConnected >= 2) {
+            bulb.showLabel = true
+        } else {
+            bulb.showLabel = false
+        }
+    }
+
+    function updateValues() {
+        componentVoltage = Math.abs(nodeVoltages[1] - nodeVoltages[0]);
+        bulbCurrent = Math.abs(bulbCurrent);
     }
 
     function initConnections() {

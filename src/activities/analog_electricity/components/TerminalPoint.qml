@@ -34,6 +34,7 @@ Image {
     property bool selected: false
     property int value: 0
     property var wires: []
+    property int initialIndex: 0
     property int netlistIndex: 0
     property string terminalType: "noPolarity"
 
@@ -53,8 +54,17 @@ Image {
     property double yCenterFromComponent: terminalPoint.y + height/2 - terminalPoint.parent.height / 2
 
     function updateNetlistIndex(netlistIndex_) {
+        if(initialIndex === 0) {
+            initialIndex = netlistIndex_;
+        }
         terminalPoint.netlistIndex = netlistIndex_;
         parent.externalNetlistIndex[index] = netlistIndex_;
+    }
+
+    function resetIndex() {
+        if(wires.length === 0) {
+            updateNetlistIndex(initialIndex);
+        }
     }
 
     Rectangle {
