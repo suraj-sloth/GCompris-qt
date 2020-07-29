@@ -471,9 +471,12 @@ function createNetlist() {
 function dcAnalysis() {
     var ckt = new Engine.cktsim.Circuit();
     ckt.load_netlist(netlist);
-
     var voltageResults = ckt.dc();
     console.log("dc analysis is " + ckt.dc());
+    if(ckt.GCWarning != "") {
+        displayWarning(ckt.GCWarning);
+        return;
+    }
     for(var i in netlistComponents) {
         if(netlistComponents[i].nodeVoltages == undefined) {
             continue;
@@ -494,4 +497,9 @@ function dcAnalysis() {
     for(var i in currentResults) {
         vSourcesList[i].current = currentResults[i];
     }
+}
+
+function displayWarning(message_) {
+    //temporary, need to display a popup with the message...
+    console.log(message_);
 }

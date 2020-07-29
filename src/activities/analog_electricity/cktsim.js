@@ -60,10 +60,19 @@ var cktsim = (function() {
 	    this.periods = 1;
 	    // Added for GCompris to store current results
 	    this.GCCurrentResults = [];
+        this.GCWarning = "";
 	}
 	
-	function alert(message_) {
-        console.log(message_);
+    // alert managed in GCompris
+    // (note: all alert function calls have been changed to this.alert...)
+	Circuit.prototype.alert = function(message_) {
+        if(this.GCWarning === "") {
+            this.GCWarning = message_;
+        }
+        else {
+            this.GCWarning = this.GCWarning + "\n" + message_;
+        }
+        return;
     }
 
 	// index of ground node
@@ -123,8 +132,8 @@ var cktsim = (function() {
 		    }
 		    var rGV = mat_rank(GV);
 		    if (rGV < n_vsrc) {
-			alert('Warning!!! Circuit has a voltage source loop or a source or current probe shorted by a wire, please remove the source or the wire causing the short.');
-			alert('Warning!!! Simulator might produce meaningless results or no result with illegal circuits.');
+			this.alert('Warning!!! Circuit has a voltage source loop or a source or current probe shorted by a wire, please remove the source or the wire causing the short.');
+			this.alert('Warning!!! Simulator might produce meaningless results or no result with illegal circuits.');
 			return false;
 		    }
 		}
@@ -312,9 +321,9 @@ var cktsim = (function() {
 	    if (typeof iterations == 'undefined') {
 	    // too many iterations
 		if (this.current_sources.length > 0) {
-		    alert('Newton Method Failed, do your current sources have a conductive path to ground?');
+		    this.alert('Newton Method Failed, do your current sources have a conductive path to ground?');
 		} else {
-		    alert('Newton Method Failed, it may be your circuit or it may be our simulator.');
+		    this.alert('Newton Method Failed, it may be your circuit or it may be our simulator.');
 		}
 
 		return undefined
@@ -418,7 +427,7 @@ var cktsim = (function() {
 	    no_dc = false;
 	    if ((this.diddc == false) && (no_dc == false)) {
 		if (this.dc() == undefined) { // DC failed, realloc mats and vects.
-		    alert('DC failed, trying transient analysis from zero.');
+		    this.alert('DC failed, trying transient analysis from zero.');
 		    this.finalized = false;  // Reset the finalization.
 		    if (this.finalize() == false)
 			return undefined;
@@ -627,7 +636,7 @@ var cktsim = (function() {
 
             // Get the source used for ac
 	    if (this.device_map[source_name] === undefined) {
-		alert('AC analysis refers to unknown source ' + source_name);
+		this.alert('AC analysis refers to unknown source ' + source_name);
 		return 'AC analysis failed, unknown source';
 	    }
 	    this.device_map[source_name].load_ac(this,this.rhs);
@@ -710,7 +719,7 @@ var cktsim = (function() {
 		if (this.device_map[name] === undefined)
 		    this.device_map[name] = d;
 		else {
-		    alert('Warning: two circuit elements share the same name ' + name);
+		    this.alert('Warning: two circuit elements share the same name ' + name);
 		    this.device_map[name] = d;
 		}
 	    }
