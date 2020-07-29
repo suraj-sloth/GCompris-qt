@@ -295,9 +295,9 @@ function createWire(connectionPoint, destructible) {
         connectionPoint.updateNetlistIndex(selectedTerminal.netlistIndex);
         selectedTerminal.updateNetlistIndex(selectedTerminal.netlistIndex);
     } else if(connectionPoint.wires.length > 0) {
-        connectionPoint.updateNetlistIndex(connectionPoint.netlistIndex);
+        selectedTerminal.updateNetlistIndex(connectionPoint.netlistIndex);
     } else if(selectedTerminal.wires.length > 0) {
-        selectedTerminal.updateNetlistIndex(selectedTerminal.netlistIndex);
+        connectionPoint.updateNetlistIndex(selectedTerminal.netlistIndex);
     }
     connectionPoint.wires.push(wire);
     selectedTerminal.wires.push(wire);
