@@ -500,6 +500,7 @@ function dcAnalysis() {
 }
 
 function displayWarning(message_) {
-    //temporary, need to display a popup with the message...
+    items.infoTxt.visible = true;
+    items.infoTxt.text = message_;
     console.log(message_);
 }

@@ -2,8 +2,11 @@
  *
  * Copyright (C) 2011 Massachusetts Institute of Technology
  *
- *  cktsim code is under AGPL-3.0 License
+ * Authors:
+ *   Massachusetts Institute of Technology (original engine)
+ *   Aiswarya Kaitheri Kandoth <aiswaryakk29@gmail.com> (minimal edits to integrate in GCompris)
  *
+ *  cktsim code is under AGPL-3.0 License
  *  Copied from https://github.com/edx/edx-platform/blob/master/common/lib/xmodule/xmodule/js/src/capa/schematic.js
  */
 
@@ -70,7 +73,7 @@ var cktsim = (function() {
             this.GCWarning = message_;
         }
         else {
-            this.GCWarning = this.GCWarning + "\n" + message_;
+            this.GCWarning = this.GCWarning + "\n\n" + message_;
         }
         return;
     }
