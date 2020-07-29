@@ -38,6 +38,7 @@ var selectedTerminal;
 var components = [];
 var connectionCount = 0;
 
+var uniqueID = 0;
 var netlistComponents = [];
 var vSourcesList = [];
 var netlist = [];
@@ -260,7 +261,8 @@ function createComponent(x, y, componentIndex) {
                             "imgHeight": component.imageHeight * currentZoom,
                             "destructible": true
                         });
-    components[index].componentName = components[index].componentName + index.toString();
+    ++uniqueID;
+    components[index].componentName = components[index].componentName + uniqueID.toString();
     components[index].initConnections();
     toolDeleteSticky = false;
     deselect();
