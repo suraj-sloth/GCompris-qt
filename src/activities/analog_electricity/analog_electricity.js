@@ -372,6 +372,12 @@ function updateWires(index) {
     }
 }
 
+function updateWiresOnResize() {
+    for(var i = 0; i < components.length; ++i) {
+        updateWires(i);
+    }
+}
+
 function deselect() {
     if(toolDeleteSticky == false) {
         toolDelete = false;

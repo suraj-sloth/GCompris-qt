@@ -42,6 +42,18 @@ ActivityBase {
         signal start
         signal stop
 
+        onWidthChanged: resizeTimer.restart();
+        onHeightChanged:resizeTimer.restart();
+
+        Timer {
+            id: resizeTimer
+            interval : 200
+            repeat : false
+            running : false
+            triggeredOnStart : false
+            onTriggered: Activity.updateWiresOnResize();
+        }
+
         property bool hori: background.width >= background.height
 
         Component.onCompleted: {
