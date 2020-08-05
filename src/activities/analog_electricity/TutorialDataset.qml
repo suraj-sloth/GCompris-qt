@@ -58,8 +58,16 @@ QtObject {
         'toolTipText': qsTr("3 points switch"),
         'type': "r"
     }
+
+    property var connection: {
+        'imageName': 'connection.svg',
+        'componentSource': 'Connection.qml',
+        'width': 0.2,
+        'height': 0.2,
+        'toolTipText': qsTr("Simple connector"),
+    }
     // List of all components
-    property var componentList: [battery, bulb, switch1, switch2]
+    property var componentList: [battery, bulb, switch1, switch2, connection]
 
 //     property var problemType: {
 //         'lightTheBulb': 1,
