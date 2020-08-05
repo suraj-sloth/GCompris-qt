@@ -49,8 +49,17 @@ QtObject {
         'toolTipText': qsTr("Switch"),
         'type': "r"
     }
+
+    property var switch2: {
+        'imageName': 'switch2_icon.png',
+        'componentSource': 'Switch2.qml',
+        'width': 0.2,
+        'height': 0.2,
+        'toolTipText': qsTr("3 points switch"),
+        'type': "r"
+    }
     // List of all components
-    property var componentList: [battery, bulb, switch1]
+    property var componentList: [battery, bulb, switch1, switch2]
 
 //     property var problemType: {
 //         'lightTheBulb': 1,

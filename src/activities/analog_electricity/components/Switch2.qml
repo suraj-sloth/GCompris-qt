@@ -1,4 +1,4 @@
-/* GCompris - Switch1.qml
+/* GCompris - Switch2.qml
  *
  * Copyright (C) 2020 Aiswarya Kaitheri Kandoth <aiswaryakk29@gmail.com>
  *
@@ -24,28 +24,31 @@ import GCompris 1.0
 import "../analog_electricity.js" as Activity
 
 ElectricalComponent {
-    id: switch1
+    id: switch2
     terminalSize: 0.2
-    noOfConnectionPoints: 2
-    information: qsTr("It can disconnect or connect conducting path in an electrical circuit.") 
-    source: Activity.url + "switch1_off.png"
+    noOfConnectionPoints: 3
+    information: qsTr("It can disconnect or connect conducting path in an electrical circuit.")  
+    source: Activity.url + "switch2_off.png"
 
     property double componentVoltage: 0
     property double current: 0
     property string resistanceValueOn: "0"
     property string resistanceValueOff: "100000000"
+    property string resistanceTop: resistanceValueOn
+    property string resistanceBottom: resistanceValueOff
     property alias connectionPoints: connectionPoints
-    property var connectionPointPosX: [0, 1]
-    property string componentName: "Switch1"
-    property var externalNetlistIndex: [0, 0]
+    property var connectionPointPosX: [0, 1, 1]
+    property var connectionPointPosY: [0.5, 0, 1]
+    property string componentName: "Switch2"
+    property var externalNetlistIndex: [0, 0, 0]
     property var netlistModel:
     [
         "r",
         [
         ],
         {
-            "name": componentName,
-            "r": resistanceValueOff,
+            "name": "-top",
+            "r": resistanceValueOn,
             "_json_": 0
         },
         [
@@ -54,15 +57,36 @@ ElectricalComponent {
         ]
     ]
 
+    Item {
+        id: switch2Bottom
+        property int jsonNumber: 0
+        property double current: 0
+        property var netlistModel:
+        [
+            "r",
+            [
+            ],
+            {
+                "name": "-bottom",
+                "r": switch2.resistanceValueOff,
+                "_json_": 0
+            },
+            [
+                0,
+                0
+            ]
+        ]
+    }
+
     Repeater {
         id: connectionPoints
-        model: 2
+        model: 3
         delegate: connectionPoint
         Component {
             id: connectionPoint
             TerminalPoint {
                 posX: connectionPointPosX[index]
-                posY: 1
+                posY: connectionPointPosY[index]
             }
         }
     }
@@ -77,12 +101,16 @@ ElectricalComponent {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                if(switch1.source == Activity.url + "switch1_off.png") {
-                    switch1.source = Activity.url + "switch1_on.png";
-                    switch1.netlistModel[2].r = resistanceValueOn;
+                if(switch2.source == Activity.url + "switch2_off.png") {
+                    console.log("top switch");
+                    switch2.source = Activity.url + "switch2_on.png";
+                    switch2.netlistModel[2].r = resistanceValueOn;
+                    switch2Bottom.netlistModel[2].r = resistanceValueOff;
                 } else {
-                    switch1.source = Activity.url + "switch1_off.png";
-                    switch1.netlistModel[2].r = resistanceValueOff;
+                    switch2.source = Activity.url + "switch2_off.png";
+                    switch2.netlistModel[2].r = resistanceValueOff;
+                    switch2Bottom.netlistModel[2].r = resistanceValueOn;
+
                 }
                 Activity.createNetlist();
             }
@@ -99,21 +127,31 @@ ElectricalComponent {
 
     function initConnections() {
         var connectionIndex = Activity.connectionCount;
-        switch1.externalNetlistIndex[0] = ++connectionIndex;
+        switch2.externalNetlistIndex[0] = ++connectionIndex;
         connectionPoints.itemAt(0).updateNetlistIndex(connectionIndex);
-        switch1.externalNetlistIndex[1] = ++connectionIndex;
+        switch2.externalNetlistIndex[1] = ++connectionIndex;
         connectionPoints.itemAt(1).updateNetlistIndex(connectionIndex);
+        switch2.externalNetlistIndex[2] = ++connectionIndex;
+        connectionPoints.itemAt(2).updateNetlistIndex(connectionIndex);
         Activity.connectionCount = connectionIndex;
     }
 
     function addToNetlist() {
-        var netlistItem = switch1.netlistModel;
-        Activity.netlistComponents.push(switch1);
-        netlistItem[2].name = componentName;
+        var netlistItem = switch2.netlistModel;
+        Activity.netlistComponents.push(switch2);
+        netlistItem[2].name = componentName + "-top";
         netlistItem[2]._json = Activity.netlist.length;
-        netlistItem[3][0] = switch1.externalNetlistIndex[0];
-        netlistItem[3][1] = switch1.externalNetlistIndex[1];
+        netlistItem[3][0] = switch2.externalNetlistIndex[0];
+        netlistItem[3][1] = switch2.externalNetlistIndex[1];
         Activity.netlist.push(netlistItem);
+
+        netlistItem = switch2Bottom.netlistModel;
+        Activity.netlistComponents.push(switch2Bottom);
+        netlistItem[2].name = componentName + "-bottom";
+        netlistItem[2]._json = Activity.netlist.length;
+        netlistItem[3][0] = switch2.externalNetlistIndex[0];
+        netlistItem[3][1] = switch2.externalNetlistIndex[2];
+        Activity.netlist.push(netlistItem);
+
     }
 }
-
