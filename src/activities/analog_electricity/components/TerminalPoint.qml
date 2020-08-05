@@ -38,7 +38,7 @@ Image {
     property int netlistIndex: 0
     property string terminalType: "noPolarity"
 
-    width: size * parent.paintedHeight
+    width: size * Math.max(parent.paintedHeight, parent.paintedWidth)
     height: width
     source: Activity.url1 + "tPoint.svg"
     sourceSize.width: width

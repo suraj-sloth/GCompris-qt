@@ -1,4 +1,4 @@
-/* GCompris - Battery.qml
+/* GCompris - Switch1.qml
  *
  * Copyright (C) 2020 Aiswarya Kaitheri Kandoth <aiswaryakk29@gmail.com>
  *
@@ -24,30 +24,28 @@ import GCompris 1.0
 import "../analog_electricity.js" as Activity
 
 ElectricalComponent {
-    id: battery
+    id: switch1
     terminalSize: 0.2
     noOfConnectionPoints: 2
-    information: qsTr("Battery is the voltage source. It is the supply voltage of the circuit.")
-    labelText1: "V = " + componentVoltage + "V"
-    labelText2: "I = " + current + "A"
-    source: Activity.url + "battery.png"
+    information: qsTr("It can disconnect or connect conducting path in an electrical circuit.") 
+    source: Activity.url + "switch1_off.png"
 
     property double componentVoltage: 0
-    property var nodeVoltages: [0, 0]
     property double current: 0
+    property string resistanceValueOn: "0"
+    property string resistanceValueOff: "100000000"
     property alias connectionPoints: connectionPoints
-    property var connectionPointPosY: [0, 1]
-    property var connectionPointType: ["positive", "negative"]
-    property string componentName: "Voltage"
+    property var connectionPointPosX: [0, 1]
+    property string componentName: "Switch1"
     property var externalNetlistIndex: [0, 0]
     property var netlistModel:
     [
-        "v",
+        "r",
         [
         ],
         {
             "name": componentName,
-            "value": "dc(10)",
+            "r": resistanceValueOff,
             "_json_": 0
         },
         [
@@ -63,50 +61,60 @@ ElectricalComponent {
         Component {
             id: connectionPoint
             TerminalPoint {
-                posX: 0.5
-                posY: connectionPointPosY[index]
-                terminalType: connectionPointType[index]
+                posX: connectionPointPosX[index]
+                posY: 1
             }
         }
     }
 
-    onCurrentChanged: updateValues();
-
-    function checkConnections() {
-        var terminalConnected = 0;
-        for(var i = 0; i < noOfConnectionPoints; i++) {
-            if(connectionPoints.itemAt(i).wires.length > 0)
-                terminalConnected += 1;
-        }
-        if(terminalConnected >= 2) {
-            battery.showLabel = true;
-        } else {
-            battery.showLabel = false;
+    Image {
+        id: switchButton
+        source: Activity.url + "switchButton.png"
+        height: parent.height * 0.5
+        width: parent.width * 0.3
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                if(switch1.source == Activity.url + "switch1_off.png") {
+                    console.log("switch was off");
+                    switch1.source = Activity.url + "switch1_on.png";
+                    switch1.netlistModel[2].r = resistanceValueOn;
+                } else {
+                    switch1.source = Activity.url + "switch1_off.png";
+                    switch1.netlistModel[2].r = resistanceValueOff;
+                }
+                Activity.createNetlist();
+            }
         }
     }
 
+    function checkConnections() {
+        return;
+    }
+
     function updateValues() {
-        componentVoltage = (Math.abs(nodeVoltages[1] - nodeVoltages[0])).toFixed(3);
-        current = (Math.abs(current)).toFixed(3);
+        return;
     }
 
     function initConnections() {
         var connectionIndex = Activity.connectionCount;
-        battery.externalNetlistIndex[0] = ++connectionIndex;
+        switch1.externalNetlistIndex[0] = ++connectionIndex;
         connectionPoints.itemAt(0).updateNetlistIndex(connectionIndex);
-        battery.externalNetlistIndex[1] = ++connectionIndex;
+        switch1.externalNetlistIndex[1] = ++connectionIndex;
         connectionPoints.itemAt(1).updateNetlistIndex(connectionIndex);
         Activity.connectionCount = connectionIndex;
     }
 
     function addToNetlist() {
-        var netlistItem = battery.netlistModel;
-        Activity.netlistComponents.push(battery);
-        Activity.vSourcesList.push(battery);
+        var netlistItem = switch1.netlistModel;
+        Activity.netlistComponents.push(switch1);
         netlistItem[2].name = componentName;
         netlistItem[2]._json = Activity.netlist.length;
-        netlistItem[3][0] = battery.externalNetlistIndex[0];
-        netlistItem[3][1] = battery.externalNetlistIndex[1];
+        netlistItem[3][0] = switch1.externalNetlistIndex[0];
+        netlistItem[3][1] = switch1.externalNetlistIndex[1];
         Activity.netlist.push(netlistItem);
     }
 }
+

@@ -256,7 +256,7 @@ function createComponent(x, y, componentIndex) {
                             "componentIndex": index,
                             "posX": x,
                             "posY": y,
-                            "imgSrc": component.imageName,
+                            //"imgSrc": component.imageName,
                             "imgWidth": component.imageWidth * currentZoom,
                             "imgHeight": component.imageHeight * currentZoom,
                             "destructible": true
@@ -503,7 +503,8 @@ function dcAnalysis() {
 
     var currentResults = ckt.GCCurrentResults;
     for(var i in currentResults) {
-        vSourcesList[i].current = currentResults[i];
+        if(vSourcesList[i] != undefined)
+            vSourcesList[i].current = currentResults[i];
     }
 }
 

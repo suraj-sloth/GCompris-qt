@@ -29,7 +29,7 @@ QtObject {
         'width': 0.2,
         'height': 0.2,
         'toolTipText': qsTr("Battery"),
-        'type': qsTr("v")
+        'type': "v"
     }
 
     property var bulb: {
@@ -38,10 +38,19 @@ QtObject {
         'width': 0.2,
         'height': 0.2,
         'toolTipText': qsTr("Bulb"),
-        'type': qsTr("r")
+        'type': "r"
+    }
+
+    property var switch1: {
+        'imageName': 'switch_icon.png',
+        'componentSource': 'Switch1.qml',
+        'width': 0.2,
+        'height': 0.2,
+        'toolTipText': qsTr("Switch"),
+        'type': "r"
     }
     // List of all components
-    property var componentList: [battery, bulb]
+    property var componentList: [battery, bulb, switch1]
 
 //     property var problemType: {
 //         'lightTheBulb': 1,
