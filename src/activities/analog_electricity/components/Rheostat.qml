@@ -28,10 +28,14 @@ ElectricalComponent {
     terminalSize: 0.2
     noOfConnectionPoints: 3
     information: qsTr("Rheostat is used to vary resistance in an electrical circuit.")
+    labelText1: "V = " + componentVoltage + "V"
+    labelText2: "I = " + current + "A"
     source: Activity.url + "resistor_track.png"
 
+    property var nodeVoltages: [0, 0, 0]
     property double componentVoltage: 0
     property double current: 0
+    property double bottomCurrent: 0
     property int wiperY: 0
     property double topResistance: 1000 * (wiperY / wiperArea.height)
     property double bottomResistance: 1000 - topResistance
@@ -70,8 +74,6 @@ ElectricalComponent {
     Item {
         id: bottomResistor
         property int jsonNumber: 0
-        property double bottomVoltage: 0
-        property double bottomCurrent: 0
         property var netlistModel:
         [
             "r",
@@ -93,7 +95,6 @@ ElectricalComponent {
         id: aMeter1
         property int jsonNumber: 0
         property double current: 0
-        //onCurrentChanged: bulbCurrent = (Math.abs(aMeter1.current)).toFixed(3)
         property var netlistModel:
         [
             "a",
@@ -116,7 +117,6 @@ ElectricalComponent {
         id: aMeter2
         property int jsonNumber: 0
         property double current: 0
-        //onCurrentChanged: bulbCurrent = (Math.abs(aMeter2.current)).toFixed(3)
         property var netlistModel:
         [
             "a",
@@ -139,7 +139,7 @@ ElectricalComponent {
         id: aMeter3
         property int jsonNumber: 0
         property double current: 0
-        //onCurrentChanged: bulbCurrent = (Math.abs(aMeter2.current)).toFixed(3)
+        onCurrentChanged: bottomCurrent = aMeter3.current
         property var netlistModel:
         [
             "a",
@@ -201,11 +201,29 @@ ElectricalComponent {
     }
 
     function checkConnections() {
-        return;
+        var terminalConnected = 0;
+        for(var i = 0; i < noOfConnectionPoints; i++) {
+            if(connectionPoints.itemAt(i).wires.length > 0)
+                terminalConnected += 1;
+        }
+        if(terminalConnected >= 2) {
+            rheostat.showLabel = true;
+        } else {
+            rheostat.showLabel = false;
+        }
     }
 
     function updateValues() {
-        return;
+        if(connectionPoints.itemAt(0).wires.length > 0 && connectionPoints.itemAt(2).wires.length > 0) {
+            componentVoltage = (Math.abs(nodeVoltages[2] - nodeVoltages[0])).toFixed(1);
+            current = (Math.abs(aMeter1.current)).toFixed(2);
+        } else if(connectionPoints.itemAt(0).wires.length > 0 && connectionPoints.itemAt(1).wires.length > 0) {
+            componentVoltage = (Math.abs(nodeVoltages[1] - nodeVoltages[0])).toFixed(1);
+            current = (Math.abs(aMeter2.current)).toFixed(2);
+        } else {
+            componentVoltage = (Math.abs(nodeVoltages[2] - nodeVoltages[1])).toFixed(1);
+            current = (Math.abs(bottomCurrent)).toFixed(2);
+        }
     }
 
     function initConnections() {

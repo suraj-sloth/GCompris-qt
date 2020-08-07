@@ -154,7 +154,7 @@ ElectricalComponent {
     }
 
     function updateValues() {
-        componentVoltage = (Math.abs(nodeVoltages[1] - nodeVoltages[0])).toFixed(3);
+        componentVoltage = (Math.abs(nodeVoltages[1] - nodeVoltages[0])).toFixed(2);
     }
 
     function initConnections() {
