@@ -54,6 +54,15 @@ ActivityBase {
             onTriggered: Activity.updateWiresOnResize();
         }
 
+        Timer {
+            id: netlistTimer
+            interval : 500
+            repeat : false
+            running : false
+            triggeredOnStart : false
+            onTriggered: Activity.createNetlist();
+        }
+
         property bool hori: background.width >= background.height
 
         Component.onCompleted: {
@@ -122,6 +131,7 @@ ActivityBase {
             property alias infoTxt: infoTxt
             property alias infoImage: infoImage
             property alias dataset: dataset
+            property alias netlistTimer: netlistTimer
             property real toolsMargin: 90 * ApplicationInfo.ratio
             property real zoomLvl: 0.25
 

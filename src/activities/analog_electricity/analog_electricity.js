@@ -307,7 +307,7 @@ function createWire(connectionPoint, destructible) {
     updateWires(selectedTerminal.parent.componentIndex);
     connectionPoint.parent.checkConnections();
     selectedTerminal.parent.checkConnections();
-    createNetlist();
+    restartTimer();
 }
 
 function updateWires(index) {
@@ -425,7 +425,7 @@ function removeWire(wire) {
     connectionPoint2.resetIndex();
     connectionPoint1.parent.checkConnections();
     connectionPoint2.parent.checkConnections();
-    createNetlist();
+    restartTimer();
 }
 
 function componentSelected(index) {
@@ -465,6 +465,10 @@ function updateToolTip(toolTipText) {
     items.toolTip.show(toolTipText);
 }
 
+function restartTimer() {
+    items.netlistTimer.restart();
+}
+
 function createNetlist() {
     netlist.length = 0;
     netlistComponents.length = 0;
@@ -485,6 +489,15 @@ function dcAnalysis() {
         displayWarning(ckt.GCWarning);
         return;
     }
+
+    var currentResults = ckt.GCCurrentResults;
+    console.log("currentResults is " + currentResults)
+    for(var i in currentResults) {
+        console.log("currentResults " + i + " is " + currentResults[i])
+        if(vSourcesList[i] != undefined)
+            vSourcesList[i].current = currentResults[i];
+    }
+
     for(var i in netlistComponents) {
         if(netlistComponents[i].nodeVoltages == undefined) {
             continue;
@@ -499,14 +512,6 @@ function dcAnalysis() {
             netlistComponents[i].updateValues();
             console.log("component " + netlistComponents[i].componentName + " voltages are " + netlistComponents[i].nodeVoltages);
         }
-    }
-
-    var currentResults = ckt.GCCurrentResults;
-    console.log("currentResults is " + currentResults)
-    for(var i in currentResults) {
-        console.log("currentResults " + i + " is " + currentResults[i])
-        if(vSourcesList[i] != undefined)
-            vSourcesList[i].current = currentResults[i];
     }
 }
 
