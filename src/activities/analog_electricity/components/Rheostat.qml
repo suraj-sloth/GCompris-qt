@@ -37,12 +37,11 @@ ElectricalComponent {
     property double current: 0
     property double bottomCurrent: 0
     property int wiperY: 0
-    property double topResistance: Math.max(0.01, 1000 * (wiperY / wiperArea.height))
-    property double bottomResistance: Math.max(0.01, 1000 - topResistance)
+    property double topResistance: Math.max(0.001, 1000 * (wiperY / wiperArea.height))
+    property double bottomResistance: Math.max(0.001, 1000 - topResistance)
     property string topResistanceTxt: topResistance.toString()
     property string bottomResistanceTxt: bottomResistance.toString()
     onBottomResistanceTxtChanged: Activity.restartTimer();
-    property string resistanceDiff: "0"
     property string componentName: "Rheostat"
     property alias connectionPoints: connectionPoints
     property var connectionPointPosX: [0, 1, 0]

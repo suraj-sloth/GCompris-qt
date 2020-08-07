@@ -32,7 +32,7 @@ ElectricalComponent {
 
     property double componentVoltage: 0
     property double current: 0
-    property string resistanceValueOn: "0"
+    property string resistanceValueOn: "0.001"
     property string resistanceValueOff: "100000000"
     property string resistanceTop: resistanceValueOn
     property string resistanceBottom: resistanceValueOff
@@ -48,7 +48,7 @@ ElectricalComponent {
         ],
         {
             "name": "-top",
-            "r": resistanceValueOn,
+            "r": resistanceValueOff,
             "_json_": 0
         },
         [
@@ -68,7 +68,7 @@ ElectricalComponent {
             ],
             {
                 "name": "-bottom",
-                "r": switch2.resistanceValueOff,
+                "r": switch2.resistanceValueOn,
                 "_json_": 0
             },
             [
@@ -112,7 +112,7 @@ ElectricalComponent {
                     switch2Bottom.netlistModel[2].r = resistanceValueOn;
 
                 }
-                Activity.createNetlist();
+                Activity.restartTimer();
             }
         }
     }

@@ -32,7 +32,7 @@ ElectricalComponent {
 
     property double componentVoltage: 0
     property double current: 0
-    property string resistanceValueOn: "0"
+    property string resistanceValueOn: "0.001"
     property string resistanceValueOff: "100000000"
     property alias connectionPoints: connectionPoints
     property var connectionPointPosX: [0, 1]
@@ -84,7 +84,7 @@ ElectricalComponent {
                     switch1.source = Activity.url + "switch1_off.png";
                     switch1.netlistModel[2].r = resistanceValueOff;
                 }
-                Activity.createNetlist();
+                Activity.restartTimer();
             }
         }
     }
