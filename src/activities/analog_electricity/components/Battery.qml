@@ -101,12 +101,12 @@ ElectricalComponent {
 
     function addToNetlist() {
         var netlistItem = battery.netlistModel;
-        Activity.netlistComponents.push(battery);
-        Activity.vSourcesList.push(battery);
+        Activity.netlistComponents.unshift(battery);
+        Activity.vSourcesList.unshift(battery);
         netlistItem[2].name = componentName;
         netlistItem[2]._json = Activity.netlist.length;
         netlistItem[3][0] = battery.externalNetlistIndex[0];
         netlistItem[3][1] = battery.externalNetlistIndex[1];
-        Activity.netlist.push(netlistItem);
+        Activity.netlist.unshift(netlistItem);
     }
 }
