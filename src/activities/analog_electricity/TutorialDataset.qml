@@ -64,10 +64,19 @@ QtObject {
         'componentSource': 'Connection.qml',
         'width': 0.2,
         'height': 0.2,
-        'toolTipText': qsTr("Simple connector"),
+        'toolTipText': qsTr("Simple connector")
+    }
+
+    property var rheostat: {
+        'imageName': 'resistor_track_icon.png',
+        'componentSource': 'Rheostat.qml',
+        'width': 0.2,
+        'height': 0.2,
+        'toolTipText': qsTr("Rheostat"),
+        'type': "r"
     }
     // List of all components
-    property var componentList: [battery, bulb, switch1, switch2, connection]
+    property var componentList: [battery, bulb, switch1, switch2, connection, rheostat]
 
 //     property var problemType: {
 //         'lightTheBulb': 1,

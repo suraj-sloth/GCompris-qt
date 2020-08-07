@@ -502,7 +502,9 @@ function dcAnalysis() {
     }
 
     var currentResults = ckt.GCCurrentResults;
+    console.log("currentResults is " + currentResults)
     for(var i in currentResults) {
+        console.log("currentResults " + i + " is " + currentResults[i])
         if(vSourcesList[i] != undefined)
             vSourcesList[i].current = currentResults[i];
     }

@@ -141,15 +141,15 @@ ElectricalComponent {
     }
 
     function checkConnections() {
-        var terminalConnected = 0
+        var terminalConnected = 0;
         for(var i = 0; i < noOfConnectionPoints; i++) {
             if(connectionPoints.itemAt(i).wires.length > 0)
-                terminalConnected += 1
+                terminalConnected += 1;
         }
         if(terminalConnected >= 2) {
-            bulb.showLabel = true
+            bulb.showLabel = true;
         } else {
-            bulb.showLabel = false
+            bulb.showLabel = false;
         }
     }
 
@@ -158,41 +158,41 @@ ElectricalComponent {
     }
 
     function initConnections() {
-        var connectionIndex = Activity.connectionCount
-        bulb.externalNetlistIndex[0] = ++connectionIndex
-        connectionPoints.itemAt(0).updateNetlistIndex(connectionIndex)
-        bulb.internalNetlistIndex[0] = ++connectionIndex
-        bulb.internalNetlistIndex[1] = ++connectionIndex
-        bulb.externalNetlistIndex[1] = ++connectionIndex
-        connectionPoints.itemAt(1).updateNetlistIndex(connectionIndex)
-        Activity.connectionCount = connectionIndex
+        var connectionIndex = Activity.connectionCount;
+        bulb.externalNetlistIndex[0] = ++connectionIndex;
+        connectionPoints.itemAt(0).updateNetlistIndex(connectionIndex);
+        bulb.internalNetlistIndex[0] = ++connectionIndex;
+        bulb.internalNetlistIndex[1] = ++connectionIndex;
+        bulb.externalNetlistIndex[1] = ++connectionIndex;
+        connectionPoints.itemAt(1).updateNetlistIndex(connectionIndex);
+        Activity.connectionCount = connectionIndex;
     }
 
     function addToNetlist() {
         var netlistItem = aMeter1.netlistModel;
         Activity.netlistComponents.push(aMeter1);
         Activity.vSourcesList.push(aMeter1);
-        netlistItem[2].name = "aMeter1-" + componentName
+        netlistItem[2].name = "aMeter1-" + componentName;
         netlistItem[2]._json = Activity.netlist.length;
-        netlistItem[3][0] = bulb.externalNetlistIndex[0]
-        netlistItem[3][1] = bulb.internalNetlistIndex[0]
+        netlistItem[3][0] = bulb.externalNetlistIndex[0];
+        netlistItem[3][1] = bulb.internalNetlistIndex[0];
         Activity.netlist.push(netlistItem);
 
-        var netlistItem = bulb.netlistModel;
+        netlistItem = bulb.netlistModel;
         Activity.netlistComponents.push(bulb);
-        netlistItem[2].name = componentName
+        netlistItem[2].name = componentName;
         netlistItem[2]._json = Activity.netlist.length;
-        netlistItem[3][0] = bulb.internalNetlistIndex[0]
-        netlistItem[3][1] = bulb.internalNetlistIndex[1]
+        netlistItem[3][0] = bulb.internalNetlistIndex[0];
+        netlistItem[3][1] = bulb.internalNetlistIndex[1];
         Activity.netlist.push(netlistItem);
 
         netlistItem = aMeter2.netlistModel;
-        Activity.netlistComponents.push(aMeter2)
+        Activity.netlistComponents.push(aMeter2);
         Activity.vSourcesList.push(aMeter2);
-        netlistItem[2].name = "aMeter2-" + componentName
+        netlistItem[2].name = "aMeter2-" + componentName;
         netlistItem[2]._json = Activity.netlist.length;
-        netlistItem[3][0] = bulb.internalNetlistIndex[1]
-        netlistItem[3][1] = bulb.externalNetlistIndex[1]
+        netlistItem[3][0] = bulb.internalNetlistIndex[1];
+        netlistItem[3][1] = bulb.externalNetlistIndex[1];
         Activity.netlist.push(netlistItem);
     }
 }
