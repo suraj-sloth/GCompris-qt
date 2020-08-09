@@ -303,6 +303,13 @@ function terminalPointSelected(terminal) {
     }
 }
 
+function nextColorIndex() {
+    if(colorIndex < wireColors.length)
+        ++colorIndex;
+    else
+        colorIndex = 0;
+}
+
 function createWire(connectionPoint, destructible) {
     var wireComponent = Qt.createComponent("qrc:/gcompris/src/activities/analog_electricity/Wire.qml");
     if(connectionPoint.wires.length === 0 && selectedTerminal.wires.length === 0) {
@@ -310,10 +317,7 @@ function createWire(connectionPoint, destructible) {
         selectedTerminal.updateNetlistIndex(selectedTerminal.netlistIndex);
         connectionPoint.colorIndex = colorIndex;
         selectedTerminal.colorIndex = colorIndex;
-        if(colorIndex < wireColors.length)
-            ++colorIndex;
-        else
-            colorIndex = 0;
+        nextColorIndex();
     } else {
         if(connectionPoint.wires.length > 0) {
             selectedTerminal.updateNetlistIndex(connectionPoint.netlistIndex);
@@ -463,8 +467,30 @@ function removeWire(wire) {
 
     wire.destroy();
     deselect();
-    connectionPoint1.resetIndex();
-    connectionPoint2.resetIndex();
+    if(connectionPoint1.wires.length === 0) {
+        connectionPoint1.resetIndex();
+    } else {
+        ++connectionCount;
+        for(var i = 0; i < connectionPoint1.wires.length; ++i) {
+            connectionPoint1.wires[i].node1.updateNetlistIndex(connectionCount);
+            connectionPoint1.wires[i].node2.updateNetlistIndex(connectionCount);
+            connectionPoint1.wires[i].node1.colorIndex = colorIndex;
+            connectionPoint1.wires[i].node2.colorIndex = colorIndex;
+        }
+        nextColorIndex();
+    }
+    if(connectionPoint2.wires.length === 0) {
+        connectionPoint2.resetIndex();
+    } else {
+        ++connectionCount;
+        for(var i = 0; i < connectionPoint2.wires.length; ++i) {
+            connectionPoint2.wires[i].node1.updateNetlistIndex(connectionCount);
+            connectionPoint2.wires[i].node2.updateNetlistIndex(connectionCount);
+            connectionPoint2.wires[i].node1.colorIndex = colorIndex;
+            connectionPoint2.wires[i].node2.colorIndex = colorIndex;
+        }
+        nextColorIndex();
+    }
     connectionPoint1.parent.checkConnections();
     connectionPoint2.parent.checkConnections();
     restartTimer();
@@ -519,6 +545,7 @@ function createNetlist() {
         var component = components[i];
         component.addToNetlist();
     }
+    console.log("netlist is " + netlist);
     dcAnalysis();
 }
 

@@ -63,9 +63,7 @@ Image {
     }
 
     function resetIndex() {
-        if(wires.length === 0) {
             updateNetlistIndex(initialIndex);
-        }
     }
 
     Rectangle {
