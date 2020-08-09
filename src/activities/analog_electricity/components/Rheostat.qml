@@ -132,7 +132,6 @@ ElectricalComponent {
         id: aMeter3
         property int jsonNumber: 0
         property double current: 0
-        onCurrentChanged: bottomCurrent = aMeter3.current
         property var netlistModel:
         [
             "a",
@@ -207,6 +206,7 @@ ElectricalComponent {
     }
 
     function updateValues() {
+        bottomCurrent = aMeter3.current;
         if(connectionPoints.itemAt(0).wires.length > 0 && connectionPoints.itemAt(2).wires.length > 0) {
             componentVoltage = (Math.abs(nodeVoltages[2] - nodeVoltages[0])).toFixed(1);
             current = (Math.abs(aMeter1.current)).toFixed(2);

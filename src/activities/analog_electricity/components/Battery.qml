@@ -70,8 +70,6 @@ ElectricalComponent {
         }
     }
 
-    onCurrentChanged: updateValues();
-
     function checkConnections() {
         var terminalConnected = 0;
         for(var i = 0; i < noOfConnectionPoints; i++) {
