@@ -296,10 +296,21 @@ function createWire(connectionPoint, destructible) {
     if(connectionPoint.wires.length === 0 && selectedTerminal.wires.length === 0) {
         connectionPoint.updateNetlistIndex(selectedTerminal.netlistIndex);
         selectedTerminal.updateNetlistIndex(selectedTerminal.netlistIndex);
-    } else if(connectionPoint.wires.length > 0) {
-        selectedTerminal.updateNetlistIndex(connectionPoint.netlistIndex);
-    } else if(selectedTerminal.wires.length > 0) {
-        connectionPoint.updateNetlistIndex(selectedTerminal.netlistIndex);
+    } else {
+        if(connectionPoint.wires.length > 0) {
+            selectedTerminal.updateNetlistIndex(connectionPoint.netlistIndex);
+            for(var i = 0; i < connectionPoint.wires.length; ++i) {
+                connectionPoint.wires[i].node1.updateNetlistIndex(connectionPoint.netlistIndex);
+                connectionPoint.wires[i].node2.updateNetlistIndex(connectionPoint.netlistIndex);
+            }
+        }
+        if(selectedTerminal.wires.length > 0) {
+            connectionPoint.updateNetlistIndex(selectedTerminal.netlistIndex);
+            for(var i = 0; i < selectedTerminal.wires.length; ++i) {
+                selectedTerminal.wires[i].node1.updateNetlistIndex(selectedTerminal.netlistIndex);
+                selectedTerminal.wires[i].node2.updateNetlistIndex(selectedTerminal.netlistIndex);
+            }
+        }
     }
     connectionPoint.wires.push(wire);
     selectedTerminal.wires.push(wire);
