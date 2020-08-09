@@ -33,7 +33,7 @@ Rectangle {
     property bool destructible
 
     height: 5 * ApplicationInfo.ratio
-    color: "#d21818" //node1.value == 0 ? "#d21818" : "#6ce76c"
+    color: Activity.wireColors[node1.colorIndex]
     radius: height / 2
     transformOrigin: Item.Left
 

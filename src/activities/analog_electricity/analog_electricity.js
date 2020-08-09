@@ -54,6 +54,23 @@ var netlist = [];
 //     ]
 // ];
 
+var wireColors = [
+    "#72559b",
+    "#094386",
+    "#97509e",
+    "#2890d4",
+    "#407a52",
+    "#fee348",
+    "#a3ca4b",
+    "#ea6712",
+    "#f4819a",
+    "#b82c58",
+    "#6b4a36",
+    "#d42e2e",
+    "#e9dfc9"
+]
+var colorIndex = 0
+
 var currentZoom;
 var maxZoom = 0.375;
 var minZoom = 0.125;
@@ -98,6 +115,7 @@ function initLevel() {
     items.availablePieces.view.currentDisplayedGroup = 0;
     items.availablePieces.view.previousNavigation = 1;
     items.availablePieces.view.nextNavigation = 1;
+    colorIndex = 0;
     components = [];
     animationInProgress = false;
     toolDelete = false;
@@ -287,31 +305,43 @@ function terminalPointSelected(terminal) {
 
 function createWire(connectionPoint, destructible) {
     var wireComponent = Qt.createComponent("qrc:/gcompris/src/activities/analog_electricity/Wire.qml");
+    if(connectionPoint.wires.length === 0 && selectedTerminal.wires.length === 0) {
+        connectionPoint.updateNetlistIndex(selectedTerminal.netlistIndex);
+        selectedTerminal.updateNetlistIndex(selectedTerminal.netlistIndex);
+        connectionPoint.colorIndex = colorIndex;
+        selectedTerminal.colorIndex = colorIndex;
+        if(colorIndex < wireColors.length)
+            ++colorIndex;
+        else
+            colorIndex = 0;
+    } else {
+        if(connectionPoint.wires.length > 0) {
+            selectedTerminal.updateNetlistIndex(connectionPoint.netlistIndex);
+            selectedTerminal.colorIndex = connectionPoint.colorIndex;
+            for(var i = 0; i < connectionPoint.wires.length; ++i) {
+                connectionPoint.wires[i].node1.updateNetlistIndex(connectionPoint.netlistIndex);
+                connectionPoint.wires[i].node2.updateNetlistIndex(connectionPoint.netlistIndex);
+                connectionPoint.wires[i].node1.colorIndex = connectionPoint.colorIndex;
+                connectionPoint.wires[i].node2.colorIndex = connectionPoint.colorIndex;
+            }
+        }
+        if(selectedTerminal.wires.length > 0) {
+            connectionPoint.updateNetlistIndex(selectedTerminal.netlistIndex);
+            connectionPoint.colorIndex = selectedTerminal.colorIndex;
+            for(var i = 0; i < selectedTerminal.wires.length; ++i) {
+                selectedTerminal.wires[i].node1.updateNetlistIndex(selectedTerminal.netlistIndex);
+                selectedTerminal.wires[i].node2.updateNetlistIndex(selectedTerminal.netlistIndex);
+                selectedTerminal.wires[i].node1.colorIndex = selectedTerminal.colorIndex;
+                selectedTerminal.wires[i].node2.colorIndex = selectedTerminal.colorIndex;
+            }
+        }
+    }
     var wire = wireComponent.createObject(
                items.playArea, {
                     "node1": selectedTerminal,
                     "node2": connectionPoint,
                     "destructible": destructible,
                 });
-    if(connectionPoint.wires.length === 0 && selectedTerminal.wires.length === 0) {
-        connectionPoint.updateNetlistIndex(selectedTerminal.netlistIndex);
-        selectedTerminal.updateNetlistIndex(selectedTerminal.netlistIndex);
-    } else {
-        if(connectionPoint.wires.length > 0) {
-            selectedTerminal.updateNetlistIndex(connectionPoint.netlistIndex);
-            for(var i = 0; i < connectionPoint.wires.length; ++i) {
-                connectionPoint.wires[i].node1.updateNetlistIndex(connectionPoint.netlistIndex);
-                connectionPoint.wires[i].node2.updateNetlistIndex(connectionPoint.netlistIndex);
-            }
-        }
-        if(selectedTerminal.wires.length > 0) {
-            connectionPoint.updateNetlistIndex(selectedTerminal.netlistIndex);
-            for(var i = 0; i < selectedTerminal.wires.length; ++i) {
-                selectedTerminal.wires[i].node1.updateNetlistIndex(selectedTerminal.netlistIndex);
-                selectedTerminal.wires[i].node2.updateNetlistIndex(selectedTerminal.netlistIndex);
-            }
-        }
-    }
     connectionPoint.wires.push(wire);
     selectedTerminal.wires.push(wire);
     updateWires(connectionPoint.parent.componentIndex);
@@ -319,6 +349,7 @@ function createWire(connectionPoint, destructible) {
     connectionPoint.parent.checkConnections();
     selectedTerminal.parent.checkConnections();
     restartTimer();
+
 }
 
 function updateWires(index) {

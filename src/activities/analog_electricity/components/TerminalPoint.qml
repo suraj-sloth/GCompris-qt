@@ -34,6 +34,7 @@ Image {
     property bool selected: false
     property int value: 0
     property var wires: []
+    property int colorIndex: -1
     property int initialIndex: 0
     property int netlistIndex: 0
     property string terminalType: "noPolarity"
