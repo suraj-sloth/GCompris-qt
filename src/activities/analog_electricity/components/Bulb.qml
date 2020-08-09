@@ -34,22 +34,10 @@ ElectricalComponent {
 
     property var nodeVoltages: [0, 0]
     property double componentVoltage: 0
-    onNodeVoltagesChanged: console.log("bulb voltages are " + nodeVoltages)
     property double power: 0
     property double maxPower: 0.11
     property double bulbCurrent: 0
     property string resistanceValue: "1000"
-    onBulbCurrentChanged: {
-        power = componentVoltage * bulbCurrent;
-        if(power < maxPower)
-            lightBulb.opacity  = power * 10
-        else {
-            lightBulb.opacity = 0
-            bulb.source = Activity.url + "bulb_blown.png";
-            resistanceValue = "100000000"
-            Activity.createNetlist();
-        }
-    }
     property alias connectionPoints: connectionPoints
     property alias aMeter1: aMeter1
     property alias aMeter2: aMeter2
@@ -77,7 +65,6 @@ ElectricalComponent {
         id: aMeter1
         property int jsonNumber: 0
         property double current: 0
-        onCurrentChanged: bulbCurrent = (Math.abs(aMeter1.current)).toFixed(3)
         property var netlistModel:
         [
             "a",
@@ -100,7 +87,6 @@ ElectricalComponent {
         id: aMeter2
         property int jsonNumber: 0
         property double current: 0
-        onCurrentChanged: bulbCurrent = (Math.abs(aMeter2.current)).toFixed(3)
         property var netlistModel:
         [
             "a",
@@ -154,7 +140,17 @@ ElectricalComponent {
     }
 
     function updateValues() {
+        bulbCurrent = (Math.abs(aMeter1.current)).toFixed(3);
         componentVoltage = (Math.abs(nodeVoltages[1] - nodeVoltages[0])).toFixed(2);
+        power = componentVoltage * bulbCurrent;
+        if(power < maxPower)
+            lightBulb.opacity  = power * 10;
+        else {
+            lightBulb.opacity = 0;
+            bulb.source = Activity.url + "bulb_blown.png";
+            resistanceValue = "100000000";
+            Activity.restartTimer();
+        }
     }
 
     function initConnections() {
