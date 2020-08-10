@@ -220,10 +220,6 @@ function createComponent(x, y, componentIndex) {
     components[index].componentName = components[index].componentName + uniqueID.toString();
     components[index].initConnections();
 //    toolDeleteSticky = false;
-    if(toolDelete == true) {
-        toolDelete = false;
-        items.availablePieces.toolDelete.state = "notSelected";
-    }
     deselect();
 }
 
@@ -242,6 +238,10 @@ function terminalPointSelected(terminal) {
         selectedTerminal = terminal;
         terminal.selected = true;
     }
+    disableToolDelete();
+}
+
+function disableToolDelete() {
     if(toolDelete == true) {
         toolDelete = false;
         items.availablePieces.toolDelete.state = "notSelected";
@@ -265,24 +265,10 @@ function createWire(connectionPoint, destructible) {
         nextColorIndex();
     } else {
         if(connectionPoint.wires.length > 0) {
-            selectedTerminal.updateNetlistIndex(connectionPoint.netlistIndex);
-            selectedTerminal.colorIndex = connectionPoint.colorIndex;
-            for(var i = 0; i < connectionPoint.wires.length; ++i) {
-                connectionPoint.wires[i].node1.updateNetlistIndex(connectionPoint.netlistIndex);
-                connectionPoint.wires[i].node2.updateNetlistIndex(connectionPoint.netlistIndex);
-                connectionPoint.wires[i].node1.colorIndex = connectionPoint.colorIndex;
-                connectionPoint.wires[i].node2.colorIndex = connectionPoint.colorIndex;
-            }
+            selectedTerminal.updateNetlistIndex(connectionPoint.netlistIndex, connectionPoint.colorIndex);
         }
         if(selectedTerminal.wires.length > 0) {
-            connectionPoint.updateNetlistIndex(selectedTerminal.netlistIndex);
-            connectionPoint.colorIndex = selectedTerminal.colorIndex;
-            for(var i = 0; i < selectedTerminal.wires.length; ++i) {
-                selectedTerminal.wires[i].node1.updateNetlistIndex(selectedTerminal.netlistIndex);
-                selectedTerminal.wires[i].node2.updateNetlistIndex(selectedTerminal.netlistIndex);
-                selectedTerminal.wires[i].node1.colorIndex = selectedTerminal.colorIndex;
-                selectedTerminal.wires[i].node2.colorIndex = selectedTerminal.colorIndex;
-            }
+            connectionPoint.updateNetlistIndex(selectedTerminal.netlistIndex, selectedTerminal.colorIndex);
         }
     }
     var wire = wireComponent.createObject(
@@ -390,10 +376,12 @@ function removeComponent(index) {
     var component = components[index];
     for(var i = 0 ; i < component.noOfConnectionPoints ; ++i) {
         var terminal = component.connectionPoints.itemAt(i);
-        if(terminal.wires.length != 0)
-            for(var j = 0; j < terminal.wires.length; ++j) {
-                removeWire(terminal.wires[j]);
-            };
+        if(terminal.wires.length != 0) {
+            var wiresLength = terminal.wires.length;
+            for(var j = 0; j < wiresLength; ++j) {
+                removeWire(terminal.wires[0]);
+            }
+        }
     }
     components[index].destroy();
     components.splice(index, 1);
@@ -418,24 +406,14 @@ function removeWire(wire) {
         connectionPoint1.resetIndex();
     } else {
         ++connectionCount;
-        for(var i = 0; i < connectionPoint1.wires.length; ++i) {
-            connectionPoint1.wires[i].node1.updateNetlistIndex(connectionCount);
-            connectionPoint1.wires[i].node2.updateNetlistIndex(connectionCount);
-            connectionPoint1.wires[i].node1.colorIndex = colorIndex;
-            connectionPoint1.wires[i].node2.colorIndex = colorIndex;
-        }
+        connectionPoint1.updateNetlistIndex(connectionCount, colorIndex);
         nextColorIndex();
     }
     if(connectionPoint2.wires.length === 0) {
         connectionPoint2.resetIndex();
     } else {
         ++connectionCount;
-        for(var i = 0; i < connectionPoint2.wires.length; ++i) {
-            connectionPoint2.wires[i].node1.updateNetlistIndex(connectionCount);
-            connectionPoint2.wires[i].node2.updateNetlistIndex(connectionCount);
-            connectionPoint2.wires[i].node1.colorIndex = colorIndex;
-            connectionPoint2.wires[i].node2.colorIndex = colorIndex;
-        }
+        connectionPoint2.updateNetlistIndex(connectionCount, colorIndex);
         nextColorIndex();
     }
     connectionPoint1.parent.checkConnections();

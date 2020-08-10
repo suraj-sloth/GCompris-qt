@@ -54,12 +54,25 @@ Image {
     property double xCenterFromComponent: terminalPoint.x + width/2 - terminalPoint.parent.width / 2
     property double yCenterFromComponent: terminalPoint.y + height/2 - terminalPoint.parent.height / 2
 
-    function updateNetlistIndex(netlistIndex_) {
+    function updateNetlistIndex(netlistIndex_, colorIndex_) {
         if(initialIndex === 0) {
             initialIndex = netlistIndex_;
         }
         terminalPoint.netlistIndex = netlistIndex_;
         parent.externalNetlistIndex[index] = netlistIndex_;
+        if(colorIndex_ !== undefined) {
+            colorIndex = colorIndex_;
+        }
+        propagateNetlistIndex(netlistIndex_, colorIndex);
+    }
+
+    function propagateNetlistIndex(netlistIndex_, colorIndex_) {
+        for(var i = 0; i < wires.length; ++i) {
+            if(wires[i].node1.netlistIndex != netlistIndex_)
+                wires[i].node1.updateNetlistIndex(netlistIndex_, colorIndex_);
+            if(wires[i].node2.netlistIndex != netlistIndex_)
+                wires[i].node2.updateNetlistIndex(netlistIndex_, colorIndex_);
+        }
     }
 
     function resetIndex() {

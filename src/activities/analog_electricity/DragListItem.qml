@@ -110,6 +110,7 @@ Item {
                     toolTip.show(toolTipText)
                     pressedOnce = true
                     item.selected = true
+                    Activity.disableToolDelete()
                 }
 
                 onUpdated: {
