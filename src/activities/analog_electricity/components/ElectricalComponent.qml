@@ -38,6 +38,7 @@ Image {
     property string labelText2: ""
     property int componentIndex
     property int noOfConnectionPoints
+    property var terminalConnected: 0
     property int rotationAngle: 0
     property int initialAngle: 0
     property int startingAngle: 0
@@ -58,8 +59,8 @@ Image {
     antialiasing: true
 
     onPaintedWidthChanged: {
-        updateDragConstraints()
-        Activity.updateWires(componentIndex)
+        updateDragConstraints();
+        Activity.updateWires(componentIndex);
     }
 
     PropertyAnimation {
@@ -70,40 +71,40 @@ Image {
         duration: 1
         onStarted:{ Activity.animationInProgress = true }
         onStopped: {
-            initialAngle = initialAngle + rotationAngle
-            Activity.updateWires(componentIndex)
+            initialAngle = initialAngle + rotationAngle;
+            Activity.updateWires(componentIndex);
             if(initialAngle == startingAngle + rotationAngle * 45) {
                 if(initialAngle == 360 || initialAngle == -360)
-                    initialAngle = 0
-                startingAngle = initialAngle
-                Activity.animationInProgress = false
-                updateDragConstraints()
+                    initialAngle = 0;
+                startingAngle = initialAngle;
+                Activity.animationInProgress = false;
+                updateDragConstraints();
             }
             else
-                rotateComponent.start()
+                rotateComponent.start();
         }
-        easing.type: Easing.InOutQuad
+        easing.type: Easing.InOutQuad;
     }
 
     function updateDragConstraints() {
         if(initialAngle == 0 || initialAngle == 180 || initialAngle == 360 || initialAngle == -360
            || initialAngle == -180) {
-            mouseArea.drag.minimumX = (electricalComponent.paintedWidth - electricalComponent.width)/2
-            mouseArea.drag.minimumY = (electricalComponent.paintedHeight - electricalComponent.height)/2
+            mouseArea.drag.minimumX = (electricalComponent.paintedWidth - electricalComponent.width)/2;
+            mouseArea.drag.minimumY = (electricalComponent.paintedHeight - electricalComponent.height)/2;
 
             mouseArea.drag.maximumX = electricalComponent.parent.width -
-                                      (electricalComponent.width + electricalComponent.paintedWidth)/2
+                                      (electricalComponent.width + electricalComponent.paintedWidth)/2;
             mouseArea.drag.maximumY = electricalComponent.parent.height -
-                                      (electricalComponent.height + electricalComponent.paintedHeight)/2
+                                      (electricalComponent.height + electricalComponent.paintedHeight)/2;
         }
         else {
-            mouseArea.drag.minimumX = (electricalComponent.paintedHeight - electricalComponent.width)/2
-            mouseArea.drag.minimumY = (electricalComponent.paintedWidth - electricalComponent.height)/2
+            mouseArea.drag.minimumX = (electricalComponent.paintedHeight - electricalComponent.width)/2;
+            mouseArea.drag.minimumY = (electricalComponent.paintedWidth - electricalComponent.height)/2;
 
             mouseArea.drag.maximumX = electricalComponent.parent.width -
-                                      (electricalComponent.width + electricalComponent.paintedHeight)/2
+                                      (electricalComponent.width + electricalComponent.paintedHeight)/2;
             mouseArea.drag.maximumY = electricalComponent.parent.height -
-                                      (electricalComponent.height + electricalComponent.paintedWidth)/2
+                                      (electricalComponent.height + electricalComponent.paintedWidth)/2;
         }
     }
 
@@ -114,27 +115,30 @@ Image {
         anchors.centerIn: parent
         drag.target: electricalComponent
         onPressed: {
-            Activity.updateToolTip(toolTipTxt)
-            Activity.componentSelected(componentIndex)
+            Activity.updateToolTip(toolTipTxt);
+            Activity.componentSelected(componentIndex);
         }
         onClicked: {
             if(Activity.toolDelete || Activity.toolDeleteSticky) {
                 if (destructible) {
-                    Activity.removeComponent(componentIndex)
+                    Activity.removeComponent(componentIndex);
                 } else {
-                    Activity.deselect()
+                    Activity.deselect();
                 }
+            } else if(typeof isBroken !== "undefined") {
+                if(isBroken && terminalConnected < noOfConnectionPoints)
+                    repareComponent();
             }
         }
         onReleased: {
-            parent.posX = parent.x / parent.parent.width
-            parent.posY = parent.y / parent.parent.height
-            Activity.updateToolTip("")
+            parent.posX = parent.x / parent.parent.width;
+            parent.posY = parent.y / parent.parent.height;
+            Activity.updateToolTip("");
         }
 
         onPositionChanged: {
-            updateDragConstraints()
-            Activity.updateWires(componentIndex)
+            updateDragConstraints();
+            Activity.updateWires(componentIndex);
         }
     }
 

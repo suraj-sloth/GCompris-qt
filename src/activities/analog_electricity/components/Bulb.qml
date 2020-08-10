@@ -39,6 +39,7 @@ ElectricalComponent {
     property double bulbCurrent: 0
     property string resistanceValue: "1000"
     property alias connectionPoints: connectionPoints
+    property bool isBroken: false
     property var connectionPointPosX: [0.2, 0.8]
     property string componentName: "Bulb"
     property var internalNetlistIndex: [0, 0]
@@ -124,8 +125,14 @@ ElectricalComponent {
         opacity: power < maxPower ? power * 10 : 0
     }
 
+    function repareComponent() {
+        bulb.source = Activity.url + "bulb1.png";
+        resistanceValue = "1000";
+        isBroken = false;
+    }
+
     function checkConnections() {
-        var terminalConnected = 0;
+        terminalConnected = 0;
         for(var i = 0; i < noOfConnectionPoints; i++) {
             if(connectionPoints.itemAt(i).wires.length > 0)
                 terminalConnected += 1;
@@ -147,6 +154,7 @@ ElectricalComponent {
             lightBulb.opacity = 0;
             bulb.source = Activity.url + "bulb_blown.png";
             resistanceValue = "100000000";
+            isBroken = true;
             Activity.restartTimer();
         }
     }

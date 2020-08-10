@@ -160,10 +160,10 @@ Item {
                             onClicked: {
                                 toolDelete.state = (toolDelete.state == "selected") ? "notSelected" : "selected"
                                 Activity.toolDelete = !Activity.toolDelete
-                                Activity.toolDeleteSticky = false
+//                                 Activity.toolDeleteSticky = false
                             }
                             onDoubleClicked: {
-                                Activity.toolDeleteSticky = true
+//                                 Activity.toolDeleteSticky = true
                                 Activity.toolDelete = true
                                 toolDelete.state = "selected"
                             }

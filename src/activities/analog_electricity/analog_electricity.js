@@ -242,6 +242,10 @@ function terminalPointSelected(terminal) {
         selectedTerminal = terminal;
         terminal.selected = true;
     }
+    if(toolDelete == true) {
+        toolDelete = false;
+        items.availablePieces.toolDelete.state = "notSelected";
+    }
 }
 
 function nextColorIndex() {
@@ -294,10 +298,6 @@ function createWire(connectionPoint, destructible) {
     connectionPoint.parent.checkConnections();
     selectedTerminal.parent.checkConnections();
     restartTimer();
-    if(toolDelete == true) {
-        toolDelete = false;
-        items.availablePieces.toolDelete.state = "notSelected";
-    }
 }
 
 function updateWires(index) {

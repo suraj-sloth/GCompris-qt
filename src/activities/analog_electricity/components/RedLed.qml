@@ -37,6 +37,7 @@ ElectricalComponent {
     property double powerMax: 0.08
     property string resistanceValue: "19"
     property alias connectionPoints: connectionPoints
+    property bool isBroken: false
     property var connectionPointPosX: [0.2, 0.8]
     property string componentName: "RedLed"
     property var internalNetlistIndex: [0, 0]
@@ -120,8 +121,18 @@ ElectricalComponent {
         opacity: 0
     }
 
+    function repareComponent() {
+        redLed.source = Activity.url + "red_led_off.png";
+        resistanceValue = "19";
+        isBroken = false;
+    }
+
     function checkConnections() {
-        return;
+        terminalConnected = 0;
+        for(var i = 0; i < noOfConnectionPoints; i++) {
+            if(connectionPoints.itemAt(i).wires.length > 0)
+                terminalConnected += 1;
+        }
     }
 
     function updateValues() {
@@ -134,6 +145,7 @@ ElectricalComponent {
             ledLight.opacity = 0;
             redLed.source = Activity.url + "red_led_broken.png";
             redLed.resistanceValue = "100000000";
+            isBroken = true;
             Activity.restartTimer();
         }
     }

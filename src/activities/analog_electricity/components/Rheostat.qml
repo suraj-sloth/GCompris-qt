@@ -193,7 +193,7 @@ ElectricalComponent {
     }
 
     function checkConnections() {
-        var terminalConnected = 0;
+        terminalConnected = 0;
         for(var i = 0; i < noOfConnectionPoints; i++) {
             if(connectionPoints.itemAt(i).wires.length > 0)
                 terminalConnected += 1;
