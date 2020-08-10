@@ -85,8 +85,17 @@ QtObject {
         'type': "r"
     }
 
+    property var redLed: {
+        'imageName': 'red_led_icon.png',
+        'componentSource': 'RedLed.qml',
+        'width': 0.2,
+        'height': 0.2,
+        'toolTipText': qsTr("Red LED"),
+        'type': "d"
+    }
+
     // List of all components
-    property var componentList: [battery, bulb, switch1, switch2, connection, rheostat, resistor]
+    property var componentList: [battery, bulb, switch1, switch2, connection, rheostat, resistor, redLed]
 
 //     property var problemType: {
 //         'lightTheBulb': 1,
