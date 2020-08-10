@@ -36,8 +36,6 @@ ElectricalComponent {
     property double componentVoltage: 0
     property double resistorCurrent: 0
     property alias connectionPoints: connectionPoints
-    property alias aMeter1: aMeter1
-    property alias aMeter2: aMeter2
     property var connectionPointPosX: [0, 1]
     property var connectionPointPosY: [0.5, 0.5]
     property string componentName: "Resistor"

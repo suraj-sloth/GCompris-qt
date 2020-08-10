@@ -39,8 +39,6 @@ ElectricalComponent {
     property double bulbCurrent: 0
     property string resistanceValue: "1000"
     property alias connectionPoints: connectionPoints
-    property alias aMeter1: aMeter1
-    property alias aMeter2: aMeter2
     property var connectionPointPosX: [0.2, 0.8]
     property string componentName: "Bulb"
     property var internalNetlistIndex: [0, 0]
