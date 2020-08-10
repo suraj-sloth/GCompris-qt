@@ -31,7 +31,7 @@ var currentLevel = 0;
 var numberOfLevel = 4;
 var items;
 var toolDelete;
-var toolDeleteSticky;
+//var toolDeleteSticky;
 var animationInProgress;
 var selectedIndex;
 var selectedTerminal;
@@ -42,17 +42,6 @@ var uniqueID = 0;
 var netlistComponents = [];
 var vSourcesList = [];
 var netlist = [];
-// var ground =[
-//     "g",
-//     [
-//     ],
-//     {
-//         "_json_": 0
-//     },
-//     [
-//         "0"
-//     ]
-// ];
 
 var wireColors = [
     "#72559b",
@@ -119,7 +108,7 @@ function initLevel() {
     components = [];
     animationInProgress = false;
     toolDelete = false;
-    toolDeleteSticky = false;
+//    toolDeleteSticky = false;
     deselect();
 
     currentZoom = defaultZoom;
@@ -129,57 +118,6 @@ function initLevel() {
     items.playArea.y = items.mousePan.drag.maximumY;
 
     loadFreeMode();
-
-//     var levelProperties = items.tutorialDataset.tutorialLevels[currentLevel - 1]
-// 
-//     for (var i = 0; i < levelProperties.inputComponentList.length; i++) {
-//         var currentInputComponent = levelProperties.inputComponentList[i]
-//         items.availablePieces.model.append( {
-//             "imgName": currentInputComponent.imageName,
-//             "componentSrc": currentInputComponent.componentSource,
-//             "imgWidth": currentInputComponent.width,
-//             "imgHeight": currentInputComponent.height,
-//             "toolTipText": currentInputComponent.toolTipText
-//         })
-//     }
-// 
-//     for (var i = 0; i < levelProperties.playAreaComponentList.length; i++) {
-//         var index = components.length
-//         var currentPlayAreaComponent = levelProperties.playAreaComponentList[i];
-//         var staticElectricalComponent = Qt.createComponent("qrc:/gcompris/src/activities/analog_electricity/components/" + currentPlayAreaComponent.componentSource)
-//         components[index] = staticElectricalComponent.createObject(
-//             items.playArea, {
-//                 "index": index,
-//                 "posX": levelProperties.playAreaComponentPositionX[i] * currentZoom,
-//                 "posY": levelProperties.playAreaComponentPositionY[i] * currentZoom,
-//                 "imgSrc": currentPlayAreaComponent.imageName,
-//                 "toolTipTxt": currentPlayAreaComponent.toolTipText,
-//                 "imgWidth": currentPlayAreaComponent.width * currentZoom,
-//                 "imgHeight": currentPlayAreaComponent.height * currentZoom,
-//                 "destructible": false
-//             });
-//         console.log("component is " + components[index]);
-//     }
-// 
-//         var _determiningComponentsIndex = levelProperties.determiningComponentsIndex
-//         for (var i = 0; i < _determiningComponentsIndex.length; i++) {
-//             determiningComponents[determiningComponents.length] = components[_determiningComponentsIndex[i]]
-//             console.log("component index i is " + i);
-//         }
-// 
-//         creating wires
-//         for (i = 0; i < levelProperties.wires.length; i++) {
-//             var terminal_number = levelProperties.wires[i][1]
-//             console.log("terminal_number is " + terminal_number);
-//             var connectionPoint = components[levelProperties.wires[i][0]].connectionPoints.itemAt(terminal_number)
-//             console.log("connection point is " + connectionPoint);
-
-////             terminal_number = levelProperties.wires[i][3]
-////             console.log("terminal_number for nodeX is " + terminal_number);
-////             var nodeX = components[levelProperties.wires[i][2]].nodeXs.itemAt(terminal_number)
-
-//             createWire(connectionPoint, false)
-//         }
 }
 
 function loadFreeMode() {
@@ -274,7 +212,6 @@ function createComponent(x, y, componentIndex) {
                             "componentIndex": index,
                             "posX": x,
                             "posY": y,
-                            //"imgSrc": component.imageName,
                             "imgWidth": component.imageWidth * currentZoom,
                             "imgHeight": component.imageHeight * currentZoom,
                             "destructible": true
@@ -282,7 +219,11 @@ function createComponent(x, y, componentIndex) {
     ++uniqueID;
     components[index].componentName = components[index].componentName + uniqueID.toString();
     components[index].initConnections();
-    toolDeleteSticky = false;
+//    toolDeleteSticky = false;
+    if(toolDelete == true) {
+        toolDelete = false;
+        items.availablePieces.toolDelete.state = "notSelected";
+    }
     deselect();
 }
 
@@ -353,7 +294,10 @@ function createWire(connectionPoint, destructible) {
     connectionPoint.parent.checkConnections();
     selectedTerminal.parent.checkConnections();
     restartTimer();
-
+    if(toolDelete == true) {
+        toolDelete = false;
+        items.availablePieces.toolDelete.state = "notSelected";
+    }
 }
 
 function updateWires(index) {
@@ -425,14 +369,14 @@ function updateWiresOnResize() {
 }
 
 function deselect() {
-    if(toolDeleteSticky == false) {
-        toolDelete = false;
-        items.availablePieces.toolDelete.state = "notSelected";
-    }
+//     if(toolDeleteSticky == false) {
+//         toolDelete = false;
+//         items.availablePieces.toolDelete.state = "notSelected";
+//     }
     items.availablePieces.rotateLeft.state = "canNotBeSelected";
     items.availablePieces.rotateRight.state = "canNotBeSelected";
     items.availablePieces.info.state = "canNotBeSelected";
-//     items.infoTxt.visible = false
+    items.infoTxt.visible = false
     selectedIndex = -1;
     selectedTerminal = -1;
     for(var i = 0 ; i < components.length ; ++i) {
@@ -453,6 +397,9 @@ function removeComponent(index) {
     }
     components[index].destroy();
     components.splice(index, 1);
+    for(var i = index; i < components.length; ++i) {
+        --components[i].componentIndex;
+    }
     deselect();
 }
 
