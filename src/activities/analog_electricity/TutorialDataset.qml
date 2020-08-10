@@ -97,42 +97,19 @@ QtObject {
     // List of all components
     property var componentList: [battery, bulb, switch1, switch2, connection, rheostat, resistor, redLed]
 
-//     property var problemType: {
-//         'lightTheBulb': 1,
-//         'equation1Variable': 2,
-//         'equation2Variables': 3,
-//         'equation3Variables': 4,
-//         'others': 5,
-//     }
     // tutorial levels
     property var tutorialLevels: [
         // level 1
         {
-            inputComponentList: [battery],
-            playAreaComponentList: [bulb],
-            determiningComponentsIndex: [0],
-            wires: [],
-            playAreaComponentPositionX: [0.4],
-            playAreaComponentPositionY: [0.3],
-//             type: [problemType.lightTheBulb],
-            introMessage: [
-                qsTr("The digital light will glow when its terminal is connected with an input of 1."),
-                qsTr("Turn the digital light on using the inputs provided.")
-            ]
+            inputComponentList: [battery, bulb, switch1]
         },
         // level 2
         {
-            inputComponentList: [battery],
-            playAreaComponentList: [bulb],
-            determiningComponentsIndex: [0],
-            //wires: [],
-            playAreaComponentPositionX: [0.4],
-            playAreaComponentPositionY: [0.3],
-//             type: [problemType.lightTheBulb],
-            introMessage: [
-                qsTr("The digital light will glow when its terminal is connected with an input of 1."),
-                qsTr("Turn the digital light on using the inputs provided.")
-            ]
+            inputComponentList: [battery, bulb, rheostat, switch1, switch2, connection]
+        },
+        // level 3
+        {
+            inputComponentList: [battery, bulb, rheostat, resistor, switch1, connection, redLed]
         }
     ]
 }

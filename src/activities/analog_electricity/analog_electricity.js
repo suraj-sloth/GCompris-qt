@@ -27,8 +27,8 @@
 var url = "qrc:/gcompris/src/activities/analog_electricity/resource/";
 var url1 = "qrc:/gcompris/src/activities/digital_electricity/resource/";
 
-var currentLevel = 0;
-var numberOfLevel = 4;
+var currentLevel = 1;
+var numberOfLevel = 3;
 var items;
 var toolDelete;
 //var toolDeleteSticky;
@@ -93,35 +93,34 @@ function start(items_) {
 }
 
 function stop() {
-    for(var i = 0 ; i < components.length ; ++i) {
-        removeComponent(i);
+    var nbOfComponents = components.length;
+    for(var i = 0 ; i < nbOfComponents ; ++i) {
+        removeComponent(0);
     }
 }
 
 function initLevel() {
     items.bar.level = currentLevel;
-
     items.availablePieces.view.currentDisplayedGroup = 0;
     items.availablePieces.view.previousNavigation = 1;
     items.availablePieces.view.nextNavigation = 1;
     colorIndex = 0;
-    components = [];
+    stop();
     animationInProgress = false;
     toolDelete = false;
 //    toolDeleteSticky = false;
     deselect();
-
     currentZoom = defaultZoom;
     viewPort.leftEdge = 0;
     viewPort.topEdge = 0;
     items.playArea.x = items.mousePan.drag.maximumX;
     items.playArea.y = items.mousePan.drag.maximumY;
-
     loadFreeMode();
 }
 
 function loadFreeMode() {
-    var componentList = items.tutorialDataset.componentList;
+    items.availablePieces.model.clear();
+    var componentList = items.tutorialDataset.tutorialLevels[currentLevel - 1].inputComponentList;
     for (var i = 0; i < componentList.length; i++) {
         items.availablePieces.model.append( {
             "imgName": componentList[i].imageName,
@@ -184,17 +183,17 @@ function updateComponentDimension(zoomRatio) {
 }
 
 function nextLevel() {
-//     if(numberOfLevel <= ++currentLevel) {
-//         currentLevel = 1
-//     }
-//     initLevel();
+    if(numberOfLevel < ++currentLevel) {
+        currentLevel = 1;
+    }
+    initLevel();
 }
 
 function previousLevel() {
-//     if(--currentLevel < 1) {
-//         currentLevel = numberOfLevel - 1
-//     }
-//     initLevel();
+    if(--currentLevel < 1) {
+        currentLevel = numberOfLevel;
+    }
+    initLevel();
 }
 
 function createComponent(x, y, componentIndex) {
