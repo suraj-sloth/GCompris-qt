@@ -70,6 +70,14 @@ ElectricalComponent {
         }
     }
 
+    Image {
+        id: deadBattery
+        source: Activity.url + "battery_dead.png";
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectFit
+        opacity: 0
+    }
+
     function checkConnections() {
         terminalConnected = 0;
         for(var i = 0; i < noOfConnectionPoints; i++) {
@@ -86,6 +94,10 @@ ElectricalComponent {
     function updateValues() {
         componentVoltage = (Math.abs(nodeVoltages[1] - nodeVoltages[0])).toFixed(2);
         current = (Math.abs(current)).toFixed(3);
+        if(Math.abs(current) > 1) {
+            deadBattery.opacity = 1;
+        } else
+            deadBattery.opacity = 0;
     }
 
     function initConnections() {
