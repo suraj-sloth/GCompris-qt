@@ -184,9 +184,7 @@ ElectricalComponent {
                         wiper.y = 0;
                     if(wiper.y > wiperArea.height)
                         wiper.y = wiperArea.height;
-                    wiperY = wiper.y
-                    console.log("wiperArea.height is " + wiperArea.height)
-                    console.log("wiper.y is " + wiper.y + " and wiperY is" + wiperY)
+                    wiperY = wiper.y;
                 }
             }
         }

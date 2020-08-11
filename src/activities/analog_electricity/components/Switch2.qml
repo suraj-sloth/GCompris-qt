@@ -102,7 +102,6 @@ ElectricalComponent {
             anchors.fill: parent
             onClicked: {
                 if(switch2.source == Activity.url + "switch2_off.png") {
-                    console.log("top switch");
                     switch2.source = Activity.url + "switch2_on.png";
                     switch2.netlistModel[2].r = resistanceValueOn;
                     switch2Bottom.netlistModel[2].r = resistanceValueOff;

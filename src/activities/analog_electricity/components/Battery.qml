@@ -72,7 +72,7 @@ ElectricalComponent {
 
     Image {
         id: deadBattery
-        source: Activity.url + "battery_dead.png";
+        source: Activity.url + "battery_dead.png"
         anchors.fill: parent
         fillMode: Image.PreserveAspectFit
         opacity: 0

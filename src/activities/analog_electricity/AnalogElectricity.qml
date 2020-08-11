@@ -66,8 +66,8 @@ ActivityBase {
         property bool hori: background.width >= background.height
 
         Component.onCompleted: {
-            activity.start.connect(start)
-            activity.stop.connect(stop)
+            activity.start.connect(start);
+            activity.stop.connect(stop);
         }
 
         Keys.onPressed: {
@@ -75,44 +75,44 @@ ActivityBase {
 //                 Activity.checkAnswer()
 //             }
             if (event.key === Qt.Key_Plus) {
-                Activity.zoomIn()
+                Activity.zoomIn();
             }
             if (event.key === Qt.Key_Minus) {
-                Activity.zoomOut()
+                Activity.zoomOut();
             }
             if (event.key === Qt.Key_Right) {
                 playArea.x -= 200;
             }
             if (event.key === Qt.Key_Left) {
-                playArea.x += 200
+                playArea.x += 200;
             }
             if (event.key === Qt.Key_Up) {
-                playArea.y += 200
+                playArea.y += 200;
             }
             if (event.key === Qt.Key_Down) {
-                playArea.y -= 200
+                playArea.y -= 200;
             }
             if (playArea.x >= mousePan.drag.maximumX) {
-                playArea.x = mousePan.drag.maximumX
+                playArea.x = mousePan.drag.maximumX;
             }
             if (playArea.y >= mousePan.drag.maximumY) {
-                playArea.y = mousePan.drag.maximumY
+                playArea.y = mousePan.drag.maximumY;
             }
             if (playArea.x <= mousePan.drag.minimumX) {
-                playArea.x = mousePan.drag.minimumX
+                playArea.x = mousePan.drag.minimumX;
             }
             if (playArea.y <= mousePan.drag.minimumY) {
-                playArea.y = mousePan.drag.minimumY
+                playArea.y = mousePan.drag.minimumY;
             }
         }
 
         onHoriChanged: {
             if (hori == true) {
-                playArea.x += items.toolsMargin
-                playArea.y -= items.toolsMargin
+                playArea.x += items.toolsMargin;
+                playArea.y -= items.toolsMargin;
             } else {
-                playArea.x -= items.toolsMargin
-                playArea.y += items.toolsMargin
+                playArea.x -= items.toolsMargin;
+                playArea.y += items.toolsMargin;
             }
         }
 
@@ -146,8 +146,8 @@ ActivityBase {
             id: tutorialDataset
         }
 
-        onStart: { Activity.start(items) }
-        onStop: { Activity.stop() }
+        onStart: Activity.start(items);
+        onStop: Activity.stop();
 
         Rectangle {
             id: visibleArea
@@ -233,10 +233,10 @@ ActivityBase {
                 anchors.fill: parent
                 onPinchFinished: {
                     if (pinch.scale < 1) {
-                        Activity.zoomOut()
+                        Activity.zoomOut();
                     }
                     if (pinch.scale > 1) {
-                        Activity.zoomIn()
+                        Activity.zoomIn();
                     }
                 }
                 MouseArea {
@@ -250,8 +250,8 @@ ActivityBase {
                     drag.minimumY: - playArea.height * items.zoomLvl
                     drag.maximumY: background.hori ? 0 : items.toolsMargin
                     onClicked: {
-                        Activity.deselect()
-                        availablePieces.hideToolbar()
+                        Activity.deselect();
+                        availablePieces.hideToolbar();
                     }
                 }
             }
@@ -302,10 +302,10 @@ ActivityBase {
 
             function show(newText) {
                 if(newText) {
-                    text = newText
-                    opacity = 1
+                    text = newText;
+                    opacity = 1;
                 } else {
-                    opacity = 0
+                    opacity = 0;
                 }
             }
 
@@ -321,7 +321,7 @@ ActivityBase {
 
         DialogHelp {
             id: dialogHelp
-            onClose: home()
+            onClose: home();
         }
 
         Bar {
@@ -336,7 +336,7 @@ ActivityBase {
 
         Bonus {
             id: bonus
-            Component.onCompleted: win.connect(Activity.nextLevel)
+            Component.onCompleted: win.connect(Activity.nextLevel);
         }
     }
 }

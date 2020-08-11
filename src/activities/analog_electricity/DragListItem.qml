@@ -82,15 +82,15 @@ Item {
             property bool small: true
 
             function toSmall() {
-                width = smallWidth
-                height = smallHeight
-                small = true
+                width = smallWidth;
+                height = smallHeight;
+                small = true;
             }
 
             function toFull() {
-                width = fullWidth * Activity.currentZoom
-                height = fullHeight * Activity.currentZoom
-                small = false
+                width = fullWidth * Activity.currentZoom;
+                height = fullHeight * Activity.currentZoom;
+                small = false;
             }
 
             MultiPointTouchArea {
@@ -103,33 +103,33 @@ Item {
                 anchors.fill: parent
 
                 onPressed: {
-                    tileImage.anchors.centerIn = undefined
-                    startX = point1.x
-                    startY = point1.y
-                    tileImage.toFull()
-                    toolTip.show(toolTipText)
-                    pressedOnce = true
-                    item.selected = true
-                    Activity.disableToolDelete()
+                    tileImage.anchors.centerIn = undefined;
+                    startX = point1.x;
+                    startY = point1.y;
+                    tileImage.toFull();
+                    toolTip.show(toolTipText);
+                    pressedOnce = true;
+                    item.selected = true;
+                    Activity.disableToolDelete();
                 }
 
                 onUpdated: {
-                    var moveX = point1.x - startX
-                    var moveY = point1.y - startY
-                    parent.x = parent.x + moveX
-                    parent.y = parent.y + moveY
+                    var moveX = point1.x - startX;
+                    var moveY = point1.y - startY;
+                    parent.x = parent.x + moveX;
+                    parent.y = parent.y + moveY;
                 }
 
                 onReleased: {
                     if (pressedOnce) {
-                        pressedOnce = false
-                        item.selected = false
-                        var coord = playArea.mapFromItem(tileImage.parent, parent.x, parent.y)
+                        pressedOnce = false;
+                        item.selected = false;
+                        var coord = playArea.mapFromItem(tileImage.parent, parent.x, parent.y);
                         if(coord.x > 0 && ((playArea.width/Activity.currentZoom) - coord.x > tileImage.fullWidth))
-                            Activity.createComponent(coord.x, coord.y, index)
-                        tileImage.anchors.centerIn = tile
-                        tileImage.toSmall()
-                        toolTip.show("")
+                            Activity.createComponent(coord.x, coord.y, index);
+                        tileImage.anchors.centerIn = tile;
+                        tileImage.toSmall();
+                        toolTip.show("");
                     }
                 }
             }

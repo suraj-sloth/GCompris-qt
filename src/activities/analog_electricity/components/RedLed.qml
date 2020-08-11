@@ -27,7 +27,7 @@ ElectricalComponent {
     id: redLed //to form a LED, connecting diode, resistor of 19 ohm and voltage of 1.84v in series
     terminalSize: 0.2
     noOfConnectionPoints: 2
-    information: qsTr("Red LED converts electrical energy into red light energy. Electrical energy more than a certain limit can break it.")
+    information: qsTr("Red LED converts electrical energy into red light energy. It can glow only if the current flow is in the direction of the arrow. Electrical energy more than a certain limit can break it.")
     source: Activity.url + "red_led_off.png"
 
  property var nodeVoltages: [0, 0]

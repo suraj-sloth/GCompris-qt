@@ -58,7 +58,7 @@ var wireColors = [
     "#d42e2e",
     "#e9dfc9"
 ]
-var colorIndex = 0
+var colorIndex = 0;
 
 var currentZoom;
 var maxZoom = 0.375;
@@ -469,7 +469,6 @@ function createNetlist() {
         var component = components[i];
         component.addToNetlist();
     }
-    console.log("netlist is " + netlist);
     dcAnalysis();
 }
 
@@ -477,16 +476,13 @@ function dcAnalysis() {
     var ckt = new Engine.cktsim.Circuit();
     ckt.load_netlist(netlist);
     var voltageResults = ckt.dc();
-    console.log("dc analysis is " + ckt.dc());
     if(ckt.GCWarning != "") {
         displayWarning(ckt.GCWarning);
         return;
     }
 
     var currentResults = ckt.GCCurrentResults;
-    console.log("currentResults is " + currentResults)
     for(var i in currentResults) {
-        console.log("currentResults " + i + " is " + currentResults[i])
         if(vSourcesList[i] != undefined)
             vSourcesList[i].current = currentResults[i];
     }
@@ -503,7 +499,6 @@ function dcAnalysis() {
                 }
             }
             netlistComponents[i].updateValues();
-            console.log("component " + netlistComponents[i].componentName + " voltages are " + netlistComponents[i].nodeVoltages);
         }
     }
 }

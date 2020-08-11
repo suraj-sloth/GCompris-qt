@@ -94,8 +94,8 @@ Image {
         id: mouseArea
         anchors.fill: parent
         onPressed: {
-            selected = true
-             Activity.terminalPointSelected(terminalPoint)
+            selected = true;
+             Activity.terminalPointSelected(terminalPoint);
         }
     }
 }

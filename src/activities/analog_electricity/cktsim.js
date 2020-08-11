@@ -347,9 +347,7 @@ var cktsim = (function() {
 		    var v = this.voltage_sources[i];
 		    result['I('+v.name+')'] = this.solution[v.branch];
             this.GCCurrentResults.push(result['I('+v.name+')']);
-            console.log("current for " + v.name + " is " + result["I("+v.name+")"]);
 		}
-		console.log("result is " + result);
 		return result;
 	    }
 	}

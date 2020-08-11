@@ -45,7 +45,7 @@ Rectangle {
         anchors.centerIn: parent
         onPressed: {
             if(Activity.toolDelete) {
-                Activity.removeWire(wire)
+                Activity.removeWire(wire);
             }
         }
     }

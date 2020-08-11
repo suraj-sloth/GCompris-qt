@@ -44,7 +44,7 @@ Item {
     property alias zoomOutBtn: zoomOutBtn
 
     signal hideToolbar
-    onHideToolbar: toolButton.showToolBar = false
+    onHideToolbar: toolButton.showToolBar = false;
 
     property int minIconWidth: listWidget.hori ? Math.min((background.width - 1.5*view.width) / 6, 100) : Math.min((background.height - 1.5*bar.height - view.height) / 6, 100)
 
@@ -73,8 +73,8 @@ Item {
         property int nextNavigation: 1
 
         onNbDisplayedGroupChanged: {
-            view.setCurrentDisplayedGroup = 0
-            refreshInputComponentsContainer()
+            view.setCurrentDisplayedGroup = 0;
+            refreshInputComponentsContainer();
         }
 
         add: Transition {
@@ -88,21 +88,21 @@ Item {
 
         //For setting navigation buttons
         function setNextNavigation() {
-            nextNavigation = 0
+            nextNavigation = 0;
             if(currentDisplayedGroup + 1 < nbDisplayedGroup)
-                nextNavigation = 1
+                nextNavigation = 1;
         }
 
         function setPreviousNavigation() {
-            previousNavigation = 0
+            previousNavigation = 0;
             if(currentDisplayedGroup > 0)
-                previousNavigation = 1
+                previousNavigation = 1;
         }
 
         function refreshInputComponentsContainer() {
-            availablePieces.view.currentDisplayedGroup = availablePieces.view.setCurrentDisplayedGroup
-            availablePieces.view.setNextNavigation()
-            availablePieces.view.setPreviousNavigation()
+            availablePieces.view.currentDisplayedGroup = availablePieces.view.setCurrentDisplayedGroup;
+            availablePieces.view.setNextNavigation();
+            availablePieces.view.setPreviousNavigation();
         }
 
         Image {
@@ -118,7 +118,7 @@ Item {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: toolButton.showToolBar = !toolButton.showToolBar
+                onClicked: toolButton.showToolBar = !toolButton.showToolBar;
             }
 
             Rectangle {
@@ -158,14 +158,14 @@ Item {
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
-                                toolDelete.state = (toolDelete.state == "selected") ? "notSelected" : "selected"
-                                Activity.toolDelete = !Activity.toolDelete
+                                toolDelete.state = (toolDelete.state == "selected") ? "notSelected" : "selected";
+                                Activity.toolDelete = !Activity.toolDelete;
 //                                 Activity.toolDeleteSticky = false
                             }
                             onDoubleClicked: {
 //                                 Activity.toolDeleteSticky = true
-                                Activity.toolDelete = true
-                                toolDelete.state = "selected"
+                                Activity.toolDelete = true;
+                                toolDelete.state = "selected";
                             }
                         }
                         states: [
@@ -198,8 +198,8 @@ Item {
                             anchors.fill: parent
                             onClicked: {
                                 if(!Activity.animationInProgress && parent.state == "canBeSelected") {
-                                    Activity.displayInfo()
-                                    hideToolbar()
+                                    Activity.displayInfo();
+                                    hideToolbar();
                                 }
                             }
                         }
@@ -234,7 +234,7 @@ Item {
                             anchors.fill: parent
                             onClicked: {
                                 if(!Activity.animationInProgress && parent.state == "canBeSelected") {
-                                    Activity.rotateLeft()
+                                    Activity.rotateLeft();
                                 }
                             }
                         }
@@ -270,7 +270,7 @@ Item {
                             anchors.fill: parent
                             onClicked: {
                                 if(!Activity.animationInProgress && parent.state == "canBeSelected") {
-                                    Activity.rotateRight()
+                                    Activity.rotateRight();
                                 }
                             }
                         }
@@ -303,7 +303,7 @@ Item {
 
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: Activity.zoomIn()
+                            onClicked: Activity.zoomIn();
                         }
                         states: [
                             State {
@@ -334,7 +334,7 @@ Item {
 
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: Activity.zoomOut()
+                            onClicked: Activity.zoomOut();
                         }
                         states: [
                             State {
@@ -371,13 +371,13 @@ Item {
                 visible: view.currentDisplayedGroup * view.nbItemsByGroup <= index &&
                          index <= (view.currentDisplayedGroup+1) * view.nbItemsByGroup-1
 
-                onPressed: repeater.currentIndex = index
+                onPressed: repeater.currentIndex = index;
             }
 
             clip: true
             model: mymodel
 
-            onModelChanged: repeater.currentIndex = -1
+            onModelChanged: repeater.currentIndex = -1;
         }
 
         Row {
@@ -392,10 +392,10 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        repeater.currentIndex = -1
+                        repeater.currentIndex = -1;
                         if(previous.opacity == 1) {
-                            view.setCurrentDisplayedGroup = view.currentDisplayedGroup - view.previousNavigation
-                            view.refreshInputComponentsContainer()
+                            view.setCurrentDisplayedGroup = view.currentDisplayedGroup - view.previousNavigation;
+                            view.refreshInputComponentsContainer();
                         }
                     }
                 }
@@ -411,9 +411,9 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        repeater.currentIndex = -1
-                        view.setCurrentDisplayedGroup = view.currentDisplayedGroup + view.nextNavigation
-                        view.refreshInputComponentsContainer()
+                        repeater.currentIndex = -1;
+                        view.setCurrentDisplayedGroup = view.currentDisplayedGroup + view.nextNavigation;
+                        view.refreshInputComponentsContainer();
                     }
                 }
             }
