@@ -65,6 +65,8 @@ var maxZoom = 0.375;
 var minZoom = 0.125;
 var defaultZoom = 0.25;
 var zoomStep = 0.0625;
+//bool to avoid createNetList when deleting wires on stop function...
+var isStopped = false;
 
 var direction = {
     LEFT: -1,
@@ -93,6 +95,7 @@ function start(items_) {
 }
 
 function stop() {
+    isStopped = true;
     var nbOfComponents = components.length;
     for(var i = 0 ; i < nbOfComponents ; ++i) {
         removeComponent(0);
@@ -116,6 +119,7 @@ function initLevel() {
     items.playArea.x = items.mousePan.drag.maximumX;
     items.playArea.y = items.mousePan.drag.maximumY;
     loadFreeMode();
+    isStopped = false;
 }
 
 function loadFreeMode() {
@@ -417,7 +421,8 @@ function removeWire(wire) {
     }
     connectionPoint1.parent.checkConnections();
     connectionPoint2.parent.checkConnections();
-    restartTimer();
+    if(!isStopped)
+        restartTimer();
 }
 
 function componentSelected(index) {
