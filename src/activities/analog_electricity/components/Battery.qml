@@ -27,7 +27,7 @@ ElectricalComponent {
     id: battery
     terminalSize: 0.2
     noOfConnectionPoints: 2
-    information: qsTr("Battery is the voltage source. It is the supply voltage of the circuit.")
+    information: qsTr("Battery is used for powering up electrical devices. It can supply voltage in a closed circuit. Which means there should be a path for the current to flow from one terminal of the battery to the other terminal. If the current in a circuit is too high then the battery can be damaged. Wires can be used to connect components and create the circuit.")
     labelText1: "V = " + componentVoltage + "V"
     labelText2: "I = " + current + "A"
     source: Activity.url + "battery.png"

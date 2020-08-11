@@ -27,7 +27,7 @@ ElectricalComponent {
     id: connection
     terminalSize: 0.2
     noOfConnectionPoints: 1
-    information: qsTr("Simple connection point to connect several wires in an electrical circuit.") 
+    information: qsTr("A simple connection point to connect several wires in an electrical circuit.")
     source: Activity.url + "connection.svg"
 
     property alias connectionPoints: connectionPoints

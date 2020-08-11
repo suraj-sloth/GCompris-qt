@@ -27,7 +27,7 @@ ElectricalComponent {
     id: resistor
     terminalSize: 0.2
     noOfConnectionPoints: 2
-    information: qsTr("It implements resistance in an electrical circuit.")
+    information: qsTr("Resistors are used to reduce the current flow in an electrical circuit.")
     labelText1: "V = " + componentVoltage + "V"
     labelText2: "I = " + resistorCurrent + "A"
     source: Activity.url + "resistor.png"

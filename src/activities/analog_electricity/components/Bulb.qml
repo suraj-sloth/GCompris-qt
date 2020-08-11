@@ -27,7 +27,7 @@ ElectricalComponent {
     id: bulb
     terminalSize: 0.2
     noOfConnectionPoints: 2
-    information: qsTr("Basically bulb is a resistance in the circuit. Bulb lights with an intensity propotional to the supply voltage.")
+    information: qsTr("Bulb glows when it has enough power. Its intensity is propotional to the supplied voltage. It will be broken if there is a power greater than a certain limit.")
     labelText1: "V = " + componentVoltage + "V"
     labelText2: "I = " + bulbCurrent + "A"
     source: Activity.url + "bulb1.png"

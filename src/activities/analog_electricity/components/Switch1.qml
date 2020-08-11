@@ -27,7 +27,7 @@ ElectricalComponent {
     id: switch1
     terminalSize: 0.2
     noOfConnectionPoints: 2
-    information: qsTr("It can disconnect or connect conducting path in an electrical circuit.") 
+    information: qsTr("Switch can connect or disconnect the conducting path in an electrical circuit.")
     source: Activity.url + "switch1_off.png"
 
     property double componentVoltage: 0
