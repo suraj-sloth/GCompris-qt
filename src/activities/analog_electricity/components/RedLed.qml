@@ -24,7 +24,7 @@ import GCompris 1.0
 import "../analog_electricity.js" as Activity
 
 ElectricalComponent {
-    id: redLed //to form a LED, connecting diode, resistor of 19 ohm and voltage of 1.84v in series
+    id: redLed //to form a LED, connecting diode, resistor of 19 ohm and voltage source of 1.84v in series
     terminalSize: 0.2
     noOfConnectionPoints: 2
     information: qsTr("Red LED converts electrical energy into red light energy. It can glow only if the current flow is in the direction of the arrow. Electrical energy more than a certain limit can break it.")
@@ -35,7 +35,7 @@ ElectricalComponent {
     property double power: 0
     property double powerThreshold: 0.01 //in W
     property double powerMax: 0.08
-    property string resistanceValue: "19"
+    property string resistanceValue: "19" //in Ohm
     property alias connectionPoints: connectionPoints
     property bool isBroken: false
     property var connectionPointPosX: [0.2, 0.8]
@@ -121,7 +121,7 @@ ElectricalComponent {
         opacity: 0
     }
 
-    function repareComponent() {
+    function repairComponent() {
         redLed.source = Activity.url + "red_led_off.png";
         resistanceValue = "19";
         isBroken = false;
@@ -183,7 +183,7 @@ ElectricalComponent {
         Activity.vSourcesList.push(vSource);
         netlistItem[2].name = "vSource-" + componentName;
         netlistItem[2]._json = Activity.netlist.length;
-        netlistItem[3][0] = redLed.internalNetlistIndex[1];
+        netlistItem[3][0] = redLed.internalNetlistIndex[1]; //positive terminal to the resistor
         netlistItem[3][1] = redLed.externalNetlistIndex[1];
         Activity.netlist.push(netlistItem);
     }

@@ -24,7 +24,7 @@ import GCompris 1.0
 import "../analog_electricity.js" as Activity
 
 ElectricalComponent {
-    id: bulb
+    id: bulb // Ammeter on both sides of a resistor
     terminalSize: 0.2
     noOfConnectionPoints: 2
     information: qsTr("Bulb glows when it has enough power. Its intensity is propotional to the supplied voltage. It will be broken if there is a power greater than a certain limit.")
@@ -61,7 +61,7 @@ ElectricalComponent {
     ]
 
     Item {
-        id: aMeter1
+        id: aMeter1 // Ammeters are to measure current and voltage
         property int jsonNumber: 0
         property double current: 0
         property var netlistModel:
@@ -125,7 +125,7 @@ ElectricalComponent {
         opacity: power < maxPower ? power * 10 : 0
     }
 
-    function repareComponent() {
+    function repairComponent() {
         bulb.source = Activity.url + "bulb1.png";
         resistanceValue = "1000";
         isBroken = false;
@@ -152,6 +152,7 @@ ElectricalComponent {
             lightBulb.opacity  = power * 10;
         else {
             lightBulb.opacity = 0;
+            // if the bulb is blown, change the resistanceValue and recalculate
             bulb.source = Activity.url + "bulb_blown.png";
             resistanceValue = "100000000";
             isBroken = true;

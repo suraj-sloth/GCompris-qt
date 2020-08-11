@@ -24,7 +24,7 @@ import GCompris 1.0
 import "../analog_electricity.js" as Activity
 
 ElectricalComponent {
-    id: switch2
+    id: switch2 // two resistors
     terminalSize: 0.2
     noOfConnectionPoints: 3
     information: qsTr("A three points switch can toggle a circuit between two connection points.")

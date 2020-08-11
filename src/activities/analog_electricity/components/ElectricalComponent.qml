@@ -126,8 +126,9 @@ Image {
                     Activity.deselect();
                 }
             } else if(typeof isBroken !== "undefined") {
+                // Repair broken bulb and LED on click
                 if(isBroken && terminalConnected < noOfConnectionPoints)
-                    repareComponent();
+                    repairComponent();
             }
         }
         onReleased: {

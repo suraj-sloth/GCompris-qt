@@ -24,7 +24,7 @@ import GCompris 1.0
 import "../analog_electricity.js" as Activity
 
 ElectricalComponent {
-    id: rheostat
+    id: rheostat // Two resistors with ammeters on each connection point
     terminalSize: 0.2
     noOfConnectionPoints: 3
     information: qsTr("Rheostat is used to vary resistance in an electrical circuit.")

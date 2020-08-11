@@ -24,7 +24,7 @@ import GCompris 1.0
 import "../analog_electricity.js" as Activity
 
 ElectricalComponent {
-    id: switch1
+    id: switch1 // A resistor
     terminalSize: 0.2
     noOfConnectionPoints: 2
     information: qsTr("Switch can connect or disconnect the conducting path in an electrical circuit.")

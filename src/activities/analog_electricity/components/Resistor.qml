@@ -24,7 +24,7 @@ import GCompris 1.0
 import "../analog_electricity.js" as Activity
 
 ElectricalComponent {
-    id: resistor
+    id: resistor // Ammeters to measure current and voltage
     terminalSize: 0.2
     noOfConnectionPoints: 2
     information: qsTr("Resistors are used to reduce the current flow in an electrical circuit.")

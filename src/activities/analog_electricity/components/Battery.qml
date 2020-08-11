@@ -94,6 +94,7 @@ ElectricalComponent {
     function updateValues() {
         componentVoltage = (Math.abs(nodeVoltages[1] - nodeVoltages[0])).toFixed(2);
         current = (Math.abs(current)).toFixed(3);
+        // short circuit case
         if(Math.abs(current) > 1) {
             deadBattery.opacity = 1;
         } else
