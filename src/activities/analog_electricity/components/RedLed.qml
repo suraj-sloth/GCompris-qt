@@ -30,7 +30,7 @@ ElectricalComponent {
     information: qsTr("Red LED converts electrical energy into red light energy. It can glow only if the current flow is in the direction of the arrow. Electrical energy more than a certain limit can break it.")
     source: Activity.url + "red_led_off.png"
 
- property var nodeVoltages: [0, 0]
+    property var nodeVoltages: [0, 0]
     property double componentVoltage: 0
     property double power: 0
     property double powerThreshold: 0.01 //in W

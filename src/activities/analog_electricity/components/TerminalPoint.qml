@@ -41,7 +41,7 @@ Image {
 
     width: size * Math.max(parent.paintedHeight, parent.paintedWidth)
     height: width
-    source: Activity.url1 + "tPoint.svg"
+    source: Activity.urlDigital + "tPoint.svg"
     sourceSize.width: width
     sourceSize.height: width
     antialiasing: true

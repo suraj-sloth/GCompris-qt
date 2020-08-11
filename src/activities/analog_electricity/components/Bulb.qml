@@ -27,9 +27,11 @@ ElectricalComponent {
     id: bulb // Ammeter on both sides of a resistor
     terminalSize: 0.2
     noOfConnectionPoints: 2
-    information: qsTr("Bulb glows when it has enough power. Its intensity is propotional to the supplied voltage. It will be broken if there is a power greater than a certain limit.")
-    labelText1: "V = " + componentVoltage + "V"
-    labelText2: "I = " + bulbCurrent + "A"
+    information: qsTr("Bulb glows when it has enough power. Its intensity is proportional to the supplied voltage. It will be broken if there is a power greater than a certain limit.")
+    //: 1st V for Voltage, 2nd V for Volt
+    labelText1: qsTr("V = %1V").arg(componentVoltage)
+    //: I for current intensity, A for Ampere
+    labelText2: qsTr("I = %1A").arg(bulbCurrent)
     source: Activity.url + "bulb1.png"
 
     property var nodeVoltages: [0, 0]

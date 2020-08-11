@@ -25,13 +25,12 @@
 .import "cktsim.js" as Engine
 
 var url = "qrc:/gcompris/src/activities/analog_electricity/resource/";
-var url1 = "qrc:/gcompris/src/activities/digital_electricity/resource/";
+var urlDigital = "qrc:/gcompris/src/activities/digital_electricity/resource/";
 
 var currentLevel = 1;
 var numberOfLevel = 3;
 var items;
 var toolDelete;
-//var toolDeleteSticky;
 var animationInProgress;
 var selectedIndex;
 var selectedTerminal;
@@ -111,7 +110,6 @@ function initLevel() {
     stop();
     animationInProgress = false;
     toolDelete = false;
-//    toolDeleteSticky = false;
     deselect();
     currentZoom = defaultZoom;
     viewPort.leftEdge = 0;
@@ -222,7 +220,6 @@ function createComponent(x, y, componentIndex) {
     ++uniqueID;
     components[index].componentName = components[index].componentName + uniqueID.toString();
     components[index].initConnections();
-//    toolDeleteSticky = false;
     deselect();
 }
 
@@ -295,21 +292,25 @@ function updateWires(index) {
         return;
 
     var rotatedAngle = component.initialAngle * Math.PI / 180;
+    var rotatedAngleSin = Math.sin(rotatedAngle);
+    var rotatedAngleCos = Math.cos(rotatedAngle);
     for(var i = 0 ; i < component.noOfConnectionPoints ; ++i) {
         var terminal = component.connectionPoints.itemAt(i);
         for(var j = 0 ; j < terminal.wires.length ; ++j) {
             var wire = terminal.wires[j];
             if(wire.node1 != terminal) {
                 var otherAngle = wire.node1.parent.initialAngle * Math.PI / 180;
+                var otherAngleCos = Math.cos(otherAngle);
+                var otherAngleSin = Math.sin(otherAngle);
                 var x = wire.node1.xCenterFromComponent;
                 var y = wire.node1.yCenterFromComponent;
-                var x1 = wire.node1.xCenter - x + x * Math.cos(otherAngle) - y * Math.sin(otherAngle);
-                var y1 = wire.node1.yCenter - y + x * Math.sin(otherAngle) + y * Math.cos(otherAngle);
+                var x1 = wire.node1.xCenter - x + x * otherAngleCos - y * otherAngleSin;
+                var y1 = wire.node1.yCenter - y + x * otherAngleSin + y * otherAngleCos;
 
                 x = terminal.xCenterFromComponent;
                 y = terminal.yCenterFromComponent;
-                var x2 = terminal.xCenter - x + x * Math.cos(rotatedAngle) - y * Math.sin(rotatedAngle);
-                var y2 = terminal.yCenter - y + x * Math.sin(rotatedAngle) + y * Math.cos(rotatedAngle);
+                var x2 = terminal.xCenter - x + x * rotatedAngleCos - y * rotatedAngleSin;
+                var y2 = terminal.yCenter - y + x * rotatedAngleSin + y * rotatedAngleCos;
 
                 var width = Math.pow((Math.pow(x1 - x2, 2) +  Math.pow(y1 - y2, 2)),0.5) + 2;
                 var angle = (180/Math.PI)*Math.atan((y2-y1)/(x2-x1));
@@ -327,16 +328,18 @@ function updateWires(index) {
         for(var j = 0 ; j < terminal.wires.length ; ++j) {
             var x = terminal.xCenterFromComponent;
             var y = terminal.yCenterFromComponent;
-            var x1 = terminal.xCenter - x + x * Math.cos(rotatedAngle) - y * Math.sin(rotatedAngle);
-            var y1 = terminal.yCenter - y + x * Math.sin(rotatedAngle) + y * Math.cos(rotatedAngle);
+            var x1 = terminal.xCenter - x + x * rotatedAngleCos - y * rotatedAngleSin;
+            var y1 = terminal.yCenter - y + x * rotatedAngleSin + y * rotatedAngleCos;
 
             var wire = terminal.wires[j];
             if(wire.node2 != terminal) {
                 var otherAngle = wire.node2.parent.initialAngle * Math.PI / 180;
+                var otherAngleCos = Math.cos(otherAngle);
+                var otherAngleSin = Math.sin(otherAngle);
                 x = wire.node2.xCenterFromComponent;
                 y = wire.node2.yCenterFromComponent;
-                var x2 = wire.node2.xCenter - x + x * Math.cos(otherAngle) - y * Math.sin(otherAngle);
-                var y2 = wire.node2.yCenter - y + x * Math.sin(otherAngle) + y * Math.cos(otherAngle);
+                var x2 = wire.node2.xCenter - x + x * otherAngleCos - y * otherAngleSin;
+                var y2 = wire.node2.yCenter - y + x * otherAngleSin + y * otherAngleCos;
 
                 var width = Math.pow((Math.pow(x1 - x2, 2) +  Math.pow(y1 - y2, 2)),0.5) + 2;
                 var angle = (180/Math.PI)*Math.atan((y2-y1)/(x2-x1));
@@ -358,10 +361,6 @@ function updateWiresOnResize() {
 }
 
 function deselect() {
-//     if(toolDeleteSticky == false) {
-//         toolDelete = false;
-//         items.availablePieces.toolDelete.state = "notSelected";
-//     }
     items.availablePieces.rotateLeft.state = "canNotBeSelected";
     items.availablePieces.rotateRight.state = "canNotBeSelected";
     items.availablePieces.info.state = "canNotBeSelected";

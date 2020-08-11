@@ -28,8 +28,10 @@ ElectricalComponent {
     terminalSize: 0.2
     noOfConnectionPoints: 3
     information: qsTr("Rheostat is used to vary resistance in an electrical circuit.")
-    labelText1: "V = " + componentVoltage + "V"
-    labelText2: "I = " + current + "A"
+    //: 1st V for Voltage, 2nd V for Volt
+    labelText1: qsTr("V = %1V").arg(componentVoltage)
+    //: I for current intensity, A for Ampere
+    labelText2: qsTr("I = %1A").arg(current)
     source: Activity.url + "resistor_track.png"
 
     property var nodeVoltages: [0, 0, 0]

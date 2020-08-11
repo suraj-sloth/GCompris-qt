@@ -111,7 +111,7 @@ Item {
             height: width
             sourceSize.width: width
             sourceSize.height: height
-            source: Activity.url1 + "tools.svg"
+            source: Activity.urlDigital + "tools.svg"
             fillMode: Image.PreserveAspectFit
 
             property bool showToolBar: false
@@ -153,17 +153,15 @@ Item {
                         height: width
                         sourceSize.width: width
                         sourceSize.height: height
-                        source: Activity.url1 + "deleteOn.svg"
+                        source: Activity.urlDigital + "deleteOn.svg"
                         fillMode: Image.PreserveAspectFit
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
                                 toolDelete.state = (toolDelete.state == "selected") ? "notSelected" : "selected";
                                 Activity.toolDelete = !Activity.toolDelete;
-//                                 Activity.toolDeleteSticky = false
                             }
                             onDoubleClicked: {
-//                                 Activity.toolDeleteSticky = true
                                 Activity.toolDelete = true;
                                 toolDelete.state = "selected";
                             }
@@ -188,7 +186,7 @@ Item {
 
                     Image {
                         id: info
-                        source: Activity.url1 + "info.svg"
+                        source: Activity.urlDigital + "info.svg"
                         width: minIconWidth
                         height: width
                         sourceSize.width: width
@@ -197,7 +195,7 @@ Item {
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
-                                if(!Activity.animationInProgress && parent.state == "canBeSelected") {
+                                if(!Activity.animationInProgress && parent.state === "canBeSelected") {
                                     Activity.displayInfo();
                                     hideToolbar();
                                 }
@@ -227,7 +225,7 @@ Item {
                         height: width
                         sourceSize.width: width
                         sourceSize.height: height
-                        source: Activity.url1 + "rotate.svg"
+                        source: Activity.urlDigital + "rotate.svg"
                         fillMode: Image.PreserveAspectFit
                         state: "CanNotBeSelected"
                         MouseArea {
@@ -262,7 +260,7 @@ Item {
                         height: width
                         sourceSize.width: width
                         sourceSize.height: height
-                        source: Activity.url1 + "rotate.svg"
+                        source: Activity.urlDigital + "rotate.svg"
                         fillMode: Image.PreserveAspectFit
                         mirror: true
                         state: "CanNotBeSelected"
@@ -298,7 +296,7 @@ Item {
                         height: width
                         sourceSize.width: width
                         sourceSize.height: height
-                        source: Activity.url1 + "zoomIn.svg"
+                        source: Activity.urlDigital + "zoomIn.svg"
                         fillMode: Image.PreserveAspectFit
 
                         MouseArea {
@@ -329,7 +327,7 @@ Item {
                         height: width
                         sourceSize.width: width
                         sourceSize.height: height
-                        source: Activity.url1 + "zoomOut.svg"
+                        source: Activity.urlDigital + "zoomOut.svg"
                         fillMode: Image.PreserveAspectFit
 
                         MouseArea {

@@ -28,11 +28,13 @@ ElectricalComponent {
     terminalSize: 0.2
     noOfConnectionPoints: 2
     information: qsTr("Resistors are used to reduce the current flow in an electrical circuit.")
-    labelText1: "V = " + componentVoltage + "V"
-    labelText2: "I = " + resistorCurrent + "A"
+    //: 1st V for Voltage, 2nd V for Volt
+    labelText1: qsTr("V = %1V").arg(componentVoltage)
+    //: I for current intensity, A for Ampere
+    labelText2: qsTr("I = %1A").arg(resistorCurrent)
     source: Activity.url + "resistor.png"
 
- property var nodeVoltages: [0, 0]
+    property var nodeVoltages: [0, 0]
     property double componentVoltage: 0
     property double resistorCurrent: 0
     property alias connectionPoints: connectionPoints

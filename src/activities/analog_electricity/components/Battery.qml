@@ -28,8 +28,10 @@ ElectricalComponent {
     terminalSize: 0.2
     noOfConnectionPoints: 2
     information: qsTr("Battery is used for powering up electrical devices. It can supply voltage in a closed circuit. Which means there should be a path for the current to flow from one terminal of the battery to the other.") + " " + qsTr("If the current in a circuit is too high then the battery can be damaged. Wires can be used to connect components and create the circuit.")
-    labelText1: "V = " + componentVoltage + "V"
-    labelText2: "I = " + current + "A"
+    //: 1st V for Voltage, 2nd V for Volt
+    labelText1: qsTr("V = %1V").arg(componentVoltage)
+    //: I for current intensity, A for Ampere
+    labelText2: qsTr("I = %1A").arg(current)
     source: Activity.url + "battery.png"
 
     property double componentVoltage: 0

@@ -37,29 +37,29 @@ ActivityBase {
     pageComponent: Image {
         id: background
         anchors.fill: parent
-        source: Activity.url1 + "texture02.png"
+        source: Activity.urlDigital + "texture02.png"
         fillMode: Image.Tile
         signal start
         signal stop
 
         onWidthChanged: resizeTimer.restart();
-        onHeightChanged:resizeTimer.restart();
+        onHeightChanged: resizeTimer.restart();
 
         Timer {
             id: resizeTimer
-            interval : 200
-            repeat : false
-            running : false
-            triggeredOnStart : false
+            interval: 200
+            repeat: false
+            running: false
+            triggeredOnStart: false
             onTriggered: Activity.updateWiresOnResize();
         }
 
         Timer {
             id: netlistTimer
-            interval : 500
-            repeat : false
-            running : false
-            triggeredOnStart : false
+            interval: 500
+            repeat: false
+            running: false
+            triggeredOnStart: false
             onTriggered: Activity.createNetlist();
         }
 
@@ -107,7 +107,7 @@ ActivityBase {
         }
 
         onHoriChanged: {
-            if (hori == true) {
+            if (hori === true) {
                 playArea.x += items.toolsMargin;
                 playArea.y -= items.toolsMargin;
             } else {
@@ -259,19 +259,15 @@ ActivityBase {
 
         Rectangle {
             id: inputComponentsContainer
-            width: background.hori ?
-            items.toolsMargin :
-            background.width
-            height: background.hori ?
-            background.height :
-            items.toolsMargin
+            width: background.hori ? items.toolsMargin : background.width
+            height: background.hori ? background.height : items.toolsMargin
             color: "#4A3823"
             anchors.left: parent.left
             Image {
                 anchors.fill: parent
                 anchors.rightMargin: background.hori ? 3 * ApplicationInfo.ratio : 0
                 anchors.bottomMargin: background.hori ? 0 : 3 * ApplicationInfo.ratio
-                source: Activity.url1 + "texture01.png"
+                source: Activity.urlDigital + "texture01.png"
                 fillMode: Image.Tile
                 ListWidget {
                     id: availablePieces
@@ -326,7 +322,7 @@ ActivityBase {
 
         Bar {
             id: bar
-            content: BarEnumContent { value: help | home | level | reload}
+            content: BarEnumContent { value: help | home | level | reload }
             onHelpClicked: displayDialog(dialogHelp);
             onPreviousLevelClicked: Activity.previousLevel();
             onNextLevelClicked: Activity.nextLevel();

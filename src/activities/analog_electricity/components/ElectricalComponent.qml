@@ -119,7 +119,7 @@ Image {
             Activity.componentSelected(componentIndex);
         }
         onClicked: {
-            if(Activity.toolDelete || Activity.toolDeleteSticky) {
+            if(Activity.toolDelete) {
                 if (destructible) {
                     Activity.removeComponent(componentIndex);
                 } else {
