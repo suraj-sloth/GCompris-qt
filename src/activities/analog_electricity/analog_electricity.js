@@ -111,7 +111,8 @@ function initLevel() {
 
 function loadFreeMode() {
     items.availablePieces.model.clear();
-    var componentList = items.tutorialDataset.tutorialLevels[currentLevel - 1].inputComponentList;
+    var componentList = items.tutorialDataset.componentList
+    //var componentList = items.tutorialDataset.tutorialLevels[currentLevel - 1].inputComponentList;
     for (var i = 0; i < componentList.length; i++) {
         items.availablePieces.model.append( {
             "imgName": componentList[i].imageName,

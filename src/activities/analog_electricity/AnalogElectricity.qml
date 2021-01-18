@@ -55,6 +55,7 @@ ActivityBase {
         property bool hori: background.width >= background.height
 
         Component.onCompleted: {
+            dialogActivityConfig.initialize();
             activity.start.connect(start);
             activity.stop.connect(stop);
         }
@@ -113,6 +114,7 @@ ActivityBase {
             property alias netlistTimer: netlistTimer
             property real toolsMargin: 90 * ApplicationInfo.ratio
             property real zoomLvl: 0.25
+            property bool isTutorialMode: true
 
         }
 
@@ -295,6 +297,19 @@ ActivityBase {
             }
         }
 
+        DialogChooseLevel {
+            id: dialogActivityConfig
+            currentActivity: activity.activityInfo
+            onClose: {
+                home();
+            }
+            onLoadData: {
+                if(activityData && activityData["mode"]) {
+                    items.isTutorialMode = activityData["mode"] == "tutorial" ? true : false;
+                }
+            }
+        }
+
         DialogHelp {
             id: dialogHelp
             onClose: home();
@@ -302,12 +317,15 @@ ActivityBase {
 
         Bar {
             id: bar
-            content: BarEnumContent { value: help | home | level | reload }
+            content: BarEnumContent { value: help | home | (items.isTutorialMode ? level : 0) | reload | activityConfig }
             onHelpClicked: displayDialog(dialogHelp);
             onPreviousLevelClicked: Activity.previousLevel();
             onNextLevelClicked: Activity.nextLevel();
             onHomeClicked: activity.home();
             onReloadClicked: Activity.initLevel();
+            onActivityConfigClicked: {
+                displayDialog(dialogActivityConfig);
+            }
         }
 
         Bonus {
