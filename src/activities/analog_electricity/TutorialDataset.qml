@@ -90,7 +90,17 @@ QtObject {
     property var tutorialLevels: [
         // level 1
         {
-            inputComponentList: [battery, bulb, switch1]
+            inputComponentList: [],
+            playAreaComponentList: [battery, bulb],
+            determiningComponentsIndex: [1],
+            wires: [ [0, 0, 1, 1] ], // from component_index, from terminalNumber, to component_index, to terminalNumber
+            playAreaComponentPositionX: [0.4, 0.6],
+            playAreaComponentPositionY: [0.3, 0.3],
+            introMessage: [
+                qsTr("The bulb glows when it's both sides are connected to the battery."),
+                qsTr("Turn on the bulb using the provided battery."),
+                qsTr("To connect two terminals, cilck on a terminal, then on a second terminal")
+            ]
         },
         // level 2
         {

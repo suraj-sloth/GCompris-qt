@@ -51,6 +51,6 @@ Item {
     function saveValues() {
         var newMode = availableModes[modeBox.currentIndex].value;
         dataToSave = {"mode": newMode};
-        Activity.reset()
+        Activity.initLevel();
     }
 }

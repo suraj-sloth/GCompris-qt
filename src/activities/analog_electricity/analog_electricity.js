@@ -91,6 +91,7 @@ function stop() {
 }
 
 function initLevel() {
+    items.availablePieces.model.clear();
     items.bar.level = currentLevel;
     items.availablePieces.view.currentDisplayedGroup = 0;
     items.availablePieces.view.previousNavigation = 1;
@@ -105,14 +106,74 @@ function initLevel() {
     viewPort.topEdge = 0;
     items.playArea.x = items.mousePan.drag.maximumX;
     items.playArea.y = items.mousePan.drag.maximumY;
-    loadFreeMode();
     isStopped = false;
+
+    if (!items.isTutorialMode) {
+        items.tutorialInstruction.index = -1;
+        loadFreeMode();
+    } else {
+        var levelProperties = items.tutorialDataset.tutorialLevels[currentLevel - 1];
+
+        for (var i = 0; i < levelProperties.inputComponentList.length; i++) {
+            var currentInputComponent = levelProperties.inputComponentList[i];
+            items.availablePieces.model.append( {
+                "imgName": currentInputComponent.imageName,
+                "componentSrc": currentInputComponent.componentSource,
+                "imgWidth": currentInputComponent.width,
+                "imgHeight": currentInputComponent.height,
+                "toolTipText": currentInputComponent.toolTipText
+            });
+        }
+
+        for (var i = 0; i < levelProperties.playAreaComponentList.length; i++) {
+            var index = components.length;
+
+            var currentPlayAreaComponent = levelProperties.playAreaComponentList[i];
+            var staticElectricalComponent = Qt.createComponent("qrc:/gcompris/src/activities/analog_electricity/components/" + currentPlayAreaComponent.componentSource);
+
+            components[index] = staticElectricalComponent.createObject(
+                        items.playArea, {
+                            "componentIndex": index,
+                            "posX": levelProperties.playAreaComponentPositionX[i] * currentZoom,
+                            "posY": levelProperties.playAreaComponentPositionY[i] * currentZoom,
+                            "imgWidth": currentPlayAreaComponent.width * currentZoom,
+                            "imgHeight": currentPlayAreaComponent.height * currentZoom,
+                            "destructible": false
+                        });
+            ++uniqueID;
+            components[index].componentName = components[index].componentName + uniqueID.toString();
+            components[index].initConnections();
+            deselect();
+        }
+
+        //create wires
+        for (i = 0; i < levelProperties.wires.length; i++) {
+            if (staticElectricalComponent.status == Quick.Component.Ready && components[i] !== undefined) {
+                var terminalNumber = levelProperties.wires[i][1];
+                var connectionPoint = components[levelProperties.wires[i][0]].connectionPoints.itemAt(terminalNumber);
+                terminalPointSelected(connectionPoint, false);
+
+                terminalNumber = levelProperties.wires[i][3];
+                var terminalToConnect = components[levelProperties.wires[i][2]].connectionPoints.itemAt(terminalNumber);
+
+                terminalPointSelected(terminalToConnect, false);
+            } else {
+                console.log("component is not ready");
+            }
+        }
+
+        if (levelProperties.introMessage.length != 0) {
+            items.tutorialInstruction.index = 0;
+            items.tutorialInstruction.intro = levelProperties.introMessage;
+        } else {
+            items.tutorialInstruction.index = -1;
+        }
+    }
 }
 
 function loadFreeMode() {
-    items.availablePieces.model.clear();
-    var componentList = items.tutorialDataset.componentList
-    //var componentList = items.tutorialDataset.tutorialLevels[currentLevel - 1].inputComponentList;
+    var componentList = items.tutorialDataset.componentList;
+
     for (var i = 0; i < componentList.length; i++) {
         items.availablePieces.model.append( {
             "imgName": componentList[i].imageName,
@@ -122,6 +183,10 @@ function loadFreeMode() {
             "toolTipText": componentList[i].toolTipText,
         });
     }
+}
+
+function checkAnswer() {
+    console.log("checking answer")
 }
 
 function zoomIn() {
@@ -195,8 +260,7 @@ function createComponent(x, y, componentIndex) {
     var index = components.length;
 
     var component = items.availablePieces.repeater.itemAt(componentIndex);
-    var electricComponent = Qt.createComponent("qrc:/gcompris/src/activities/analog_electricity/components/" +
-                                               component.source);
+    var electricComponent = Qt.createComponent("qrc:/gcompris/src/activities/analog_electricity/components/" + component.source);
 
     components[index] = electricComponent.createObject(
                         items.playArea, {
@@ -215,12 +279,14 @@ function createComponent(x, y, componentIndex) {
 
 /* Creates wire between two points.
 */
-function terminalPointSelected(terminal) {
+function terminalPointSelected(terminal, destructible) {
+    if(destructible == undefined)
+        destructible = true;
     if(selectedTerminal == -1 || selectedTerminal == terminal)
         selectedTerminal = terminal;
     else if(selectedTerminal.parent != terminal.parent) {
         var connectionPoint = terminal;
-        createWire(connectionPoint, true);
+        createWire(connectionPoint, destructible);
         deselect();
     }
     else {
