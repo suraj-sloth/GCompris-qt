@@ -86,6 +86,11 @@ QtObject {
     // List of all components
     property var componentList: [battery, bulb, switch1, switch2, connection, rheostat, resistor, redLed]
 
+    property var problemType: {
+        'lightTheBulb' : 1,
+        'others' : 2
+    }
+
     // tutorial levels
     property var tutorialLevels: [
         // level 1
@@ -96,27 +101,43 @@ QtObject {
             wires: [ [0, 1, 1, 0] ], // from component_index, from terminalNumber, to component_index, to terminalNumber
             playAreaComponentPositionX: [0.4, 0.6],
             playAreaComponentPositionY: [0.1, 0.3],
+            type: [problemType.lightTheBulb],
             introMessage: [
-                qsTr("A bulb glows when current travel through it. If there is a gap in the path, the current cannot travel and the electrical devices will not work."),
+                qsTr("A bulb glows when current travels through it. If there is a gap in the path, the current cannot travel and the electrical devices will not work."),
                 qsTr("The travelling path is called circuit. Electrical devices can work only in a closed circuit. Wires can be used to connect devices and create the circuit."),
-                qsTr("For a detailed description of battery and bulb, click on those and then clik on the info button."),
-                qsTr("Turn on the bulb using the provided battery. To connect two terminals, cilck on a terminal, then on a second terminal")
+                qsTr("For a detailed description of battery and bulb, click on those and then click on the info button."),
+                qsTr("Turn on the bulb using the provided battery. To connect two terminals, cilck on a terminal, then on a second terminal.")
             ]
         },
         // level 2
         {
             inputComponentList: [battery],
-            playAreaComponentList: [bulb, connection],
-            determiningComponentsIndex: [0, 1],
-            wires: [ [0, 1, 1, 0] ],
-            playAreaComponentPositionX: [0.2, 0.4],
-            playAreaComponentPositionY: [0.35, 0.25],
+            playAreaComponentList: [bulb],
+            determiningComponentsIndex: [0],
+            wires: [],
+            playAreaComponentPositionX: [0.4],
+            playAreaComponentPositionY: [0.3],
+            type: [problemType.lightTheBulb],
             introMessage: [
-                qsTr("A connector can be used to connect several wires in a circuit."),
-                qsTr("Light the bulb so that the current should flow through the provided simple connector.")
+                qsTr("Light the bulb using the provided battery.")
             ]
         },
         // level 3
+        {
+            inputComponentList: [battery],
+            playAreaComponentList: [bulb, switch1],
+            determiningComponentsIndex: [0, 1],
+            wires: [],
+            playAreaComponentPositionX: [0.2, 0.4],
+            playAreaComponentPositionY: [0.35, 0.25],
+            type: [problemType.others],
+            introMessage: [
+                qsTr("Switch can connect or disconnect the current travelling path also called conducting path in a circuit."),
+                qsTr("You can click on the switch to open and close it."),
+                qsTr("Create a circuit using the provided components so that the bulb glows only when the switch is on.")
+            ]
+        },
+        // level 4
         {
             inputComponentList: [battery, bulb, rheostat, resistor, switch1, connection, redLed]
         }

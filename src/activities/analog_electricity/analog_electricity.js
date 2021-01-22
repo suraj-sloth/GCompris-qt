@@ -24,7 +24,9 @@ var animationInProgress;
 var selectedIndex;
 var selectedTerminal;
 var components = [];
+var determiningComponents = []
 var connectionCount = 0;
+var levelProperties;
 
 var uniqueID = 0;
 var netlistComponents = [];
@@ -96,6 +98,7 @@ function initLevel() {
     items.availablePieces.view.currentDisplayedGroup = 0;
     items.availablePieces.view.previousNavigation = 1;
     items.availablePieces.view.nextNavigation = 1;
+    determiningComponents = [];
     colorIndex = 0;
     stop();
     animationInProgress = false;
@@ -112,7 +115,7 @@ function initLevel() {
         items.tutorialInstruction.index = -1;
         loadFreeMode();
     } else {
-        var levelProperties = items.tutorialDataset.tutorialLevels[currentLevel - 1];
+        levelProperties = items.tutorialDataset.tutorialLevels[currentLevel - 1];
 
         for (var i = 0; i < levelProperties.inputComponentList.length; i++) {
             var currentInputComponent = levelProperties.inputComponentList[i];
@@ -144,6 +147,11 @@ function initLevel() {
             components[index].componentName = components[index].componentName + uniqueID.toString();
             components[index].initConnections();
             deselect();
+        }
+
+        var _determiningComponentsIndex = levelProperties.determiningComponentsIndex
+        for (var i = 0; i < _determiningComponentsIndex.length; i++) {
+            determiningComponents[determiningComponents.length] = components[_determiningComponentsIndex[i]];
         }
 
         //create wires
@@ -186,7 +194,19 @@ function loadFreeMode() {
 }
 
 function checkAnswer() {
-    console.log("checking answer")
+    var problemType = items.tutorialDataset.tutorialLevels[currentLevel - 1].type;
+
+    if (problemType == items.tutorialDataset.problemType.lightTheBulb) {
+        if (!determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0) {
+            items.bonus.good('gnu');
+        } else {
+            items.bonus.bad('gnu', items.bonus.checkAnswer);
+        }
+    } else if (problemType == items.tutorialDataset.problemType.others) {
+        if (currentLevel == 3) {
+            console.log("it is level 3")
+        }
+    }
 }
 
 function zoomIn() {

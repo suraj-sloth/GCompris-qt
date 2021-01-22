@@ -29,6 +29,7 @@ ElectricalComponent {
     property double maxPower: 0.11
     property double bulbCurrent: 0
     property alias connectionPoints: connectionPoints
+    property alias lightBulb: lightBulb
     property bool isBroken: false
     property var connectionPointPosX: [0.1, 0.9]
     property string componentName: "Bulb"
