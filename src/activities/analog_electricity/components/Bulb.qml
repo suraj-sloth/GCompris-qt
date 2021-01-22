@@ -138,7 +138,7 @@ ElectricalComponent {
             if(connectionPoints.itemAt(i).wires.length > 0)
                 terminalConnected += 1;
         }
-        if(terminalConnected >= 2 && !isBroken) {
+        if(terminalConnected >= 2 && !isBroken && Activity.levelProperties > 3) {
             bulb.showLabel = true;
         } else {
             bulb.showLabel = false;

@@ -91,20 +91,30 @@ QtObject {
         // level 1
         {
             inputComponentList: [],
-            playAreaComponentList: [battery, bulb],
-            determiningComponentsIndex: [1],
-            wires: [ [0, 0, 1, 1] ], // from component_index, from terminalNumber, to component_index, to terminalNumber
+            playAreaComponentList: [bulb, battery],
+            determiningComponentsIndex: [0],
+            wires: [ [0, 1, 1, 0] ], // from component_index, from terminalNumber, to component_index, to terminalNumber
             playAreaComponentPositionX: [0.4, 0.6],
-            playAreaComponentPositionY: [0.3, 0.3],
+            playAreaComponentPositionY: [0.1, 0.3],
             introMessage: [
-                qsTr("The bulb glows when it's both sides are connected to the battery."),
-                qsTr("Turn on the bulb using the provided battery."),
-                qsTr("To connect two terminals, cilck on a terminal, then on a second terminal")
+                qsTr("A bulb glows when current travel through it. If there is a gap in the path, the current cannot travel and the electrical devices will not work."),
+                qsTr("The travelling path is called circuit. Electrical devices can work only in a closed circuit. Wires can be used to connect devices and create the circuit."),
+                qsTr("For a detailed description of battery and bulb, click on those and then clik on the info button."),
+                qsTr("Turn on the bulb using the provided battery. To connect two terminals, cilck on a terminal, then on a second terminal")
             ]
         },
         // level 2
         {
-            inputComponentList: [battery, bulb, rheostat, switch1, switch2, connection]
+            inputComponentList: [battery],
+            playAreaComponentList: [bulb, connection],
+            determiningComponentsIndex: [0, 1],
+            wires: [ [0, 1, 1, 0] ],
+            playAreaComponentPositionX: [0.2, 0.4],
+            playAreaComponentPositionY: [0.35, 0.25],
+            introMessage: [
+                qsTr("A connector can be used to connect several wires in a circuit."),
+                qsTr("Light the bulb so that the current should flow through the provided simple connector.")
+            ]
         },
         // level 3
         {
