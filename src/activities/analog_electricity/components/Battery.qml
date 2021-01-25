@@ -27,6 +27,7 @@ ElectricalComponent {
     property var nodeVoltages: [0, 0]
     property double current: 0
     property alias connectionPoints: connectionPoints
+    property bool inConnectedComponents: false
     property var connectionPointPosY: [0.1, 0.9]
     property var connectionPointType: ["positive", "negative"]
     property string componentName: "Voltage"
@@ -67,7 +68,10 @@ ElectricalComponent {
             if(connectionPoints.itemAt(i).wires.length > 0)
                 terminalConnected += 1;
         }
-        if(terminalConnected >= 2 && Activity.levelProperties > 3) {
+
+        if((terminalConnected >= 2 && !Activity.items.isTutorialMode) ||
+            (terminalConnected >= 2 && Activity.items.isTutorialMode &&
+            Activity.levelProperties > 3)) {
             battery.showLabel = true;
         } else {
             battery.showLabel = false;
@@ -103,5 +107,27 @@ ElectricalComponent {
         netlistItem[3][0] = battery.externalNetlistIndex[0];
         netlistItem[3][1] = battery.externalNetlistIndex[1];
         Activity.netlist.push(netlistItem);
+    }
+
+    function checkConnectedComponents() {
+        for(var i = 0; i < noOfConnectionPoints; ++i) {
+            var terminal = connectionPoints.itemAt(i);
+            for(var j = 0; j < terminal.wires.length; ++j) {
+                var wire = terminal.wires[j];
+                var connectedComponent1 = wire.node1.parent;
+                var connectedComponent2 = wire.node2.parent;
+
+                if(connectedComponent1 === terminal.parent && connectedComponent1.inConnectedComponents === false && connectedComponent1.terminalConnected >= 2) {
+                    connectedComponent1.inConnectedComponents = true;
+                    Activity.connectedComponents.push(connectedComponent1);
+                    connectedComponent2.checkConnectedComponents();
+                } else if(connectedComponent2 === terminal.parent && connectedComponent2.inConnectedComponents === false && connectedComponent2.terminalConnected >= 2) {
+                    connectedComponent2.inConnectedComponents = true;
+                    Activity.connectedComponents.push(connectedComponent2);
+                    connectedComponent1.checkConnectedComponents();
+                } else
+                    break;
+            }
+        }
     }
 }

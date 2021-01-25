@@ -101,7 +101,7 @@ QtObject {
             wires: [ [0, 1, 1, 0] ], // from component_index, from terminalNumber, to component_index, to terminalNumber
             playAreaComponentPositionX: [0.4, 0.6],
             playAreaComponentPositionY: [0.1, 0.3],
-            type: [problemType.lightTheBulb],
+            type: problemType.lightTheBulb,
             introMessage: [
                 qsTr("A bulb glows when current travels through it. If there is a gap in the path, the current cannot travel and the electrical devices will not work."),
                 qsTr("The travelling path is called circuit. Electrical devices can work only in a closed circuit. Wires can be used to connect devices and create the circuit."),
@@ -117,7 +117,7 @@ QtObject {
             wires: [],
             playAreaComponentPositionX: [0.4],
             playAreaComponentPositionY: [0.3],
-            type: [problemType.lightTheBulb],
+            type: problemType.lightTheBulb,
             introMessage: [
                 qsTr("Light the bulb using the provided battery.")
             ]
@@ -130,7 +130,7 @@ QtObject {
             wires: [],
             playAreaComponentPositionX: [0.2, 0.4],
             playAreaComponentPositionY: [0.35, 0.25],
-            type: [problemType.others],
+            type: problemType.others,
             introMessage: [
                 qsTr("Switch can connect or disconnect the current travelling path also called conducting path in a circuit."),
                 qsTr("You can click on the switch to open and close it."),

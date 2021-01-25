@@ -24,9 +24,11 @@ var animationInProgress;
 var selectedIndex;
 var selectedTerminal;
 var components = [];
-var determiningComponents = []
+var determiningComponents = [];
+var connectedComponents = [];
 var connectionCount = 0;
 var levelProperties;
+var invalidCircuit = false;
 
 var uniqueID = 0;
 var netlistComponents = [];
@@ -194,18 +196,38 @@ function loadFreeMode() {
 }
 
 function checkAnswer() {
+    if(invalidCircuit){
+        items.bonus.bad('gnu', items.bonus.checkAnswer);
+        return;
+    }
+
     var problemType = items.tutorialDataset.tutorialLevels[currentLevel - 1].type;
 
-    if (problemType == items.tutorialDataset.problemType.lightTheBulb) {
+    if (problemType === items.tutorialDataset.problemType.lightTheBulb) {
         if (!determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0) {
             items.bonus.good('gnu');
         } else {
             items.bonus.bad('gnu', items.bonus.checkAnswer);
         }
-    } else if (problemType == items.tutorialDataset.problemType.others) {
-        if (currentLevel == 3) {
-            console.log("it is level 3")
+    } else if (problemType === items.tutorialDataset.problemType.others) {
+        if (currentLevel === 3) {
+            addConnectedComponents();
+            for (var i in connectedComponents) {
+                if (connectedComponents[i] === determiningComponents[1] && !determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0) {
+                    items.bonus.good('gnu');
+                } else {
+                    items.bonus.bad('gnu', items.bonus.checkAnswer);
+                }
+            }
         }
+    }
+}
+
+function addConnectedComponents() {
+    console.log("components are " + components)
+    for(var i = 0 ; i < components.length ; ++i) {
+        var component = components[i];
+        component.checkConnectedComponents();
     }
 }
 
@@ -559,6 +581,8 @@ function dcAnalysis() {
     if(ckt.GCWarning != "") {
         displayWarning(ckt.GCWarning);
         return;
+    } else {
+        invalidCircuit = false;
     }
 
     var currentResults = ckt.GCCurrentResults;
@@ -586,4 +610,5 @@ function dcAnalysis() {
 function displayWarning(message_) {
     items.infoTxt.visible = true;
     items.infoTxt.text = message_;
+    invalidCircuit = true;
 }
