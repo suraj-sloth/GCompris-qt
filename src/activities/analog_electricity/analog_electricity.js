@@ -224,10 +224,20 @@ function checkAnswer() {
 }
 
 function addConnectedComponents() {
-    console.log("components are " + components)
+    //Clear connectedComponents and the bool inConnectedComponents inside each component
+    connectedComponents = [];
+    for(var i = 0; i < components.length; ++i) {
+        var component = components[i];
+        component.inConnectedComponents = false;
+    }
+
+    //Populate connectedComponents
     for(var i = 0 ; i < components.length ; ++i) {
         var component = components[i];
-        component.checkConnectedComponents();
+        if(component.terminalConnected >= 2) {
+            component.checkConnectedComponents();
+        } else
+            component.inConnectedComponents = false;
     }
 }
 
