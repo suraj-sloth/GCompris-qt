@@ -129,5 +129,13 @@ ElectricalComponent {
             }
         }
     }
+
+    function updateOutput() {
+        if(switch1.source == Activity.url + "switch_off.svg") {
+            switch1.source = Activity.url + "switch_on.svg";
+            switchOn = true;
+            Activity.createNetlist();
+        }
+    }
 }
 

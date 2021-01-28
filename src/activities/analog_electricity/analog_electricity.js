@@ -29,6 +29,7 @@ var connectedComponents = [];
 var connectionCount = 0;
 var levelProperties;
 var invalidCircuit = false;
+var processingAnswer = false;
 
 var uniqueID = 0;
 var netlistComponents = [];
@@ -117,6 +118,7 @@ function initLevel() {
         items.tutorialInstruction.index = -1;
         loadFreeMode();
     } else {
+        processingAnswer = false;
         levelProperties = items.tutorialDataset.tutorialLevels[currentLevel - 1];
 
         for (var i = 0; i < levelProperties.inputComponentList.length; i++) {
@@ -211,13 +213,22 @@ function checkAnswer() {
         }
     } else if (problemType === items.tutorialDataset.problemType.others) {
         if (currentLevel === 3) {
+
             addConnectedComponents();
-            for (var i in connectedComponents) {
-                if (connectedComponents[i] === determiningComponents[1] && !determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0) {
-                    items.bonus.good('gnu');
-                } else {
-                    items.bonus.bad('gnu', items.bonus.checkAnswer);
-                }
+
+            for (var i = 0; i < connectedComponents.length; ++i) {
+                if (connectedComponents[i] === determiningComponents[1]) {
+                    connectedComponents[i].updateOutput();
+                    processingAnswer = true;
+                } else
+                    processingAnswer = false;
+            }
+
+            if (processingAnswer === true && !determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0) {
+                items.bonus.good('gnu');
+            } else {
+                items.bonus.bad('gnu', items.bonus.checkAnswer);
+                processingAnswer = false;
             }
         }
     }

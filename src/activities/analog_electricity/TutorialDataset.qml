@@ -5,7 +5,7 @@
  * Authors:
  *   Bruno Coudoin <bruno.coudoin@gcompris.net> (Gtk+ version)
  *   Rudra Nil Basu <rudra.nil.basu.1996@gmail.com> (DigitalElectricity)
- *   Aiswarya Kaitheri Kandoth <aiswaryakk29@gmail.com> (AnalogElectricity activity)
+ *   Aiswarya Kaitheri Kandoth <aiswaryakk29@gmail.com> (AnalogElectricity)
  *
  *   SPDX-License-Identifier: GPL-3.0-or-later
  */
