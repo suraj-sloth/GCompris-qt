@@ -143,7 +143,7 @@ ElectricalComponent {
 
         if((terminalConnected >=2 && !isBroken && !Activity.items.isTutorialMode) ||
             (terminalConnected >= 2 && !isBroken && Activity.items.isTutorialMode &&
-            Activity.levelProperties > 3)) {
+            Activity.currentLevel > 4)) {
             bulb.showLabel = true;
         } else {
             bulb.showLabel = false;

@@ -71,7 +71,7 @@ ElectricalComponent {
 
         if((terminalConnected >= 2 && !Activity.items.isTutorialMode) ||
             (terminalConnected >= 2 && Activity.items.isTutorialMode &&
-            Activity.levelProperties > 3)) {
+            Activity.currentLevel > 4)) {
             battery.showLabel = true;
         } else {
             battery.showLabel = false;
