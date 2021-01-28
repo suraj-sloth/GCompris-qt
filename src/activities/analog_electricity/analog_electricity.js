@@ -200,22 +200,23 @@ function loadFreeMode() {
 function checkAnswer() {
     if(invalidCircuit){
         items.bonus.bad('gnu', items.bonus.checkAnswer);
+        processingAnswer = false;
         return;
     }
 
     var problemType = items.tutorialDataset.tutorialLevels[currentLevel - 1].type;
 
-    if(problemType === items.tutorialDataset.problemType.lightTheBulb) {
+    if(problemType === items.tutorialDataset.problemType.lightTheBulb && !invalidCircuit) {
         if (!determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0) {
             items.bonus.good('gnu');
         } else {
             items.bonus.bad('gnu', items.bonus.checkAnswer);
         }
-    } else if(problemType === items.tutorialDataset.problemType.others) {
+    } else if(problemType === items.tutorialDataset.problemType.others && !invalidCircuit) {
 
         addConnectedComponents();
 
-        if(currentLevel === 3 || currentLevel === 4) {
+        if(currentLevel === 3 || currentLevel === 4 && !invalidCircuit) {
 
             for(var i = 0; i < connectedComponents.length; ++i) {
                 if(connectedComponents[i] === determiningComponents[1]) {
@@ -225,9 +226,9 @@ function checkAnswer() {
                     processingAnswer = false;
             }
 
-            if(processingAnswer === true && currentLevel === 3 && !determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0) {
+            if(processingAnswer === true && currentLevel === 3 && !invalidCircuit && !determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0) {
                 items.bonus.good('gnu');
-            } else if(processingAnswer === true && currentLevel === 4 && !determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0 && !determiningComponents[2].isBroken && determiningComponents[2].lightBulb.opacity > 0) {
+            } else if(processingAnswer === true && currentLevel === 4 && !invalidCircuit && !determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0 && !determiningComponents[2].isBroken && determiningComponents[2].lightBulb.opacity > 0) {
                 items.bonus.good('gnu');
             } else {
                 items.bonus.bad('gnu', items.bonus.checkAnswer);
