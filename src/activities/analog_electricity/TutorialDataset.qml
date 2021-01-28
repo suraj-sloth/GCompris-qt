@@ -128,8 +128,8 @@ QtObject {
             playAreaComponentList: [bulb, switch1],
             determiningComponentsIndex: [0, 1],
             wires: [],
-            playAreaComponentPositionX: [0.2, 0.4],
-            playAreaComponentPositionY: [0.35, 0.25],
+            playAreaComponentPositionX: [0.4, 0.7],
+            playAreaComponentPositionY: [0.35, 0.3],
             type: problemType.others,
             introMessage: [
                 qsTr("Switch can connect or disconnect the current travelling path also called conducting path in a circuit."),
@@ -139,7 +139,17 @@ QtObject {
         },
         // level 4
         {
-            inputComponentList: [battery, bulb, rheostat, resistor, switch1, connection, redLed]
+            inputComponentList: [battery, switch1, connection],
+            playAreaComponentList: [bulb, switch1, bulb],
+            determiningComponentsIndex: [0, 1, 2],
+            wires: [],
+            playAreaComponentPositionX: [0.4, 0.7, 0.4],
+            playAreaComponentPositionY: [0.35, 0.3, 0.05],
+            type: problemType.others,
+            introMessage: [
+                qsTr("Simple connector can be used to connect several wires in an electrical circuit."),
+                qsTr("Create a circuit so that one bulb should be always lit and the other should be lit only when the switch is on.")
+            ]
         }
     ]
 }

@@ -205,26 +205,29 @@ function checkAnswer() {
 
     var problemType = items.tutorialDataset.tutorialLevels[currentLevel - 1].type;
 
-    if (problemType === items.tutorialDataset.problemType.lightTheBulb) {
+    if(problemType === items.tutorialDataset.problemType.lightTheBulb) {
         if (!determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0) {
             items.bonus.good('gnu');
         } else {
             items.bonus.bad('gnu', items.bonus.checkAnswer);
         }
-    } else if (problemType === items.tutorialDataset.problemType.others) {
-        if (currentLevel === 3) {
+    } else if(problemType === items.tutorialDataset.problemType.others) {
 
-            addConnectedComponents();
+        addConnectedComponents();
 
-            for (var i = 0; i < connectedComponents.length; ++i) {
-                if (connectedComponents[i] === determiningComponents[1]) {
+        if(currentLevel === 3 || currentLevel === 4) {
+
+            for(var i = 0; i < connectedComponents.length; ++i) {
+                if(connectedComponents[i] === determiningComponents[1]) {
                     connectedComponents[i].updateOutput();
                     processingAnswer = true;
                 } else
                     processingAnswer = false;
             }
 
-            if (processingAnswer === true && !determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0) {
+            if(processingAnswer === true && currentLevel === 3 && !determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0) {
+                items.bonus.good('gnu');
+            } else if(processingAnswer === true && currentLevel === 4 && !determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0 && !determiningComponents[2].isBroken && determiningComponents[2].lightBulb.opacity > 0) {
                 items.bonus.good('gnu');
             } else {
                 items.bonus.bad('gnu', items.bonus.checkAnswer);
