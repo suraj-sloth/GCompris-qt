@@ -19,6 +19,7 @@ var urlDigital = "qrc:/gcompris/src/activities/digital_electricity/resource/";
 var currentLevel = 1;
 var numberOfLevel = 3;
 var items;
+var view;
 var toolDelete;
 var animationInProgress;
 var selectedIndex;
@@ -96,23 +97,26 @@ function stop() {
 }
 
 function initLevel() {
-    items.availablePieces.model.clear();
     items.bar.level = currentLevel;
     items.availablePieces.view.currentDisplayedGroup = 0;
     items.availablePieces.view.previousNavigation = 1;
     items.availablePieces.view.nextNavigation = 1;
     determiningComponents = [];
     colorIndex = 0;
-    stop();
     animationInProgress = false;
     toolDelete = false;
+    isStopped = false;
+    items.availablePieces.model.clear();
+    stop();
     deselect();
+    items.availablePieces.hideToolbar();
+
     currentZoom = defaultZoom;
     viewPort.leftEdge = 0;
     viewPort.topEdge = 0;
     items.playArea.x = items.mousePan.drag.maximumX;
     items.playArea.y = items.mousePan.drag.maximumY;
-    isStopped = false;
+
 
     if (!items.isTutorialMode) {
         items.tutorialInstruction.index = -1;

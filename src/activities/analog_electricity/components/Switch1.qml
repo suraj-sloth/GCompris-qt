@@ -74,7 +74,11 @@ ElectricalComponent {
     }
 
     function checkConnections() {
-        return;
+        terminalConnected = 0;
+        for(var i = 0; i < noOfConnectionPoints; i++) {
+            if(connectionPoints.itemAt(i).wires.length > 0)
+                terminalConnected += 1;
+        }
     }
 
     function updateValues() {

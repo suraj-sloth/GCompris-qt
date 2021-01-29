@@ -37,11 +37,7 @@ ElectricalComponent {
     }
 
     function checkConnections() {
-        terminalConnected = 0;
-
-        if(connectionPoints.itemAt(0).wires.length > 0) {
-            terminalConnected += 1;
-        }
+        return;
     }
 
     function updateValues() {
