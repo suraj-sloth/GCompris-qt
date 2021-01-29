@@ -114,6 +114,8 @@ QtObject {
             playAreaComponentPositionX: [0.4],
             playAreaComponentPositionY: [0.3],
             introMessage: [
+                qsTr("Too much current in an electrical circuit can damage the connected devices."),
+                qsTr("In order to repair a broken bulb in this activity, click on it after disconnecting from the circuit. Don't forget to disable the delete button after removing the connected wires."),
                 qsTr("Light the bulb using the provided battery.")
             ]
         },
