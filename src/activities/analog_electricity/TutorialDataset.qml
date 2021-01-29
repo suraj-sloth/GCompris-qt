@@ -147,6 +147,23 @@ QtObject {
                 qsTr("Simple connector can be used to connect several wires in an electrical circuit."),
                 qsTr("Create a circuit so that one bulb should be always lit and the other should be lit only when the switch is on.")
             ]
+        },
+        // level 5
+        {
+            inputComponentList: [battery, switch1, connection],
+            playAreaComponentList: [bulb],
+            determiningComponentsIndex: [0],
+            answerKey: ["bulbGlows"],
+            wires: [],
+            playAreaComponentPositionX: [0.4],
+            playAreaComponentPositionY: [0.3],
+            introMessage: [
+                qsTr("Electric current intensity or simply current is a flow of electric charge. One can imagine like a flow of electrons."),
+                qsTr("The conventional symbol for current is I. The SI unit of current is ampere, which is denoted as A."),
+                qsTr("Voltage or electric potential difference is what makes a current in a circuit. It is like a 'push' or 'pull' for electric charge."),
+                qsTr("The conventional symbol for voltage is V. The SI unit of measure of voltage is volt, which is denoted as V."),
+                qsTr("Light the bulb and observe the values shown.")
+            ]
         }
     ]
 }
