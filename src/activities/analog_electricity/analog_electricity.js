@@ -25,11 +25,11 @@ var selectedIndex;
 var selectedTerminal;
 var components = [];
 var determiningComponents = [];
-var connectedComponents = [];
 var connectionCount = 0;
 var levelProperties;
 var invalidCircuit = false;
 var processingAnswer = false;
+var answerKeys = [];
 
 var uniqueID = 0;
 var netlistComponents = [];
@@ -204,55 +204,20 @@ function checkAnswer() {
         return;
     }
 
-    var problemType = items.tutorialDataset.tutorialLevels[currentLevel - 1].type;
+    for(var i = 0; i < determiningComponents.length; ++i) {
+        answerKeys[i] = determiningComponents[i].checkComponentAnswer();
+        processingAnswer = true;
+    }
+    console.log("answerKeys array is " + answerKeys)
+    console.log("answerKey in tutorial level is " + levelProperties.answerKey)
 
-    if(problemType === items.tutorialDataset.problemType.lightTheBulb && !invalidCircuit) {
-        if (!determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0) {
+    for(var i in answerKeys) {
+        if(levelProperties.answerKey[i] === answerKeys[i] && processingAnswer) {
             items.bonus.good('gnu');
         } else {
             items.bonus.bad('gnu', items.bonus.checkAnswer);
+            processingAnswer = false;
         }
-    } else if(problemType === items.tutorialDataset.problemType.others && !invalidCircuit) {
-
-        addConnectedComponents();
-
-        if(currentLevel === 3 || currentLevel === 4 && !invalidCircuit) {
-
-            for(var i = 0; i < connectedComponents.length; ++i) {
-                if(connectedComponents[i] === determiningComponents[1]) {
-                    connectedComponents[i].updateOutput();
-                    processingAnswer = true;
-                } else
-                    processingAnswer = false;
-            }
-
-            if(processingAnswer === true && currentLevel === 3 && !invalidCircuit && !determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0) {
-                items.bonus.good('gnu');
-            } else if(processingAnswer === true && currentLevel === 4 && !invalidCircuit && !determiningComponents[0].isBroken && determiningComponents[0].lightBulb.opacity > 0 && !determiningComponents[2].isBroken && determiningComponents[2].lightBulb.opacity > 0) {
-                items.bonus.good('gnu');
-            } else {
-                items.bonus.bad('gnu', items.bonus.checkAnswer);
-                processingAnswer = false;
-            }
-        }
-    }
-}
-
-function addConnectedComponents() {
-    //Clear connectedComponents and the bool inConnectedComponents inside each component
-    connectedComponents = [];
-    for(var i = 0; i < components.length; ++i) {
-        var component = components[i];
-        component.inConnectedComponents = false;
-    }
-
-    //Populate connectedComponents
-    for(var i = 0 ; i < components.length ; ++i) {
-        var component = components[i];
-        if(component.terminalConnected >= 2) {
-            component.checkConnectedComponents();
-        } else
-            component.inConnectedComponents = false;
     }
 }
 

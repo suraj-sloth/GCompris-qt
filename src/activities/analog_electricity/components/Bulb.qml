@@ -30,7 +30,6 @@ ElectricalComponent {
     property double bulbCurrent: 0
     property alias connectionPoints: connectionPoints
     property alias lightBulb: lightBulb
-    property bool inConnectedComponents: false
     property bool isBroken: false
     property var connectionPointPosX: [0.1, 0.9]
     property string componentName: "Bulb"
@@ -208,25 +207,14 @@ ElectricalComponent {
         }
     }
 
-    function checkConnectedComponents() {
-        for(var i = 0; i < noOfConnectionPoints; ++i) {
-            var terminal = connectionPoints.itemAt(i);
-            for(var j = 0; j < terminal.wires.length; ++j) {
-                var wire = terminal.wires[j];
-                var connectedComponent1 = wire.node1.parent;
-                var connectedComponent2 = wire.node2.parent;
+    function checkComponentAnswer() {
 
-                if(connectedComponent1 === terminal.parent && connectedComponent1.inConnectedComponents === false && connectedComponent1.terminalConnected >= 2) {
-                    connectedComponent1.inConnectedComponents = true;
-                    Activity.connectedComponents.push(connectedComponent1);
-                    connectedComponent2.checkConnectedComponents();
-                } else if(connectedComponent2 === terminal.parent && connectedComponent2.inConnectedComponents === false && connectedComponent2.terminalConnected >= 2) {
-                    connectedComponent2.inConnectedComponents = true;
-                    Activity.connectedComponents.push(connectedComponent2);
-                    connectedComponent1.checkConnectedComponents();
-                } else
-                    break;
-            }
+        if(componentVoltage === 10) {
+            return "bulbGlows";
+        } else if(componentVoltage < 10) {
+            return "bulbGlowsLess"
+        } else if(terminalConnected >= 2 && isBroken) {
+            return "bulbBroken";
         }
     }
 }
