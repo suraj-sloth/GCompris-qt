@@ -97,17 +97,16 @@ function stop() {
 }
 
 function initLevel() {
+    items.availablePieces.model.clear();
     items.bar.level = currentLevel;
     items.availablePieces.view.currentDisplayedGroup = 0;
     items.availablePieces.view.previousNavigation = 1;
     items.availablePieces.view.nextNavigation = 1;
     determiningComponents = [];
     colorIndex = 0;
+    stop();
     animationInProgress = false;
     toolDelete = false;
-    isStopped = false;
-    items.availablePieces.model.clear();
-    stop();
     deselect();
     items.availablePieces.hideToolbar();
 
@@ -116,6 +115,7 @@ function initLevel() {
     viewPort.topEdge = 0;
     items.playArea.x = items.mousePan.drag.maximumX;
     items.playArea.y = items.mousePan.drag.maximumY;
+    isStopped = false;
 
 
     if (!items.isTutorialMode) {
@@ -496,6 +496,7 @@ function removeWire(wire) {
 
     wire.destroy();
     deselect();
+
     if(connectionPoint1.wires.length === 0) {
         connectionPoint1.resetIndex();
     } else {
@@ -512,6 +513,7 @@ function removeWire(wire) {
     }
     connectionPoint1.parent.checkConnections();
     connectionPoint2.parent.checkConnections();
+
     if(!isStopped)
         restartTimer();
 }

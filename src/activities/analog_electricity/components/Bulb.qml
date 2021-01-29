@@ -213,9 +213,8 @@ ElectricalComponent {
             return "bulbGlows";
         } else if(componentVoltage < 10) {
             return "bulbGlowsLess"
-        } else if(terminalConnected >= 2 && isBroken) {
+        } else(terminalConnected >= 2 && isBroken)
             return "bulbBroken";
-        }
     }
 }
 

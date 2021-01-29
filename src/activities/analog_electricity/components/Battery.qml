@@ -107,4 +107,9 @@ ElectricalComponent {
         netlistItem[3][1] = battery.externalNetlistIndex[1];
         Activity.netlist.push(netlistItem);
     }
+
+    function checkComponentAnswer() {
+        if(terminalConnected >= 2)
+            return "batteryIn";
+    }
 }
