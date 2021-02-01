@@ -187,12 +187,25 @@ QtObject {
             determiningComponentsIndex: [0, 1],
             answerKey: ["rheostatIn", "bulbGlows"],
             wires: [],
-            playAreaComponentPositionX: [0.4, 0.7, 0.4, 0.2],
-            playAreaComponentPositionY: [0.35, 0.3, 0.05, 0.3],
+            playAreaComponentPositionX: [0.4, 0.7, 0.4],
+            playAreaComponentPositionY: [0.35, 0.3, 0.05],
             introMessage: [
                 qsTr("A rheostat is used to vary resistance in an electrical circuit."),
                 qsTr("You can change the rheostat value by dragging its slider."),
-                qsTr("Connect the bulb to the appropriate terminals of rheostat so that the voltage drop in the bulb should be 10V.")
+                qsTr("Connect the bulb to the appropriate terminals of rheostat and set the slider position so that the voltage drop in the bulb should be 10V.")
+            ]
+        },
+        // level 8
+        {
+            inputComponentList: [connection],
+            playAreaComponentList: [rheostat, bulb, battery],
+            determiningComponentsIndex: [0, 1],
+            answerKey: ["rheostatConst", "bulbGlowsLess"],
+            wires: [],
+            playAreaComponentPositionX: [0.4, 0.7, 0.4],
+            playAreaComponentPositionY: [0.35, 0.3, 0.05],
+            introMessage: [
+                qsTr("Connect the bulb to the appropriate terminals of rheostat so that the light intensity of bulb cannot be changed while dragging the slider.")
             ]
         }
     ]

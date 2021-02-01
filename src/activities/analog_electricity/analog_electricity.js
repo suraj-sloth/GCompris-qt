@@ -202,6 +202,8 @@ function loadFreeMode() {
 }
 
 function checkAnswer() {
+    answerKeys = [];
+
     if(invalidCircuit){
         items.bonus.bad('gnu', items.bonus.checkAnswer);
         processingAnswer = false;

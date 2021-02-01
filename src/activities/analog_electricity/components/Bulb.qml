@@ -211,9 +211,9 @@ ElectricalComponent {
 
         if(componentVoltage === 10) {
             return "bulbGlows";
-        } else if(componentVoltage < 10) {
+        } else if(terminalConnected >= 2 && componentVoltage < 10) {
             return "bulbGlowsLess"
-        } else(terminalConnected >= 2 && isBroken)
+        } else if(terminalConnected >= 2 && isBroken)
             return "bulbBroken";
     }
 }
