@@ -606,6 +606,7 @@ function dcAnalysis() {
 }
 
 function displayWarning(message_) {
+    items.availablePieces.hideToolbar();
     items.infoTxt.visible = true;
     items.infoTxt.text = message_;
     invalidCircuit = true;
