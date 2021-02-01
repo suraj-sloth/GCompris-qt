@@ -175,11 +175,24 @@ QtObject {
             playAreaComponentPositionX: [0.4, 0.7, 0.4, 0.2],
             playAreaComponentPositionY: [0.35, 0.3, 0.05, 0.3],
             introMessage: [
-                qsTr("Electric current intensity or simply current is a flow of electric charge. One can imagine like a flow of electrons."),
-                qsTr("The conventional symbol for current is I. The SI unit of current is ampere, which is denoted as A."),
-                qsTr("Voltage or electric potential difference is what makes a current in a circuit. It is like a 'push' or 'pull' for electric charge."),
-                qsTr("The conventional symbol for voltage is V. The SI unit of measure of voltage is volt, which is denoted as V."),
-                qsTr("Light the bulb and observe the values shown.")
+                qsTr("Resistors restricts the flow of current in an electrical circuit. The restriction of current is called resistance."),
+                qsTr("The conventional symbol for resistance is R. The SI unit of measure of resistance is  ohm, which is denoted as Ω."),
+                qsTr("Light the bulb using two batteries.")
+            ]
+        },
+        // level 7
+        {
+            inputComponentList: [connection],
+            playAreaComponentList: [rheostat, bulb, battery],
+            determiningComponentsIndex: [0, 1],
+            answerKey: ["rheostatIn", "bulbGlows"],
+            wires: [],
+            playAreaComponentPositionX: [0.4, 0.7, 0.4, 0.2],
+            playAreaComponentPositionY: [0.35, 0.3, 0.05, 0.3],
+            introMessage: [
+                qsTr("A rheostat is used to vary resistance in an electrical circuit."),
+                qsTr("You can change the rheostat value by dragging its slider."),
+                qsTr("Connect the bulb to the appropriate terminals of rheostat so that the voltage drop in the bulb should be 10V.")
             ]
         }
     ]

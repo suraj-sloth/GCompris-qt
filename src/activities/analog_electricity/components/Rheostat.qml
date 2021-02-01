@@ -310,4 +310,10 @@ ElectricalComponent {
         netlistItem[3][1] = rheostat.externalNetlistIndex[2];
         Activity.netlist.push(netlistItem);
     }
+
+    function checkComponentAnswer() {
+        if(terminalConnected >= 2 && current > 0 || bottomCurrent > 0) {
+            return "rheostatIn";
+        }
+    }
 }
