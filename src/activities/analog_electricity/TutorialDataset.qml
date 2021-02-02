@@ -251,6 +251,19 @@ QtObject {
                 qsTr("One can limit the electrical energy by restricting the current flow in a circuit. That means using a resistor."),
                 qsTr("Light the red LED using the provided components.")
             ]
+        },
+        // level 12
+        {
+            inputComponentList: [connection],
+            playAreaComponentList: [bulb, bulb, battery],
+            determiningComponentsIndex: [0, 1],
+            answerKey: ["bulbGlows", "bulbGlows"],
+            wires: [],
+            playAreaComponentPositionX: [0.3, 0.7, 0.5],
+            playAreaComponentPositionY: [0.15, 0.15, 0.4],
+            introMessage: [
+                qsTr("Create a circuit so that the voltage drop in both bulbs are equal to the voltage source (battery).")
+            ]
         }
     ]
 }
