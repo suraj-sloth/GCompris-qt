@@ -220,6 +220,37 @@ QtObject {
             introMessage: [
                 qsTr("Connect the bulb to the appropriate terminals of rheostat so that the light intensity of bulb can be changed while dragging the slider.")
             ]
+        },
+        // level 10
+        {
+            inputComponentList: [connection],
+            playAreaComponentList: [redLed, battery],
+            determiningComponentsIndex: [0],
+            answerKey: ["redLedBroken"],
+            wires: [],
+            playAreaComponentPositionX: [0.7, 0.4],
+            playAreaComponentPositionY: [0.3, 0.35],
+            introMessage: [
+                qsTr("Red LED converts electrical energy into red light energy under particular conditions."),
+                qsTr("First condition is current flow in it should be in the direction of the arrow. That means positive terminal of the battery connected to the terminal at the tail of the arrow shown, and the negative terminal to the head side. This condition is called forward bias."),
+                qsTr("Electrical energy more than a certain limit can break an LED. In this activity, you can click on the broken red LED after disconnecting from the circuit to repair it."),
+                qsTr("Connect the provided red LED to the battery in forward bias.")
+            ]
+        },
+        // level 11
+        {
+            inputComponentList: [connection],
+            playAreaComponentList: [redLed, resistor, battery],
+            determiningComponentsIndex: [0, 1],
+            answerKey: ["redLedGlows", "resistorIn"],
+            wires: [],
+            playAreaComponentPositionX: [0.7, 0.4, 0.4],
+            playAreaComponentPositionY: [0.2, 0.35, 0.05],
+            introMessage: [
+                qsTr("The battery is providing too much energy to the LED."),
+                qsTr("One can limit the electrical energy by restricting the current flow in a circuit. That means using a resistor."),
+                qsTr("Light the red LED using the provided components.")
+            ]
         }
     ]
 }
