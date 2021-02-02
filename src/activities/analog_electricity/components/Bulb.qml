@@ -208,13 +208,16 @@ ElectricalComponent {
     }
 
     function checkComponentAnswer() {
+        if(Activity.currentLevel === 9 && componentVoltage <= 10)
+            return "bulbIn";
 
         if(componentVoltage === 10) {
             return "bulbGlows";
         } else if(terminalConnected >= 2 && componentVoltage < 10) {
             return "bulbGlowsLess"
-        } else if(terminalConnected >= 2 && isBroken)
+        } else if(terminalConnected >= 2 && isBroken) {
             return "bulbBroken";
+        }
     }
 }
 

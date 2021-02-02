@@ -207,6 +207,19 @@ QtObject {
             introMessage: [
                 qsTr("Connect the bulb to the appropriate terminals of rheostat so that the light intensity of bulb cannot be changed while dragging the slider.")
             ]
+        },
+        // level 9
+        {
+            inputComponentList: [connection],
+            playAreaComponentList: [rheostat, bulb, battery],
+            determiningComponentsIndex: [0, 1],
+            answerKey: ["rheostatIn", "bulbIn"],
+            wires: [],
+            playAreaComponentPositionX: [0.4, 0.7, 0.4],
+            playAreaComponentPositionY: [0.35, 0.3, 0.05],
+            introMessage: [
+                qsTr("Connect the bulb to the appropriate terminals of rheostat so that the light intensity of bulb can be changed while dragging the slider.")
+            ]
         }
     ]
 }
