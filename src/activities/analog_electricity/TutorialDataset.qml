@@ -177,7 +177,7 @@ QtObject {
             introMessage: [
                 qsTr("Resistors restricts the flow of current in an electrical circuit. The restriction of current is called resistance."),
                 qsTr("The conventional symbol for resistance is R. The unit of measure of resistance is ohm under the International System of Units, which is denoted as Ω."),
-                qsTr("Light the bulb with a voltage drop of 5V using the provided components.")
+                qsTr("Light the bulb so that the bulb glows with 5V using the provided components.")
             ]
         },
         // level 7
@@ -185,14 +185,14 @@ QtObject {
             inputComponentList: [connection],
             playAreaComponentList: [rheostat, bulb, battery],
             determiningComponentsIndex: [0, 1],
-            answerKey: ["rheostatIn", "bulbGlows"],
+            answerKey: ["rheostatIn", "bulbIn"],
             wires: [],
             playAreaComponentPositionX: [0.4, 0.7, 0.4],
             playAreaComponentPositionY: [0.35, 0.3, 0.05],
             introMessage: [
                 qsTr("A rheostat is used to vary resistance in an electrical circuit."),
                 qsTr("You can change the rheostat value by dragging its slider."),
-                qsTr("Connect the bulb to the appropriate terminals of rheostat and set the slider position so that the voltage drop in the bulb should be 10V.")
+                qsTr("Connect the bulb to the appropriate terminals of rheostat so that the light intensity of bulb can be changed while dragging the slider.")
             ]
         },
         // level 8
@@ -205,6 +205,7 @@ QtObject {
             playAreaComponentPositionX: [0.4, 0.7, 0.4],
             playAreaComponentPositionY: [0.35, 0.3, 0.05],
             introMessage: [
+                qsTr("A rheostat can act as a simple resistor if the terminals of the extremities are connected in a circuit."),
                 qsTr("Connect the bulb to the appropriate terminals of rheostat so that the light intensity of bulb cannot be changed while dragging the slider.")
             ]
         },
@@ -213,12 +214,12 @@ QtObject {
             inputComponentList: [connection],
             playAreaComponentList: [rheostat, bulb, battery],
             determiningComponentsIndex: [0, 1],
-            answerKey: ["rheostatIn", "bulbIn"],
+            answerKey: ["rheostatIn", "bulbGlows"],
             wires: [],
             playAreaComponentPositionX: [0.4, 0.7, 0.4],
             playAreaComponentPositionY: [0.35, 0.3, 0.05],
             introMessage: [
-                qsTr("Connect the bulb to the appropriate terminals of rheostat so that the light intensity of bulb can be changed while dragging the slider.")
+                qsTr("Connect the bulb to the appropriate terminals of rheostat and set the slider position so that the voltage drop in the bulb should be 10V.")
             ]
         },
         // level 10

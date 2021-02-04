@@ -312,7 +312,7 @@ ElectricalComponent {
     }
 
     function checkComponentAnswer() {
-        if(connectionPoints.itemAt(0).wires.length > 0 && connectionPoints.itemAt(2).wires.length > 0) {
+        if(connectionPoints.itemAt(0).wires.length > 0 && connectionPoints.itemAt(2).wires.length > 0 && terminalConnected === 2) {
             return "rheostatConst";
         } else if(terminalConnected >= 2) {
             return "rheostatIn";
