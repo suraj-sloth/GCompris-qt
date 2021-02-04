@@ -168,16 +168,16 @@ QtObject {
         // level 6
         {
             inputComponentList: [connection],
-            playAreaComponentList: [bulb, resistor, battery, battery],
-            determiningComponentsIndex: [0, 1, 2, 3],
-            answerKey: ["bulbGlows", "resistorIn", "batteryIn", "batteryIn"],
+            playAreaComponentList: [bulb, resistor, battery],
+            determiningComponentsIndex: [0, 1],
+            answerKey: ["bulbGlowsLess", "resistorIn"],
             wires: [],
-            playAreaComponentPositionX: [0.4, 0.7, 0.4, 0.2],
-            playAreaComponentPositionY: [0.35, 0.3, 0.05, 0.3],
+            playAreaComponentPositionX: [0.4, 0.7, 0.4],
+            playAreaComponentPositionY: [0.35, 0.3, 0.05],
             introMessage: [
                 qsTr("Resistors restricts the flow of current in an electrical circuit. The restriction of current is called resistance."),
-                qsTr("The conventional symbol for resistance is R. The SI unit of measure of resistance is  ohm, which is denoted as Ω."),
-                qsTr("Light the bulb using two batteries.")
+                qsTr("The conventional symbol for resistance is R. The unit of measure of resistance is ohm under the International System of Units, which is denoted as Ω."),
+                qsTr("Light the bulb with a voltage drop of 5V using the provided components.")
             ]
         },
         // level 7
