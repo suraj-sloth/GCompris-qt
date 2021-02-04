@@ -218,7 +218,7 @@ function checkAnswer() {
     console.log("answerKey in tutorial level is " + levelProperties.answerKey)
 
     for(var i in answerKeys) {
-        if(levelProperties.answerKey[i] === answerKeys[i] && processingAnswer) {
+        if(levelProperties.answerKey[i] === answerKeys[i] && processingAnswer && !invalidCircuit) {
             items.bonus.good('gnu');
         } else {
             items.bonus.bad('gnu', items.bonus.checkAnswer);
