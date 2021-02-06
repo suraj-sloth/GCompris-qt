@@ -99,9 +99,9 @@ QtObject {
             playAreaComponentPositionY: [0.1, 0.3],
             introMessage: [
                 qsTr("A bulb glows when current travels through it. If there is a gap in the path, the current cannot travel and the electrical devices will not work."),
-                qsTr("The travelling path is called circuit. Electrical devices can work only in a closed circuit. Wires can be used to connect devices and create the circuit."),
+                qsTr("The travelling path is called a circuit. Electrical devices can work only in a closed circuit. Wires can be used to connect devices and create the circuit."),
                 qsTr("For a detailed description of battery and bulb, click on those and then click on the info button."),
-                qsTr("Turn on the bulb using the provided battery. To connect two terminals, cilck on a terminal, then on a second terminal.")
+                qsTr("Turn on the bulb using the provided battery. To connect two terminals, click on a terminal, then on a second terminal.")
             ]
         },
         // level 2
@@ -115,7 +115,7 @@ QtObject {
             playAreaComponentPositionY: [0.3],
             introMessage: [
                 qsTr("Too much current in an electrical circuit can damage the connected devices."),
-                qsTr("In order to repair a broken bulb in this activity, click on it after disconnecting from the circuit. Don't forget to disable the delete button after removing the connected wires."),
+                qsTr("To repair a broken bulb in this activity, click on it after disconnecting from the circuit. Don't forget to disable the delete button after removing the connected wires."),
                 qsTr("Light the bulb using the provided battery.")
             ]
         },
@@ -129,7 +129,7 @@ QtObject {
             playAreaComponentPositionX: [0.7, 0.4],
             playAreaComponentPositionY: [0.3, 0.35],
             introMessage: [
-                qsTr("Switch can connect or disconnect the current travelling path also called conducting path in a circuit."),
+                qsTr("A switch can connect or disconnect the current travelling path or a circuit."),
                 qsTr("You can click on the switch to open and close it."),
                 qsTr("Create a circuit using the provided components so that the bulb glows only when the switch is on.")
             ]
@@ -144,7 +144,7 @@ QtObject {
             playAreaComponentPositionX: [0.4, 0.7, 0.4, 0.2],
             playAreaComponentPositionY: [0.35, 0.3, 0.05, 0.3],
             introMessage: [
-                qsTr("Simple connector can be used to connect several wires in an electrical circuit."),
+                qsTr("A simple connector can be used to connect several wires in an electrical circuit."),
                 qsTr("Create a circuit so that one bulb should be always lit and the other should be lit only when the switch is on.")
             ]
         },
@@ -175,7 +175,7 @@ QtObject {
             playAreaComponentPositionX: [0.4, 0.7, 0.4],
             playAreaComponentPositionY: [0.35, 0.3, 0.05],
             introMessage: [
-                qsTr("Resistors restricts the flow of current in an electrical circuit. The restriction of current is called resistance."),
+                qsTr("A resistor restricts the flow of current in an electrical circuit. The restriction of current is called resistance."),
                 qsTr("The conventional symbol for resistance is R. The unit of measure of resistance is ohm under the International System of Units, which is denoted as Ω."),
                 qsTr("Light the bulb so that the bulb glows with 5V using the provided components.")
             ]
@@ -192,7 +192,7 @@ QtObject {
             introMessage: [
                 qsTr("A rheostat is used to vary resistance in an electrical circuit."),
                 qsTr("You can change the rheostat value by dragging its slider."),
-                qsTr("Connect the bulb to the appropriate terminals of rheostat so that the light intensity of bulb can be changed while dragging the slider.")
+                qsTr("Connect the bulb to the appropriate terminals of the rheostat so that the light intensity of the bulb can be changed while dragging the slider.")
             ]
         },
         // level 8
@@ -206,7 +206,7 @@ QtObject {
             playAreaComponentPositionY: [0.35, 0.3, 0.05],
             introMessage: [
                 qsTr("A rheostat can act as a simple resistor if the terminals of the extremities are connected in a circuit."),
-                qsTr("Connect the bulb to the appropriate terminals of rheostat so that the light intensity of bulb cannot be changed while dragging the slider.")
+                qsTr("Connect the bulb to the appropriate terminals of the rheostat so that the slider cannot change the light intensity of the bulb.")
             ]
         },
         // level 9
@@ -219,7 +219,7 @@ QtObject {
             playAreaComponentPositionX: [0.4, 0.7, 0.4],
             playAreaComponentPositionY: [0.35, 0.3, 0.05],
             introMessage: [
-                qsTr("Connect the bulb to the appropriate terminals of rheostat and set the slider position so that the voltage drop in the bulb should be 10V.")
+                qsTr("Connect the bulb to the appropriate terminals of the rheostat and set the slider so that the voltage drop in the bulb should be 10V. Note that the bulb intensity should vary while dragging the slider.")
             ]
         },
         // level 10
@@ -232,10 +232,10 @@ QtObject {
             playAreaComponentPositionX: [0.7, 0.4],
             playAreaComponentPositionY: [0.3, 0.35],
             introMessage: [
-                qsTr("Red LED converts electrical energy into red light energy under particular conditions."),
-                qsTr("First condition is current flow in it should be in the direction of the arrow. That means positive terminal of the battery connected to the terminal at the tail of the arrow shown, and the negative terminal to the head side. This condition is called forward bias."),
+                qsTr(" A red LED converts electrical energy into red light energy under particular conditions."),
+                qsTr("The first condition is current flow in it should be in the direction of the arrow. That means the positive terminal of the battery connected to the terminal at the tail of the arrow shown, and the negative terminal to the head side. This condition is called forward bias."),
                 qsTr("Electrical energy more than a certain limit can break an LED. In this activity, you can click on the broken red LED after disconnecting from the circuit to repair it."),
-                qsTr("Connect the provided red LED to the battery in forward bias.")
+                qsTr("Connect the provided red LED to the battery in forward bias. Don't worry about the broken LED for now.")
             ]
         },
         // level 11
