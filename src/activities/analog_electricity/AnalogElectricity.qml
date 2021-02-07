@@ -249,6 +249,7 @@ ActivityBase {
                     drag.minimumY: - playArea.height * items.zoomLvl
                     drag.maximumY: 0
                     onClicked: {
+                        Activity.disableToolDelete();
                         Activity.deselect();
                         availablePieces.hideToolbar();
                     }
