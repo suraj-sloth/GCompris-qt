@@ -106,7 +106,7 @@ function initLevel() {
     colorIndex = 0;
     stop();
     animationInProgress = false;
-    toolDelete = false;
+    disableToolDelete();
     deselect();
     items.availablePieces.hideToolbar();
 
@@ -165,14 +165,15 @@ function initLevel() {
         //create wires
         for (i = 0; i < levelProperties.wires.length; i++) {
             if (staticElectricalComponent.status == Quick.Component.Ready && components[i] !== undefined) {
+
                 var terminalNumber = levelProperties.wires[i][1];
                 var connectionPoint = components[levelProperties.wires[i][0]].connectionPoints.itemAt(terminalNumber);
                 terminalPointSelected(connectionPoint, false);
 
                 terminalNumber = levelProperties.wires[i][3];
                 var terminalToConnect = components[levelProperties.wires[i][2]].connectionPoints.itemAt(terminalNumber);
-
                 terminalPointSelected(terminalToConnect, false);
+
             } else {
                 console.log("component is not ready");
             }
