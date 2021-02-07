@@ -95,7 +95,7 @@ QtObject {
             determiningComponentsIndex: [0],
             answerKey: ["bulbGlows"],
             wires: [ [0, 1, 1, 0] ], // from component_index, from terminalNumber, to component_index, to terminalNumber
-            playAreaComponentPositionX: [0.4, 0.6],
+            playAreaComponentPositionX: [0.3, 0.6],
             playAreaComponentPositionY: [0.1, 0.3],
             introMessage: [
                 qsTr("A bulb glows when current travels through it. If there is a gap in the path, the current cannot travel and the electrical devices will not work."),
@@ -111,8 +111,8 @@ QtObject {
             determiningComponentsIndex: [0],
             answerKey: ["bulbGlows"],
             wires: [],
-            playAreaComponentPositionX: [0.4],
-            playAreaComponentPositionY: [0.3],
+            playAreaComponentPositionX: [0.3],
+            playAreaComponentPositionY: [0.1],
             introMessage: [
                 qsTr("Too much current in an electrical circuit can damage the connected devices."),
                 qsTr("To repair a broken bulb in this activity, click on it after disconnecting from the circuit. Don't forget to disable the delete button after removing the connected wires."),
@@ -142,7 +142,7 @@ QtObject {
             answerKey: ["switch1In", "bulbGlows", "bulbGlows"],
             wires: [],
             playAreaComponentPositionX: [0.4, 0.7, 0.4, 0.2],
-            playAreaComponentPositionY: [0.35, 0.3, 0.05, 0.3],
+            playAreaComponentPositionY: [0.55, 0.3, 0.05, 0.3],
             introMessage: [
                 qsTr("A simple connector can be used to connect several wires in an electrical circuit."),
                 qsTr("Create a circuit so that one bulb should be always lit and the other should be lit only when the switch is on.")
@@ -156,7 +156,7 @@ QtObject {
             answerKey: ["bulbGlows"],
             wires: [],
             playAreaComponentPositionX: [0.4],
-            playAreaComponentPositionY: [0.3],
+            playAreaComponentPositionY: [0.1],
             introMessage: [
                 qsTr("Electric current intensity or simply current is a flow of electric charge. One can imagine like a flow of electrons."),
                 qsTr("The conventional symbol for current is I. The unit of current is ampere under the International System of Units, which is denoted as A."),
@@ -172,8 +172,8 @@ QtObject {
             determiningComponentsIndex: [0, 1],
             answerKey: ["bulbGlowsLess", "resistorIn"],
             wires: [],
-            playAreaComponentPositionX: [0.4, 0.7, 0.4],
-            playAreaComponentPositionY: [0.35, 0.3, 0.05],
+            playAreaComponentPositionX: [0.3, 0.6, 0.4],
+            playAreaComponentPositionY: [0.4, 0.3, 0.05],
             introMessage: [
                 qsTr("A resistor restricts the flow of current in an electrical circuit. The restriction of current is called resistance."),
                 qsTr("The conventional symbol for resistance is R. The unit of measure of resistance is ohm under the International System of Units, which is denoted as Ω."),
@@ -187,8 +187,8 @@ QtObject {
             determiningComponentsIndex: [0, 1],
             answerKey: ["rheostatIn", "bulbIn"],
             wires: [],
-            playAreaComponentPositionX: [0.4, 0.7, 0.4],
-            playAreaComponentPositionY: [0.35, 0.3, 0.05],
+            playAreaComponentPositionX: [0.3, 0.6, 0.4],
+            playAreaComponentPositionY: [0.4, 0.3, 0.05],
             introMessage: [
                 qsTr("A rheostat is used to vary resistance in an electrical circuit."),
                 qsTr("You can change the rheostat value by dragging its slider."),
@@ -202,8 +202,8 @@ QtObject {
             determiningComponentsIndex: [0, 1],
             answerKey: ["rheostatConst", "bulbGlowsLess"],
             wires: [],
-            playAreaComponentPositionX: [0.4, 0.7, 0.4],
-            playAreaComponentPositionY: [0.35, 0.3, 0.05],
+            playAreaComponentPositionX: [0.3, 0.6, 0.4],
+            playAreaComponentPositionY: [0.4, 0.3, 0.05],
             introMessage: [
                 qsTr("A rheostat can act as a simple resistor if the terminals of the extremities are connected in a circuit."),
                 qsTr("Connect the bulb to the appropriate terminals of the rheostat so that the slider cannot change the light intensity of the bulb.")
@@ -216,8 +216,8 @@ QtObject {
             determiningComponentsIndex: [0, 1],
             answerKey: ["rheostatIn", "bulbGlows"],
             wires: [],
-            playAreaComponentPositionX: [0.4, 0.7, 0.4],
-            playAreaComponentPositionY: [0.35, 0.3, 0.05],
+            playAreaComponentPositionX: [0.3, 0.6, 0.4],
+            playAreaComponentPositionY: [0.4, 0.3, 0.05],
             introMessage: [
                 qsTr("Connect the bulb to the appropriate terminals of the rheostat and set the slider so that the voltage drop in the bulb should be 10V. Note that the bulb intensity should vary while dragging the slider.")
             ]
@@ -229,8 +229,8 @@ QtObject {
             determiningComponentsIndex: [0],
             answerKey: ["redLedBroken"],
             wires: [],
-            playAreaComponentPositionX: [0.7, 0.4],
-            playAreaComponentPositionY: [0.3, 0.35],
+            playAreaComponentPositionX: [0.6, 0.3],
+            playAreaComponentPositionY: [0.2, 0.25],
             introMessage: [
                 qsTr(" A red LED converts electrical energy into red light energy under particular conditions."),
                 qsTr("The first condition is current flow in it should be in the direction of the arrow. That means the positive terminal of the battery connected to the terminal at the tail of the arrow shown, and the negative terminal to the head side. This condition is called forward bias."),
@@ -245,8 +245,8 @@ QtObject {
             determiningComponentsIndex: [0, 1],
             answerKey: ["redLedGlows", "resistorIn"],
             wires: [],
-            playAreaComponentPositionX: [0.7, 0.4, 0.4],
-            playAreaComponentPositionY: [0.2, 0.35, 0.05],
+            playAreaComponentPositionX: [0.4, 0.4, 0.25],
+            playAreaComponentPositionY: [0.05, 0.4, 0.15],
             introMessage: [
                 qsTr("The battery is providing too much energy to the LED."),
                 qsTr("One can limit the electrical energy by restricting the current flow in a circuit. That means using a resistor."),
@@ -260,7 +260,7 @@ QtObject {
             determiningComponentsIndex: [0, 1],
             answerKey: ["bulbGlows", "bulbGlows"],
             wires: [],
-            playAreaComponentPositionX: [0.3, 0.7, 0.5],
+            playAreaComponentPositionX: [0.2, 0.6, 0.45],
             playAreaComponentPositionY: [0.15, 0.15, 0.4],
             introMessage: [
                 qsTr("Create a circuit so that the voltage drop in both bulbs are equal to the voltage source (battery).")
