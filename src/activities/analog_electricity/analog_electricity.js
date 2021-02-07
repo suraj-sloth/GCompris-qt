@@ -83,9 +83,6 @@ function start(items_) {
     currentLevel = 1;
     numberOfLevel = items.tutorialDataset.tutorialLevels.length;
     initLevel();
-    connectionCount = 0;
-    netlistComponents = [];
-    netlist = [];
 }
 
 function stop() {
@@ -97,6 +94,9 @@ function stop() {
 }
 
 function initLevel() {
+    connectionCount = 0;
+    netlistComponents = [];
+    netlist = [];
     items.availablePieces.model.clear();
     items.bar.level = currentLevel;
     items.availablePieces.view.currentDisplayedGroup = 0;
@@ -159,7 +159,7 @@ function initLevel() {
 
         var _determiningComponentsIndex = levelProperties.determiningComponentsIndex
         for (var i = 0; i < _determiningComponentsIndex.length; i++) {
-            determiningComponents[determiningComponents.length] = components[_determiningComponentsIndex[i]];
+            determiningComponents[i] = components[_determiningComponentsIndex[i]];
         }
 
         //create wires
