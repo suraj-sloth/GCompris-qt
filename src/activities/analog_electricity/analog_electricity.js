@@ -16,8 +16,8 @@
 var url = "qrc:/gcompris/src/activities/analog_electricity/resource/";
 var urlDigital = "qrc:/gcompris/src/activities/digital_electricity/resource/";
 
-var currentLevel = 1;
-var numberOfLevel = 3;
+var currentLevel;
+var numberOfLevel;
 var items;
 var view;
 var toolDelete;
@@ -85,6 +85,12 @@ function start(items_) {
     initLevel();
 }
 
+function reset() {
+    stop();
+    numberOfLevel = items.tutorialDataset.tutorialLevels.length;
+    initLevel();
+}
+
 function stop() {
     isStopped = true;
     var nbOfComponents = components.length;
@@ -97,6 +103,7 @@ function initLevel() {
     connectionCount = 0;
     netlistComponents = [];
     netlist = [];
+    components = [];
     items.availablePieces.model.clear();
     items.bar.level = currentLevel;
     items.availablePieces.view.currentDisplayedGroup = 0;
@@ -104,7 +111,6 @@ function initLevel() {
     items.availablePieces.view.nextNavigation = 1;
     determiningComponents = [];
     colorIndex = 0;
-    stop();
     animationInProgress = false;
     disableToolDelete();
     deselect();
@@ -120,6 +126,7 @@ function initLevel() {
 
     if (!items.isTutorialMode) {
         items.tutorialInstruction.index = -1;
+        processingAnswer = false;
         loadFreeMode();
     } else {
         processingAnswer = false;
@@ -164,19 +171,13 @@ function initLevel() {
 
         //create wires
         for (i = 0; i < levelProperties.wires.length; i++) {
-            if (staticElectricalComponent.status == Quick.Component.Ready && components[i] !== undefined) {
+            var terminalNumber = levelProperties.wires[i][1];
+            var connectionPoint = components[levelProperties.wires[i][0]].connectionPoints.itemAt(terminalNumber);
+            terminalPointSelected(connectionPoint, false);
 
-                var terminalNumber = levelProperties.wires[i][1];
-                var connectionPoint = components[levelProperties.wires[i][0]].connectionPoints.itemAt(terminalNumber);
-                terminalPointSelected(connectionPoint, false);
-
-                terminalNumber = levelProperties.wires[i][3];
-                var terminalToConnect = components[levelProperties.wires[i][2]].connectionPoints.itemAt(terminalNumber);
-                terminalPointSelected(terminalToConnect, false);
-
-            } else {
-                console.log("component is not ready");
-            }
+            terminalNumber = levelProperties.wires[i][3];
+            var terminalToConnect = components[levelProperties.wires[i][2]].connectionPoints.itemAt(terminalNumber);
+            terminalPointSelected(terminalToConnect, false);
         }
 
         if (levelProperties.introMessage.length != 0) {
@@ -215,8 +216,6 @@ function checkAnswer() {
         answerKeys[i] = determiningComponents[i].checkComponentAnswer();
         processingAnswer = true;
     }
-    console.log("answerKeys array is " + answerKeys)
-    console.log("answerKey in tutorial level is " + levelProperties.answerKey)
 
     for(var i in answerKeys) {
         if(levelProperties.answerKey[i] === answerKeys[i] && processingAnswer && !invalidCircuit) {
@@ -282,14 +281,14 @@ function nextLevel() {
     if(numberOfLevel < ++currentLevel) {
         currentLevel = 1;
     }
-    initLevel();
+    reset();
 }
 
 function previousLevel() {
     if(--currentLevel < 1) {
         currentLevel = numberOfLevel;
     }
-    initLevel();
+    reset();
 }
 
 function createComponent(x, y, componentIndex) {
@@ -480,8 +479,10 @@ function removeComponent(index) {
             }
         }
     }
+
     components[index].destroy();
     components.splice(index, 1);
+
     for(var i = index; i < components.length; ++i) {
         --components[i].componentIndex;
     }

@@ -114,7 +114,8 @@ ActivityBase {
             property alias netlistTimer: netlistTimer
             property real toolsMargin: 90 * ApplicationInfo.ratio
             property real zoomLvl: 0.25
-            property bool isTutorialMode: true
+            property string mode: "tutorial"
+            property bool isTutorialMode: mode == "tutorial" ? true : false
             property alias tutorialInstruction: tutorialInstruction
 
         }
@@ -324,7 +325,7 @@ ActivityBase {
             }
             onLoadData: {
                 if(activityData && activityData["mode"]) {
-                    items.isTutorialMode = activityData["mode"] == "tutorial" ? true : false;
+                    items.mode = activityData["mode"];
                 }
             }
         }
@@ -359,7 +360,7 @@ ActivityBase {
                 tutorialInstruction.visible ? false : true;
                 activity.home();
             }
-            onReloadClicked: Activity.initLevel();
+            onReloadClicked: Activity.reset();
             onActivityConfigClicked: {
                 displayDialog(dialogActivityConfig);
             }
