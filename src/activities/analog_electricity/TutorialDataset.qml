@@ -182,7 +182,7 @@ QtObject {
         },
         // level 7
         {
-            inputComponentList: [connection],
+            inputComponentList: [],
             playAreaComponentList: [rheostat, bulb, battery],
             determiningComponentsIndex: [0, 1],
             answerKey: ["rheostatIn", "bulbIn"],

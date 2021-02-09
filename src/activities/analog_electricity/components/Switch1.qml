@@ -112,8 +112,10 @@ ElectricalComponent {
             switch1.source = Activity.url + "switch_on.svg";
             switchOn = true;
             Activity.createNetlist();
-            return "switch1In";
-        } else if(switch1.source == Activity.url + "switch_on.svg" && terminalConnected >= 2) {
+
+            if(current != 0)
+                return "switch1In";
+        } else if(switch1.source == Activity.url + "switch_on.svg" && terminalConnected >= 2 && current != 0) {
             return "switch1In";
         }
     }
