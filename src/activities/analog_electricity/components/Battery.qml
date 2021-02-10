@@ -68,9 +68,7 @@ ElectricalComponent {
                 terminalConnected += 1;
         }
 
-        if((terminalConnected >= 2 && !Activity.items.isTutorialMode) ||
-            (terminalConnected >= 2 && Activity.items.isTutorialMode &&
-            Activity.currentLevel > 4)) {
+        if(terminalConnected >= 2 && (!Activity.items.isTutorialMode || Activity.currentLevel > 4)) {
             battery.showLabel = true;
         } else {
             battery.showLabel = false;
@@ -111,5 +109,7 @@ ElectricalComponent {
     function checkComponentAnswer() {
         if(terminalConnected >= 2)
             return "batteryIn";
+        else
+            return "";
     }
 }

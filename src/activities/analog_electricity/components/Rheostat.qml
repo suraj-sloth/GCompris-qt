@@ -316,6 +316,7 @@ ElectricalComponent {
             return "rheostatConst";
         } else if(terminalConnected >= 2 && current > 0) {
             return "rheostatIn";
-        }
+        } else
+            return "";
     }
 }

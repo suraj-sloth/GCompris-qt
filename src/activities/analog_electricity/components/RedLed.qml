@@ -195,5 +195,7 @@ ElectricalComponent {
             return "redLedBroken";
         } else if(terminalConnected >= 2)
             return "redLedIn";
+        else
+            return "";
     }
 }

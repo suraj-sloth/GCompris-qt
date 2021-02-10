@@ -165,6 +165,8 @@ ElectricalComponent {
     function checkComponentAnswer() {
         if(resistorCurrent > 0 && terminalConnected >= 2)
             return "resistorIn";
+        else
+            return "";
     }
 }
 

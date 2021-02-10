@@ -357,7 +357,8 @@ ActivityBase {
             onPreviousLevelClicked: Activity.previousLevel();
             onNextLevelClicked: Activity.nextLevel();
             onHomeClicked: {
-                tutorialInstruction.visible ? false : true;
+                if(tutorialInstruction.visible)
+                    tutorialInstruction.visible = false;
                 activity.home();
             }
             onReloadClicked: Activity.reset();

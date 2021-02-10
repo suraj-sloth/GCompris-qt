@@ -217,7 +217,8 @@ ElectricalComponent {
             return "bulbGlowsLess"
         } else if(terminalConnected >= 2 && isBroken) {
             return "bulbBroken";
-        }
+        } else
+            return "";
     }
 }
 

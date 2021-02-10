@@ -160,9 +160,9 @@ QtObject {
             introMessage: [
                 qsTr("Electric current intensity or simply current is a flow of electric charge. One can imagine like a flow of electrons."),
                 qsTr("The conventional symbol for current is I. The unit of current is ampere under the International System of Units, which is denoted as A."),
-                qsTr("Voltage or electric potential difference is what makes a current in a circuit. It is like a 'push' or 'pull' for electric charge."),
+                qsTr("Voltage or electric potential difference is what makes a current in a circuit. It is like a \"push\" or \"pull\" for electric charge."),
                 qsTr("The conventional symbol for voltage is V. The unit of measure of voltage is volt under the International System of Units, which is denoted as V."),
-                qsTr("Light the bulb and observe the values shown.")
+                qsTr("Light the bulb and observe the displayed values.")
             ]
         },
         // level 6
