@@ -109,7 +109,7 @@ ElectricalComponent {
     }
 
     function checkComponentAnswer() {
-        if(terminalConnected >= 2 && current > 0)
+        if(terminalConnected >= 2)
             return "batteryIn";
     }
 }

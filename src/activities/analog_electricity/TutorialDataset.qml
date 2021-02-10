@@ -106,17 +106,17 @@ QtObject {
         },
         // level 2
         {
-            inputComponentList: [battery],
-            playAreaComponentList: [bulb],
-            determiningComponentsIndex: [0],
-            answerKey: ["bulbGlows"],
+            inputComponentList: [],
+            playAreaComponentList: [bulb, battery, battery],
+            determiningComponentsIndex: [0, 1, 2],
+            answerKey: ["bulbBroken", "batteryIn", "batteryIn"],
             wires: [],
-            playAreaComponentPositionX: [0.3],
-            playAreaComponentPositionY: [0.1],
+            playAreaComponentPositionX: [0.6, 0.3, 0.3],
+            playAreaComponentPositionY: [0.3, 0.55, 0.1],
             introMessage: [
                 qsTr("Too much current in an electrical circuit can damage the connected devices."),
                 qsTr("To repair a broken bulb in this activity, click on it after disconnecting from the circuit. Don't forget to disable the delete button after removing the connected wires."),
-                qsTr("Light the bulb using the provided battery.")
+                qsTr("Break the bulb by connecting it with the two batteries.")
             ]
         },
         // level 3
